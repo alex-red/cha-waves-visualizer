@@ -1,0 +1,49 @@
+{
+  "name": "cha-waves-visualizer",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.4.3",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "trustedDependencies": [
+    "esbuild"
+  ],
+  "overrides": {
+    "rollup": "4.64.6"
+  },
+  "engines": {
+    "node": ">=24.15.0 <25"
+  },
+  "scripts": {
+    "dev": "bun --filter @cha-waves/web dev",
+    "build": "bun --filter @cha-waves/web generate && node scripts/static-security.mjs generate && node scripts/offline-build.mjs generate",
+    "preview": "node scripts/serve-static.mjs",
+    "typecheck": "bun run typecheck:packages && bun run typecheck:scripts && bun --filter @cha-waves/web typecheck",
+    "typecheck:packages": "node node_modules/typescript/bin/tsc --project tsconfig.packages.json --noEmit && node node_modules/typescript7/bin/tsc --project tsconfig.packages.json --noEmit",
+    "test": "vitest run --config vitest.config.ts",
+    "test:e2e": "playwright test --config playwright.config.ts",
+    "benchmark": "node --experimental-transform-types scripts/benchmark.ts",
+    "verify:fixtures": "node --experimental-transform-types scripts/verify-fixtures.ts",
+    "verify:static-security": "node scripts/static-security.mjs verify",
+    "verify:offline": "node scripts/offline-build.mjs verify",
+    "inventory:licenses": "node scripts/license-inventory.mjs",
+    "typecheck:scripts": "node node_modules/typescript/bin/tsc --project tsconfig.scripts.json --noEmit",
+    "benchmark:browser": "node scripts/browser-benchmark.mjs",
+    "benchmark:startup": "node scripts/startup-benchmark.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.64.1",
+    "@types/node": "24.19.1",
+    "typescript": "6.0.3",
+    "typescript7": "npm:typescript@7.0.2",
+    "vite": "8.3.4",
+    "vitest": "5.0.4",
+    "vue-tsc": "3.3.13"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  }
+}

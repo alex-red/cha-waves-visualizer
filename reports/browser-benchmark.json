@@ -1,0 +1,2252 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-15T05:24:44.922Z",
+  "buildAssetsSha256": "8016cc496b6f96583cc4d1446dc793d268f01fa4da6ab847fc652d332f54cf5f",
+  "solverVersion": "1.0.0",
+  "solverId": "acoustic-direct-v1",
+  "environment": {
+    "node": "v24.15.0",
+    "browser": "156.0.8078.4",
+    "platform": "darwin",
+    "osRelease": "27.0.0",
+    "arch": "arm64",
+    "cpu": "Apple M4 Pro"
+  },
+  "setup": {
+    "samples": 100,
+    "warmups": 20,
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "backend": "Canvas 2D",
+    "mode": "acoustics",
+    "frequencyHz": 1000,
+    "receiverZM": 1.5,
+    "stepM": 0.25,
+    "cells": 2240,
+    "walls": 5,
+    "cache": "none",
+    "fixture": "createDemoScene",
+    "edits": "source X cycles 2.2..3.6 m at Y 7.8 m"
+  },
+  "scope": "Worker request posting through accepted-result Canvas draw in an animation-frame callback, including worker serialization, solve and main-thread scheduling. Excludes input-event handling before posting, cold loading, GPU rendering, frame presentation to display, and on-site model validity.",
+  "requestToCanvasDrawMs": {
+    "median": 30.400000035762787,
+    "p95": 32.19999998807907,
+    "p99": 32.5,
+    "min": 28.099999964237213,
+    "max": 32.5,
+    "unit": "ms"
+  },
+  "workerComputeMs": {
+    "median": 1.100000023841858,
+    "p95": 1.4000000357627869,
+    "p99": 1.5,
+    "min": 0.699999988079071,
+    "max": 1.5999999642372131,
+    "unit": "ms"
+  },
+  "raw": [
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 29.19999998807907,
+      "requestId": 22,
+      "queryHash": "3d3451bfe976aa078e433eb0f5f857f69d6c102f5122520b0a982aa66a6ca50a",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 22,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.2999999523162842,
+      "requestToPaintMs": 28.700000047683716,
+      "requestId": 23,
+      "queryHash": "453a819a5eeedce3dbfbdcdcf3a41aa50a882a1318b9c901abbac97794c71746",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 23,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.100000023841858,
+      "requestToPaintMs": 32.10000002384186,
+      "requestId": 24,
+      "queryHash": "16da9c9d508c6cff5debd9758a13e1c7a805803b5b9778cc1dfc4fbc086be189",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 24,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.4000000357627869,
+      "requestToPaintMs": 28.100000023841858,
+      "requestId": 25,
+      "queryHash": "b394514fa53d707bbd6c9782ca711162ee67e969ee07293835f3c918395f6941",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 25,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.2000000476837158,
+      "requestToPaintMs": 29,
+      "requestId": 26,
+      "queryHash": "379c6d42c9cad00580b7d2fb8508c4bf2edf482198e329980fd47feaae26f7cc",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 26,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 28.900000035762787,
+      "requestId": 27,
+      "queryHash": "01e7674293d2404679a73d20338f232dc1da6f164c854767dd135bcd6b13fca7",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 27,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 30,
+      "requestId": 28,
+      "queryHash": "c225d3c5ad9b6f68743a42211329070318500dce6c960d954dd9af483fda8244",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 28,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 30.69999998807907,
+      "requestId": 29,
+      "queryHash": "bff27dd32c0e09ecb4c7bc1e68ff259c589718edcfc25a6948641e67097c0acd",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 29,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.100000023841858,
+      "requestToPaintMs": 31,
+      "requestId": 30,
+      "queryHash": "3d3451bfe976aa078e433eb0f5f857f69d6c102f5122520b0a982aa66a6ca50a",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 30,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 29,
+      "requestId": 31,
+      "queryHash": "453a819a5eeedce3dbfbdcdcf3a41aa50a882a1318b9c901abbac97794c71746",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 31,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 29.19999998807907,
+      "requestId": 32,
+      "queryHash": "16da9c9d508c6cff5debd9758a13e1c7a805803b5b9778cc1dfc4fbc086be189",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 32,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 29.799999952316284,
+      "requestId": 33,
+      "queryHash": "b394514fa53d707bbd6c9782ca711162ee67e969ee07293835f3c918395f6941",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 33,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.5,
+      "requestToPaintMs": 31.5,
+      "requestId": 34,
+      "queryHash": "379c6d42c9cad00580b7d2fb8508c4bf2edf482198e329980fd47feaae26f7cc",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 34,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.199999988079071,
+      "requestToPaintMs": 29.899999976158142,
+      "requestId": 35,
+      "queryHash": "01e7674293d2404679a73d20338f232dc1da6f164c854767dd135bcd6b13fca7",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 35,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 30.30000001192093,
+      "requestId": 36,
+      "queryHash": "c225d3c5ad9b6f68743a42211329070318500dce6c960d954dd9af483fda8244",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 36,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.4000000357627869,
+      "requestToPaintMs": 30.100000023841858,
+      "requestId": 37,
+      "queryHash": "bff27dd32c0e09ecb4c7bc1e68ff259c589718edcfc25a6948641e67097c0acd",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 37,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 29.80000001192093,
+      "requestId": 38,
+      "queryHash": "3d3451bfe976aa078e433eb0f5f857f69d6c102f5122520b0a982aa66a6ca50a",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 38,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 30.599999964237213,
+      "requestId": 39,
+      "queryHash": "453a819a5eeedce3dbfbdcdcf3a41aa50a882a1318b9c901abbac97794c71746",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 39,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.2999999523162842,
+      "requestToPaintMs": 29.80000001192093,
+      "requestId": 40,
+      "queryHash": "16da9c9d508c6cff5debd9758a13e1c7a805803b5b9778cc1dfc4fbc086be189",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 40,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.100000023841858,
+      "requestToPaintMs": 30.69999998807907,
+      "requestId": 41,
+      "queryHash": "b394514fa53d707bbd6c9782ca711162ee67e969ee07293835f3c918395f6941",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 41,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.199999988079071,
+      "requestToPaintMs": 30.400000035762787,
+      "requestId": 42,
+      "queryHash": "379c6d42c9cad00580b7d2fb8508c4bf2edf482198e329980fd47feaae26f7cc",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 42,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 28.80000001192093,
+      "requestId": 43,
+      "queryHash": "01e7674293d2404679a73d20338f232dc1da6f164c854767dd135bcd6b13fca7",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 43,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.399999976158142,
+      "requestToPaintMs": 31.099999964237213,
+      "requestId": 44,
+      "queryHash": "c225d3c5ad9b6f68743a42211329070318500dce6c960d954dd9af483fda8244",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 44,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.199999988079071,
+      "requestToPaintMs": 30.80000001192093,
+      "requestId": 45,
+      "queryHash": "bff27dd32c0e09ecb4c7bc1e68ff259c589718edcfc25a6948641e67097c0acd",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 45,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 28.400000035762787,
+      "requestId": 46,
+      "queryHash": "3d3451bfe976aa078e433eb0f5f857f69d6c102f5122520b0a982aa66a6ca50a",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 46,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.399999976158142,
+      "requestToPaintMs": 28.899999976158142,
+      "requestId": 47,
+      "queryHash": "453a819a5eeedce3dbfbdcdcf3a41aa50a882a1318b9c901abbac97794c71746",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 47,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 30,
+      "requestId": 48,
+      "queryHash": "16da9c9d508c6cff5debd9758a13e1c7a805803b5b9778cc1dfc4fbc086be189",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 48,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.399999976158142,
+      "requestToPaintMs": 31.80000001192093,
+      "requestId": 49,
+      "queryHash": "b394514fa53d707bbd6c9782ca711162ee67e969ee07293835f3c918395f6941",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 49,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.199999988079071,
+      "requestToPaintMs": 32.39999997615814,
+      "requestId": 50,
+      "queryHash": "379c6d42c9cad00580b7d2fb8508c4bf2edf482198e329980fd47feaae26f7cc",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 50,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 30,
+      "requestId": 51,
+      "queryHash": "01e7674293d2404679a73d20338f232dc1da6f164c854767dd135bcd6b13fca7",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 51,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.399999976158142,
+      "requestToPaintMs": 29.30000001192093,
+      "requestId": 52,
+      "queryHash": "c225d3c5ad9b6f68743a42211329070318500dce6c960d954dd9af483fda8244",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 52,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 32.09999996423721,
+      "requestId": 53,
+      "queryHash": "bff27dd32c0e09ecb4c7bc1e68ff259c589718edcfc25a6948641e67097c0acd",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 53,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.2000000476837158,
+      "requestToPaintMs": 31.5,
+      "requestId": 54,
+      "queryHash": "3d3451bfe976aa078e433eb0f5f857f69d6c102f5122520b0a982aa66a6ca50a",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 54,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 29.80000001192093,
+      "requestId": 55,
+      "queryHash": "453a819a5eeedce3dbfbdcdcf3a41aa50a882a1318b9c901abbac97794c71746",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 55,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 0.8999999761581421,
+      "requestToPaintMs": 29.600000023841858,
+      "requestId": 56,
+      "queryHash": "16da9c9d508c6cff5debd9758a13e1c7a805803b5b9778cc1dfc4fbc086be189",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 56,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.0999999642372131,
+      "requestToPaintMs": 31.69999998807907,
+      "requestId": 57,
+      "queryHash": "b394514fa53d707bbd6c9782ca711162ee67e969ee07293835f3c918395f6941",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 57,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 30.899999976158142,
+      "requestId": 58,
+      "queryHash": "379c6d42c9cad00580b7d2fb8508c4bf2edf482198e329980fd47feaae26f7cc",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 58,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 0.9000000357627869,
+      "requestToPaintMs": 31.899999976158142,
+      "requestId": 59,
+      "queryHash": "01e7674293d2404679a73d20338f232dc1da6f164c854767dd135bcd6b13fca7",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 59,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 30.799999952316284,
+      "requestId": 60,
+      "queryHash": "c225d3c5ad9b6f68743a42211329070318500dce6c960d954dd9af483fda8244",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 60,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.100000023841858,
+      "requestToPaintMs": 32.5,
+      "requestId": 61,
+      "queryHash": "bff27dd32c0e09ecb4c7bc1e68ff259c589718edcfc25a6948641e67097c0acd",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 61,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 29.30000001192093,
+      "requestId": 62,
+      "queryHash": "3d3451bfe976aa078e433eb0f5f857f69d6c102f5122520b0a982aa66a6ca50a",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 62,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 31.30000001192093,
+      "requestId": 63,
+      "queryHash": "453a819a5eeedce3dbfbdcdcf3a41aa50a882a1318b9c901abbac97794c71746",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 63,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.100000023841858,
+      "requestToPaintMs": 30.80000001192093,
+      "requestId": 64,
+      "queryHash": "16da9c9d508c6cff5debd9758a13e1c7a805803b5b9778cc1dfc4fbc086be189",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 64,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.100000023841858,
+      "requestToPaintMs": 30.400000035762787,
+      "requestId": 65,
+      "queryHash": "b394514fa53d707bbd6c9782ca711162ee67e969ee07293835f3c918395f6941",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 65,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 30.80000001192093,
+      "requestId": 66,
+      "queryHash": "379c6d42c9cad00580b7d2fb8508c4bf2edf482198e329980fd47feaae26f7cc",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 66,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 32.30000001192093,
+      "requestId": 67,
+      "queryHash": "01e7674293d2404679a73d20338f232dc1da6f164c854767dd135bcd6b13fca7",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 67,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 31,
+      "requestId": 68,
+      "queryHash": "c225d3c5ad9b6f68743a42211329070318500dce6c960d954dd9af483fda8244",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 68,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 0.9000000357627869,
+      "requestToPaintMs": 30.600000023841858,
+      "requestId": 69,
+      "queryHash": "bff27dd32c0e09ecb4c7bc1e68ff259c589718edcfc25a6948641e67097c0acd",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 69,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 30.100000023841858,
+      "requestId": 70,
+      "queryHash": "3d3451bfe976aa078e433eb0f5f857f69d6c102f5122520b0a982aa66a6ca50a",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 70,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 31.599999964237213,
+      "requestId": 71,
+      "queryHash": "453a819a5eeedce3dbfbdcdcf3a41aa50a882a1318b9c901abbac97794c71746",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 71,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 0.7999999523162842,
+      "requestToPaintMs": 30.5,
+      "requestId": 72,
+      "queryHash": "16da9c9d508c6cff5debd9758a13e1c7a805803b5b9778cc1dfc4fbc086be189",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 72,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.100000023841858,
+      "requestToPaintMs": 32.10000002384186,
+      "requestId": 73,
+      "queryHash": "b394514fa53d707bbd6c9782ca711162ee67e969ee07293835f3c918395f6941",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 73,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 0.800000011920929,
+      "requestToPaintMs": 29.69999998807907,
+      "requestId": 74,
+      "queryHash": "379c6d42c9cad00580b7d2fb8508c4bf2edf482198e329980fd47feaae26f7cc",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 74,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 32.19999998807907,
+      "requestId": 75,
+      "queryHash": "01e7674293d2404679a73d20338f232dc1da6f164c854767dd135bcd6b13fca7",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 75,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 31.599999964237213,
+      "requestId": 76,
+      "queryHash": "c225d3c5ad9b6f68743a42211329070318500dce6c960d954dd9af483fda8244",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 76,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.100000023841858,
+      "requestToPaintMs": 31.80000001192093,
+      "requestId": 77,
+      "queryHash": "bff27dd32c0e09ecb4c7bc1e68ff259c589718edcfc25a6948641e67097c0acd",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 77,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.199999988079071,
+      "requestToPaintMs": 29.30000001192093,
+      "requestId": 78,
+      "queryHash": "3d3451bfe976aa078e433eb0f5f857f69d6c102f5122520b0a982aa66a6ca50a",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 78,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.100000023841858,
+      "requestToPaintMs": 30.099999964237213,
+      "requestId": 79,
+      "queryHash": "453a819a5eeedce3dbfbdcdcf3a41aa50a882a1318b9c901abbac97794c71746",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 79,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.0999999642372131,
+      "requestToPaintMs": 30.30000001192093,
+      "requestId": 80,
+      "queryHash": "16da9c9d508c6cff5debd9758a13e1c7a805803b5b9778cc1dfc4fbc086be189",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 80,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 0.8999999761581421,
+      "requestToPaintMs": 30.899999976158142,
+      "requestId": 81,
+      "queryHash": "b394514fa53d707bbd6c9782ca711162ee67e969ee07293835f3c918395f6941",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 81,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.100000023841858,
+      "requestToPaintMs": 29.30000001192093,
+      "requestId": 82,
+      "queryHash": "379c6d42c9cad00580b7d2fb8508c4bf2edf482198e329980fd47feaae26f7cc",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 82,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 31.69999998807907,
+      "requestId": 83,
+      "queryHash": "01e7674293d2404679a73d20338f232dc1da6f164c854767dd135bcd6b13fca7",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 83,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.100000023841858,
+      "requestToPaintMs": 30.19999998807907,
+      "requestId": 84,
+      "queryHash": "c225d3c5ad9b6f68743a42211329070318500dce6c960d954dd9af483fda8244",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 84,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 31.900000035762787,
+      "requestId": 85,
+      "queryHash": "bff27dd32c0e09ecb4c7bc1e68ff259c589718edcfc25a6948641e67097c0acd",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 85,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 30.69999998807907,
+      "requestId": 86,
+      "queryHash": "3d3451bfe976aa078e433eb0f5f857f69d6c102f5122520b0a982aa66a6ca50a",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 86,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 29.19999998807907,
+      "requestId": 87,
+      "queryHash": "453a819a5eeedce3dbfbdcdcf3a41aa50a882a1318b9c901abbac97794c71746",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 87,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.399999976158142,
+      "requestToPaintMs": 30.5,
+      "requestId": 88,
+      "queryHash": "16da9c9d508c6cff5debd9758a13e1c7a805803b5b9778cc1dfc4fbc086be189",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 88,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 0.8999999761581421,
+      "requestToPaintMs": 29.900000035762787,
+      "requestId": 89,
+      "queryHash": "b394514fa53d707bbd6c9782ca711162ee67e969ee07293835f3c918395f6941",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 89,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.0999999642372131,
+      "requestToPaintMs": 29.5,
+      "requestId": 90,
+      "queryHash": "379c6d42c9cad00580b7d2fb8508c4bf2edf482198e329980fd47feaae26f7cc",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 90,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 29.19999998807907,
+      "requestId": 91,
+      "queryHash": "01e7674293d2404679a73d20338f232dc1da6f164c854767dd135bcd6b13fca7",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 91,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 0.9000000357627869,
+      "requestToPaintMs": 31.100000023841858,
+      "requestId": 92,
+      "queryHash": "c225d3c5ad9b6f68743a42211329070318500dce6c960d954dd9af483fda8244",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 92,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 0.8999999761581421,
+      "requestToPaintMs": 30.5,
+      "requestId": 93,
+      "queryHash": "bff27dd32c0e09ecb4c7bc1e68ff259c589718edcfc25a6948641e67097c0acd",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 93,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.2999999523162842,
+      "requestToPaintMs": 31.69999998807907,
+      "requestId": 94,
+      "queryHash": "3d3451bfe976aa078e433eb0f5f857f69d6c102f5122520b0a982aa66a6ca50a",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 94,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 32.39999997615814,
+      "requestId": 95,
+      "queryHash": "453a819a5eeedce3dbfbdcdcf3a41aa50a882a1318b9c901abbac97794c71746",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 95,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 30,
+      "requestId": 96,
+      "queryHash": "16da9c9d508c6cff5debd9758a13e1c7a805803b5b9778cc1dfc4fbc086be189",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 96,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 31.19999998807907,
+      "requestId": 97,
+      "queryHash": "b394514fa53d707bbd6c9782ca711162ee67e969ee07293835f3c918395f6941",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 97,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.100000023841858,
+      "requestToPaintMs": 32,
+      "requestId": 98,
+      "queryHash": "379c6d42c9cad00580b7d2fb8508c4bf2edf482198e329980fd47feaae26f7cc",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 98,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 29.400000035762787,
+      "requestId": 99,
+      "queryHash": "01e7674293d2404679a73d20338f232dc1da6f164c854767dd135bcd6b13fca7",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 99,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 31,
+      "requestId": 100,
+      "queryHash": "c225d3c5ad9b6f68743a42211329070318500dce6c960d954dd9af483fda8244",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 100,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.0999999642372131,
+      "requestToPaintMs": 30.5,
+      "requestId": 101,
+      "queryHash": "bff27dd32c0e09ecb4c7bc1e68ff259c589718edcfc25a6948641e67097c0acd",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 101,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.0999999642372131,
+      "requestToPaintMs": 29.399999976158142,
+      "requestId": 102,
+      "queryHash": "3d3451bfe976aa078e433eb0f5f857f69d6c102f5122520b0a982aa66a6ca50a",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 102,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 28.299999952316284,
+      "requestId": 103,
+      "queryHash": "453a819a5eeedce3dbfbdcdcf3a41aa50a882a1318b9c901abbac97794c71746",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 103,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.5,
+      "requestToPaintMs": 28.099999964237213,
+      "requestId": 104,
+      "queryHash": "16da9c9d508c6cff5debd9758a13e1c7a805803b5b9778cc1dfc4fbc086be189",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 104,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.199999988079071,
+      "requestToPaintMs": 32.5,
+      "requestId": 105,
+      "queryHash": "b394514fa53d707bbd6c9782ca711162ee67e969ee07293835f3c918395f6941",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 105,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.5,
+      "requestToPaintMs": 29.80000001192093,
+      "requestId": 106,
+      "queryHash": "379c6d42c9cad00580b7d2fb8508c4bf2edf482198e329980fd47feaae26f7cc",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 106,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.5999999642372131,
+      "requestToPaintMs": 29.5,
+      "requestId": 107,
+      "queryHash": "01e7674293d2404679a73d20338f232dc1da6f164c854767dd135bcd6b13fca7",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 107,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 0.8999999761581421,
+      "requestToPaintMs": 31.100000023841858,
+      "requestId": 108,
+      "queryHash": "c225d3c5ad9b6f68743a42211329070318500dce6c960d954dd9af483fda8244",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 108,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.100000023841858,
+      "requestToPaintMs": 30,
+      "requestId": 109,
+      "queryHash": "bff27dd32c0e09ecb4c7bc1e68ff259c589718edcfc25a6948641e67097c0acd",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 109,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 28.900000035762787,
+      "requestId": 110,
+      "queryHash": "3d3451bfe976aa078e433eb0f5f857f69d6c102f5122520b0a982aa66a6ca50a",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 110,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 30.5,
+      "requestId": 111,
+      "queryHash": "453a819a5eeedce3dbfbdcdcf3a41aa50a882a1318b9c901abbac97794c71746",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 111,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 0.699999988079071,
+      "requestToPaintMs": 31.400000035762787,
+      "requestId": 112,
+      "queryHash": "16da9c9d508c6cff5debd9758a13e1c7a805803b5b9778cc1dfc4fbc086be189",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 112,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 29.80000001192093,
+      "requestId": 113,
+      "queryHash": "b394514fa53d707bbd6c9782ca711162ee67e969ee07293835f3c918395f6941",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 113,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.199999988079071,
+      "requestToPaintMs": 29.69999998807907,
+      "requestId": 114,
+      "queryHash": "379c6d42c9cad00580b7d2fb8508c4bf2edf482198e329980fd47feaae26f7cc",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 114,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 0.9000000357627869,
+      "requestToPaintMs": 30,
+      "requestId": 115,
+      "queryHash": "01e7674293d2404679a73d20338f232dc1da6f164c854767dd135bcd6b13fca7",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 115,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 30.400000035762787,
+      "requestId": 116,
+      "queryHash": "c225d3c5ad9b6f68743a42211329070318500dce6c960d954dd9af483fda8244",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 116,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 31.19999998807907,
+      "requestId": 117,
+      "queryHash": "bff27dd32c0e09ecb4c7bc1e68ff259c589718edcfc25a6948641e67097c0acd",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 117,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1,
+      "requestToPaintMs": 29,
+      "requestId": 118,
+      "queryHash": "3d3451bfe976aa078e433eb0f5f857f69d6c102f5122520b0a982aa66a6ca50a",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 118,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 28.900000035762787,
+      "requestId": 119,
+      "queryHash": "453a819a5eeedce3dbfbdcdcf3a41aa50a882a1318b9c901abbac97794c71746",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 119,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.300000011920929,
+      "requestToPaintMs": 28.5,
+      "requestId": 120,
+      "queryHash": "16da9c9d508c6cff5debd9758a13e1c7a805803b5b9778cc1dfc4fbc086be189",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 120,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    },
+    {
+      "quality": "balanced",
+      "computeMs": 1.199999988079071,
+      "requestToPaintMs": 30.5,
+      "requestId": 121,
+      "queryHash": "b394514fa53d707bbd6c9782ca711162ee67e969ee07293835f3c918395f6941",
+      "solverId": "acoustic-direct-v1",
+      "solverVersion": "1.0.0",
+      "sceneRevision": 121,
+      "grid": {
+        "levelId": "main",
+        "originXY": [
+          0,
+          0
+        ],
+        "cols": 56,
+        "rows": 40,
+        "cellSizeM": 0.25,
+        "receiverZM": 1.5,
+        "quality": "custom"
+      }
+    }
+  ]
+}

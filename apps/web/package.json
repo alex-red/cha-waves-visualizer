@@ -1,0 +1,22 @@
+{
+  "name": "@cha-waves/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "typecheck": "nuxt prepare && vue-tsc --noEmit --project tsconfig.json"
+  },
+  "dependencies": {
+    "nuxt": "4.6.1",
+    "three": "0.186.1",
+    "vue": "3.5.44"
+  },
+  "devDependencies": {
+    "@types/three": "0.186.0",
+    "typescript": "6.0.3",
+    "vue-tsc": "3.3.13"
+  }
+}

@@ -1,0 +1,10 @@
+node_modules/
+.pnpm-store/
+.nuxt/
+.output/
+dist/
+/apps/web/dist
+coverage/
+playwright-report/
+test-results/
+.DS_Store

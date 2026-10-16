@@ -1,0 +1,90 @@
+import { expect, test, type Page } from '@playwright/test'
+import { readFile } from 'node:fs/promises'
+
+async function ready(page: Page) {
+  await expect(page.getByTestId('solver-status')).not.toContainText('Calculating', { timeout: 15000 })
+  await expect(page.getByTestId('probe-value')).not.toContainText('—')
+}
+
+test('a constrained wall edit recomputes the field and undo restores its attached door', async ({ page }) => {
+  await page.goto('/')
+  await ready(page)
+  const initial = await page.getByTestId('probe-value').innerText()
+  await page.getByTestId('wall-select').click()
+  await page.getByTestId('wall-start-y').fill('6')
+  await page.getByTestId('wall-end-y').fill('6')
+  await page.getByTestId('wall-apply').click()
+  await ready(page)
+  await expect(page.getByTestId('probe-value')).not.toHaveText(initial)
+  await expect(page.getByTestId('wall-start-y')).toHaveValue('6')
+  await page.getByRole('button', { name: 'Undo', exact: true }).click()
+  await ready(page)
+  await expect(page.getByTestId('wall-start-y')).toHaveValue('5')
+  await expect(page.getByTestId('probe-value')).toHaveText(initial)
+  await page.getByTestId('door-toggle').click()
+  await ready(page)
+  await expect(page.getByTestId('probe-value')).not.toHaveText(initial)
+})
+
+test('committed scene changes survive reload through local project storage', async ({ page }) => {
+  await page.goto('/')
+  await ready(page)
+  const original = await page.getByTestId('probe-value').innerText()
+  await page.getByTestId('source-x').fill('4')
+  await page.getByTestId('source-x').press('Tab')
+  await ready(page)
+  await expect(page.getByTestId('probe-value')).not.toHaveText(original)
+  const edited = await page.getByTestId('probe-value').innerText()
+  await expect(page.getByTestId('project-status')).toHaveAttribute('data-state', 'saved', { timeout: 10000 })
+  await page.reload()
+  await ready(page)
+  await expect(page.getByTestId('source-x')).toHaveValue('4.0')
+  await expect(page.getByTestId('probe-value')).toHaveText(edited)
+})
+
+test('export/import reproduces the scene and baseline; invalid imports preserve the workspace', async ({ page, browser }) => {
+  await page.goto('/')
+  await ready(page)
+  await page.getByRole('button', { name: 'Save as baseline' }).click()
+  await page.getByTestId('door-toggle').click()
+  await ready(page)
+  const edited = await page.getByTestId('probe-value').innerText()
+  const pendingDownload = page.waitForEvent('download')
+  await page.getByTestId('project-export').click()
+  const download = await pendingDownload
+  const exportedPath = await download.path()
+  expect(exportedPath).toBeTruthy()
+  const exported = await readFile(exportedPath!, 'utf8')
+  expect(JSON.parse(exported).format).toBe('cha-waves-project')
+  expect(JSON.parse(exported).baseline).toBeTruthy()
+
+  const context = await browser.newContext()
+  const fresh = await context.newPage()
+  await fresh.goto('/')
+  await ready(fresh)
+  await fresh.getByTestId('project-import').setInputFiles({ name: 'test.cha-waves.json', mimeType: 'application/json', buffer: Buffer.from(exported) })
+  await ready(fresh)
+  await expect(fresh.getByTestId('probe-value')).toHaveText(edited)
+  await expect(fresh.getByTestId('door-toggle')).toContainText('OPEN')
+  await expect(fresh.getByRole('button', { name: 'Compare', exact: false })).toBeEnabled()
+  await fresh.getByTestId('project-import').setInputFiles({ name: 'invalid.json', mimeType: 'application/json', buffer: Buffer.from('{"formatVersion":999}') })
+  await expect(fresh.getByTestId('project-error')).toBeVisible()
+  await expect(fresh.getByTestId('probe-value')).toHaveText(edited)
+  await expect(fresh.getByTestId('door-toggle')).toContainText('OPEN')
+  await context.close()
+})
+
+test('unavailable storage reports failure while the physics workspace stays editable', async ({ page }) => {
+  await page.addInitScript(() => {
+    IDBFactory.prototype.open = () => { throw new DOMException('Storage is unavailable for this test', 'SecurityError') }
+  })
+  await page.goto('/')
+  await ready(page)
+  await expect(page.getByTestId('project-status')).toHaveAttribute('data-state', 'failed')
+  await expect(page.getByTestId('storage-error')).toBeVisible()
+  const original = await page.getByTestId('probe-value').innerText()
+  await page.getByTestId('door-toggle').click()
+  await ready(page)
+  await expect(page.getByTestId('probe-value')).not.toHaveText(original)
+  await expect(page.getByTestId('project-status')).toHaveAttribute('data-state', 'failed', { timeout: 10000 })
+})
