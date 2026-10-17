@@ -61,6 +61,8 @@ Success is a functioning vertical slice with both domains, not a full editor, wa
 
 ## P1/P2 backlog
 
+The acoustic capture research track now follows [ECHO_EXPERIMENT_PLAN.md](ECHO_EXPERIMENT_PLAN.md). Its first real-phone session exercised transport and exposed an unverified fixed response; it did not reconstruct a room. The next dependency chain is reproducible inspection → acquisition telemetry → repeated probes → a known single-wall delay test → multi-reflector reconstruction only after that test passes. The [workflow guide](ECHO_WORKFLOW.md) describes focused verification and reproducible evidence. This track does not redefine the existing home visualizer's completed capabilities or release gates.
+
 | ID | Scope | Gate/dependencies |
 |---|---|---|
 | CW-101 | Local raster image calibration and manual tracing | P0 persistence/editor; bounded decode and explicit scale |

@@ -1,6 +1,7 @@
 {
   "name": "@cha-waves/web",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
@@ -11,10 +12,12 @@
   },
   "dependencies": {
     "nuxt": "4.6.1",
+    "qrcode": "1.5.4",
     "three": "0.186.1",
     "vue": "3.5.44"
   },
   "devDependencies": {
+    "@types/qrcode": "1.5.6",
     "@types/three": "0.186.0",
     "typescript": "6.0.3",
     "vue-tsc": "3.3.13"

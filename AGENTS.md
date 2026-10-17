@@ -1,0 +1,29 @@
+# Working on Cha Waves
+
+Read [implementation status](docs/IMPLEMENTATION_STATUS.md) for verified capabilities. The active acoustic research sequence is [ECHO_EXPERIMENT_PLAN.md](docs/ECHO_EXPERIMENT_PLAN.md); reproducible commands and session handling are in [ECHO_WORKFLOW.md](docs/ECHO_WORKFLOW.md). The home field visualizer and the acoustic capture experiment are separate tracks.
+
+## Evidence before another physical experiment
+
+- The first phone test exercised capture/transport; it did not validate room mapping. ECHO-02/03 telemetry and repeated series are implemented and one real Android five-probe series has complete observed input. Its first strongest reference is 6 ms earlier than the other four, which is not a verified wall-timing result. The next gate is repeated identification of one known wall. See ECHO-02 through ECHO-05.
+- When the owner API is enabled, use `bun run echo:pull` to list private archives, then `bun run echo:pull -- --scan <explicit-id> --output local-captures/<new-name>.json`. Inspect that saved file next. See [ECHO_LOCAL_API.md](docs/ECHO_LOCAL_API.md). The authenticated loopback API retrieves received PCM/batches; browser-only review edits still require export. Keep its key out of logs and Tailscale routes.
+- Use `bun run echo:inspect -- --input /absolute/path/scan.json` instead of ad hoc decoding/analysis snippets. Quote the source SHA256 and capture IDs when passing observations to another agent. Report absolute sample intervals and reference-relative delays separately.
+- A strongest peak is a comparison reference, not a verified direct arrival. A stationary feature can be device, body, floor or ceiling response. A synthetic fit, unit test or plausible rectangle does not establish physical accuracy.
+- Before requesting a capture, state the hypothesis, controlled variables, expected change and stopping condition. Check decisive claims against the capture-specific report; do not carry numbers between files or poses.
+- Preserve original samples. Do not interpolate gaps, invent four wall arrivals, or lower a threshold solely to obtain a fit. Distinguish a gap before the probe from one overlapping the full matched probe window.
+- Connect a worklet before its future planned capture frame; creating it at that frame loses input coverage. Keep scheduled clock timing separate from acoustic timing. Series use one stream/context, retain every attempt outcome, and close microphone resources before review. Batch metadata and referenced recordings must install atomically; capacity rejection must preserve earlier data.
+
+## Tooling and verification
+
+- Bun is the workspace runner. `bun run test` invokes Vitest. `bun run test:tooling` covers Node-based workflow tools; `bun run test:satellite` covers relay/ADB helpers.
+- Run relevant unit checks first. Run `bun run typecheck` before `bun run build`; do not run them concurrently because both write generated Nuxt state.
+- `bun run test:echo` runs the focused browser checks using the repository Playwright config, a fresh test server and one worker by default. It must not reuse or stop a live user relay.
+- Use standard `PLAYWRIGHT_BROWSERS_PATH` for an existing browser cache and `PLAYWRIGHT_CHROMIUM_CHANNEL=chromium` for the full Chromium binary when headless shell is absent. Do not create temporary wrapper configs for these settings.
+- `bun run satellite:doctor -- --origin https://host.example` checks readiness without creating sessions, requesting a microphone, or changing Tailscale. An endpoint check does not establish phone permission or acoustic quality.
+- Avoid repeating full checks once they pass unless a change or unresolved failure justifies it. Do not run competing browser suites against the same ports/output directory.
+
+## Artifacts, sessions, and ownership
+
+- Keep real recordings, tokens and private reports outside version control. `local-captures/` is ignored for local work. Commit only synthetic recording fixtures. Do not hardcode a user's private endpoint or temporary runtime paths.
+- Preserve the current scan before replacing a live build; export browser-only reviews even when relay archiving is enabled. The relay holds live sessions in memory and caches generated security headers; restart only its identified process after a verified rebuild. Keep the Tailscale route and unrelated servers intact. Reopen the exported scan after refresh; starting a new relay does not restore its old pairing session. Private archive files persist independently.
+- Keep numerical/decoding helpers shared between browser workers and offline tools. Keep CLI argument parsing, file/network I/O and pure report generation separate. Tool modules should be importable for tests without starting their CLI.
+- When delegating, assign disjoint files and a stable input artifact. Each handoff states files changed, exact input hashes/capture IDs, commands and results, observations versus hypotheses, and remaining uncertainty. The orchestrator integrates changes and verifies the user-visible outcome.

@@ -47,11 +47,9 @@ async function expectDialogFitsAndScrolls(dialog: Locator, page: Page) {
   expect(bounds.bottom).toBeLessThanOrEqual(height)
   expect(bounds.scrollHeight).toBeGreaterThan(bounds.clientHeight)
 
-  const scrollPoint = await dialog.evaluate(element => {
-    const rect = element.getBoundingClientRect()
-    return { x: rect.left + rect.width / 2, y: rect.top + rect.height - 24 }
-  })
-  await page.mouse.move(scrollPoint.x, scrollPoint.y)
+  // Locator hover waits for a stable, actionable dialog. Aim at its padding,
+  // away from native controls and the viewport edge, before sending the wheel.
+  await dialog.hover({ position: { x: 16, y: Math.min(120, bounds.height / 2) } })
   await page.mouse.wheel(0, 500)
   await expect.poll(() => dialog.evaluate(element => element.scrollTop)).toBeGreaterThan(0)
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollTop)).toBe(0)

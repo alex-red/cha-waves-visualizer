@@ -20,24 +20,40 @@ if (unknownBrowsers.length) {
 
 const projects = [...new Set(requestedBrowsers)].map(browser => ({
   name: browser,
-  use: { ...browserDevices[browser as keyof typeof browserDevices] },
+  use: {
+    ...browserDevices[browser as keyof typeof browserDevices],
+    ...(browser === 'chromium' && process.env.PLAYWRIGHT_CHROMIUM_CHANNEL
+      ? { channel: process.env.PLAYWRIGHT_CHROMIUM_CHANNEL }
+      : {}),
+  },
 }))
+
+const previewPort = Number(process.env.PLAYWRIGHT_PORT ?? 4173)
+if (!Number.isInteger(previewPort) || previewPort < 1 || previewPort > 65535) throw new Error('PLAYWRIGHT_PORT must be a valid TCP port.')
+const previewOrigin = `http://127.0.0.1:${previewPort}`
+const reuseExistingServer = process.env.PLAYWRIGHT_REUSE_SERVER === '0'
+  ? false
+  : process.env.PLAYWRIGHT_REUSE_SERVER === '1'
+    ? true
+    : !process.env.CI
 
 export default defineConfig({
   testDir: './apps/web/e2e',
   fullyParallel: true,
+  outputDir: process.env.PLAYWRIGHT_OUTPUT_DIR || 'test-results',
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? 'github' : 'list',
   use: {
-    baseURL: 'http://127.0.0.1:4173',
+    baseURL: previewOrigin,
     trace: 'retain-on-failure',
   },
   projects,
   webServer: {
     command: 'bun run preview',
-    url: 'http://127.0.0.1:4173',
-    reuseExistingServer: !process.env.CI,
+    env: { PORT: String(previewPort) },
+    url: previewOrigin,
+    reuseExistingServer,
     timeout: 120_000,
   },
 })

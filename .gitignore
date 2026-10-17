@@ -8,3 +8,12 @@ coverage/
 playwright-report/
 test-results/
 .DS_Store
+/certs/
+/local-captures/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx

@@ -1,6 +1,6 @@
 # Validation, performance, and release gates
 
-All budgets below are targets. There is no running application and no measured performance or site accuracy yet. Track mathematical tests, reference-model agreement, and real-world predictiveness separately.
+This document defines validation protocols and release targets. The application is implemented, with scoped local measurements in [performance evidence](PERFORMANCE_EVIDENCE.md) and completed software checks in [implementation status](IMPLEMENTATION_STATUS.md). Budgets below remain targets unless linked evidence establishes the same measurement scope. Site prediction accuracy and physical room reconstruction remain unvalidated. Track mathematical tests, reference-model agreement, and real-world predictiveness separately.
 
 ## Deterministic fixture suite
 

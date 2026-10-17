@@ -4,6 +4,8 @@ P0 uses two independent quick models consuming one canonical building. Outputs a
 
 ## Sound — direct-path model
 
+The workspace heatmap still uses this direct-path model. The separate experimental [Echo Lab](ECHO_LAB.md) adds first-order echo timing and rectangular-room inference without changing this model or its output labels.
+
 For source s and receiver r, calculate true 3D distance `d = ||r − s||`.
 
 ```text

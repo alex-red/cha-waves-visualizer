@@ -66,8 +66,10 @@ P0 completion requires both models, constrained edits, comparison, persistence, 
 
 Proposed usability evaluation: five exploratory sessions, including keyboard use. Target four of five participants making a first intervention within 30 seconds and correctly explaining one A/B result within two minutes. Record difficulties rather than treating the small study as population evidence. Aggregate analytics are unnecessary for P0; use local diagnostics and voluntary sessions.
 
-Engineering targets and validation gates live in [VALIDATION_AND_PERFORMANCE.md](VALIDATION_AND_PERFORMANCE.md). There are no measured results yet.
+Engineering targets and validation gates live in [VALIDATION_AND_PERFORMANCE.md](VALIDATION_AND_PERFORMANCE.md). Actual implementation evidence is recorded in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md); physical acoustic reconstruction remains subject to its separate experiment gates.
 
 ## Beyond the first release
+
+The current [acoustic experiment plan](ECHO_EXPERIMENT_PLAN.md) separates phone capture/transport from physical reconstruction. The first three-position Android experiment is complete as a diagnostic run. Further room scanning is gated on instrumented acquisition and a repeatable reflection from one wall at known distances; the rectangle solver remains a synthetic/reference case until measured inputs support it.
 
 P1 earns practical value by importing a user's scaled plan, keeping uncertain construction inputs visible, and comparing against independently collected measurements. Prioritize one radio calibration workflow before broadening domain count. P2's strongest candidate is a validated acoustic wave experiment that reveals diffraction or interference missing from P0; show disagreement explicitly and avoid equating 2D pressure with real 3D room SPL.

@@ -1,6 +1,6 @@
 # Asset and dependency inventory
 
-Inventory date: October 14, 2026. This is release preparation, not approval to publish or a completed redistribution review.
+Inventory updated October 16, 2026 for portfolio preparation. Original code and documentation use the [MIT License](../LICENSE), selected by the project owner. Dependencies retain their own licenses.
 
 ## Authored application assets
 
@@ -11,6 +11,7 @@ Inventory date: October 14, 2026. This is release preparation, not approval to p
 | Material coefficients | Explicit `fixture-assumed` records | Educational illustrative values, not measured product or home data |
 | Font appearance | Georgia, platform system and monospace fallback stacks | No font files downloaded or redistributed by the app |
 | Screenshots in reports | Captured running the app's authored fixtures | Evidence assets; no private-home photographs |
+| Portfolio screenshots in `docs/images/` | Dedicated captures of the authored demo and synthetic Echo Lab | No real scans, live pairing codes or private endpoints |
 | Original specification | User-supplied handoff copied unchanged into docs | Background reference; preserve separately from adopted implementation decisions |
 
 There are no stock photos, generated raster illustrations, remote map tiles, or external 3D assets in the current app. Future uploads and third-party assets need their own provenance entries.
@@ -25,8 +26,8 @@ node scripts/license-inventory.mjs
 
 The script reads declared license strings and versions from installed package metadata in the Bun dependency tree. It includes development tools and transitive packages, so its package count is not the number of libraries shipped to browsers. The inventory is tied to `bun.lock` and the installed platform packages, and should be regenerated after dependency changes with `bun run inventory:licenses`.
 
-Direct runtime dependencies are Nuxt, Vue, Three.js, and Zod; their installed package metadata declares MIT. Test/build tools and transitive dependencies declare additional license expressions, listed in the JSON. Those strings are metadata, not a review of all license texts or distribution obligations.
+Direct runtime dependencies are Nuxt, Vue, Three.js, Zod and qrcode; their installed package metadata declares MIT. Echo Lab uses qrcode 1.5.4 to generate pairing codes locally, with @types/qrcode 1.5.6 for development. No external QR service receives pairing tokens. Test/build tools and transitive dependencies declare additional license expressions, listed in the JSON. Those strings are metadata, not a review of all license texts or distribution obligations.
 
-## Outstanding release decisions
+## License and redistribution scope
 
-The repository has no chosen license for the original application code. A public license, appropriate third-party notices for the final distributed bundle, and treatment of the supplied handoff remain release decisions. Do not infer a license choice from dependency licenses or from the original proposal. No public release is performed by generating this inventory.
+The owner's MIT choice covers original project code and documentation, including the supplied historical proposal. [Third-party notices](../THIRD_PARTY_NOTICES.md) reproduce direct runtime dependency license texts. The generated inventory includes development and transitive dependency metadata; it is not a complete bundle attribution analysis. Preserve dependency notices when redistributing them and review the final distribution when adding assets or changing dependencies. Generating the inventory does not publish the repository or deploy the app.

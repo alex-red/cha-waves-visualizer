@@ -1,38 +1,103 @@
-# Cha Waves Visualizer
+# Cha Waves
 
-An interactive, local-first home laboratory for sound and wireless propagation. Change a physical input and inspect the computed consequence.
+**Change a room. See what the model predicts. Understand why.**
 
-The current implementation includes a metric apartment, independent acoustic and radio quick models, plan and architectural cutaway views, constrained wall editing, individual door controls and source/probe heights, worker-backed fields, shared-scale A/B comparison, baseline differences, adaptive drag previews, and local project save/import/export. Optional guided home experiments demonstrate controlled door, placement, and frequency changes with computed readings. Keyboard plan editing, an accurate metric ruler, and compact phone layouts are covered by browser checks. Calculation restart preserves edits after worker failures; generated security headers and storage recovery are covered by browser tests. This is an educational approximation: material values are authored assumptions, acoustic output is relative direct-path level rather than calibrated SPL, and radio output is predicted received power rather than throughput.
+A local-first browser laboratory for exploring sound and Wi-Fi propagation in an editable floor plan. Built with Nuxt, Vue, TypeScript, Web Workers and Three.js.
 
-## Development
+[![CI](https://github.com/ban-red/cha-waves-visualizer/actions/workflows/ci.yml/badge.svg)](https://github.com/ban-red/cha-waves-visualizer/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-315c50.svg)](LICENSE)
+
+![Cha Waves plan view with a modeled sound field, editable geometry and an exact probe reading](docs/images/workspace.png)
+
+Close a door, move a source or switch frequency. The field and selected-point explanation recompute from the current inputs. Save a baseline to compare the change on a shared scale.
+
+**These are educational approximations.** Sound is relative direct-path level, Wi-Fi is modeled received power, and the demonstration material coefficients are authored assumptions. Neither field has been calibrated against a real home. [Model boundaries](docs/PHYSICS_ASSUMPTIONS.md)
+
+## Try it locally
+
+Use **Bun 1.4.3** and **Node 24** (the pinned version is in [.nvmrc](.nvmrc)).
 
 ```sh
-bun install
+bun install --frozen-lockfile
 bun run dev
 ```
 
-Use Bun 1.4.3 for package installation and workspace scripts. Node 24 remains the supported runtime for scripts that invoke Node directly and for the package engine requirement. `bun run test` runs Vitest for pure packages and frontend composables; it does not use Bun's built-in test runner. Verification commands and exact installed versions are recorded in [implementation status](docs/IMPLEMENTATION_STATUS.md). The numerical engine runs independently of Vue and browser graphics.
+Open the local address printed by Nuxt. No account, API key or remote solver is needed. The initial Canvas plan works without WebGPU; the optional cutaway has a WebGL2 fallback.
 
-## Planning
+For a production preview:
 
-The [documentation index](docs/README.md) links the product plan, architectural decisions, design system, data contracts, physics assumptions, validation targets, and implementation backlog. The original handoff is preserved as reference material.
+```sh
+bun run build
+bun run preview
+```
 
-Home geometry and numerical computation stay in the browser. No account or AI provider is required. The inspector's [interactive loss breakdown](docs/LOSS_BREAKDOWN.md) explains each exact probe estimate and highlights crossed assemblies on the plan.
+Open [localhost:4173](http://localhost:4173). There is no public hosted demo configured in this repository yet.
 
-For the current home creation, floor-plan tracing, geometry editing and local project workflow, follow the [manual testing guide](docs/MANUAL_TESTING.md).
+## A two-minute tour
 
-The workspace and Edit home canvas support [pan, zoom and Fit](docs/PLAN_NAVIGATION.md) with metric rulers and camera-aware editing.
+1. Toggle **Hall door** and inspect the changed reading. Open **Why this reading** to see the distance and assembly-loss terms.
+2. Save a baseline, move the source, then use **A/B** or **Compare** to inspect both scenes with a common scale.
+3. Switch to **Wi-Fi**, change the frequency and explore source placement across selected probes.
+4. Open **Edit home** to draw or split interior walls, add doors and inspect dimensions. Changes support undo/redo.
+5. Open **Echo Lab → Virtual scan**, run all five positions and reveal the synthetic fixture.
 
-Edit home also provides [wall dimensions and snapping feedback](docs/DRAFTING_FEEDBACK.md), including exact endpoint cues and a live measurement while drawing a wall.
+![Architectural cutaway displaying the same computed samples as the plan](docs/images/cutaway.png)
 
-[Interior wall splits and junctions](docs/WALL_JUNCTIONS.md) preserve openings and apply as one undoable edit. Enable **Join intersecting walls** when adding a connected T or cross junction.
+## What is implemented
 
-[Named experiments](docs/NAMED_EXPERIMENTS.md) save scene/settings snapshots with notes, show changed inputs, and supply comparison baselines. Project JSON version 3 carries the library and optional measurement survey; version 1/2 imports migrate automatically.
+| Area | Working capability |
+|---|---|
+| Geometry | Metric plans, calibrated image tracing, constrained wall/door editing, junctions, pan/zoom and numeric controls |
+| Numerical models | Separate sound and RF kernels, height-aware crossings, exact probe estimates and signed loss explanations |
+| Interaction | Cancellable worker fields, adaptive drag previews, undo/redo and compatible baseline comparisons |
+| Local workspace | IndexedDB projects, versioned JSON import/export, named experiments and optional offline app downloads |
+| Measurement tools | RSSI survey import and residual metrics; experimental phone audio capture and scan inspection |
 
-[Placement explorer](docs/PLACEMENT_EXPLORER.md) compares sampled source positions at selected probes, applies a chosen move with undo, and summarizes current RF coverage against a custom threshold.
+[Portfolio case study](docs/CASE_STUDY.md) · [Architecture](docs/ARCHITECTURE.md) · [Current implementation status](docs/IMPLEMENTATION_STATUS.md)
 
-[Materials and bands](docs/MATERIAL_AND_BAND_EDITOR.md) edits shared acoustic/RF profiles with provenance, notes and undo. Frequency choices require complete authored coefficients across referenced assemblies.
+## Echo Lab: a separate research experiment
 
-[Measurement surveys](docs/MEASUREMENT_SURVEY.md) import raw RSSI with receiver/source context, compare exact predictions and residuals, and report excluded points, bias, MAE and RMSE.
+The **virtual scan** fits an axis-aligned rectangle from simulated, unlabeled first-order arrivals at known positions. The **phone satellite** records sweeps for explicit peak review using an optional local relay. The static demo does not need a phone or microphone.
 
-The optional [offline workspace](docs/OFFLINE_WORKSPACE.md) downloads a verified app copy from **Homes**, preserves local projects through offline reloads, and stages updates for an explicit save and reload.
+![Echo Lab synthetic reconstruction with known positions and a simulated rectangular fixture](docs/images/echo-lab.png)
+
+Real Android recordings have exercised acquisition and transfer. A five-probe batch reported complete observed input, while a first-probe timing shift remains unexplained. **No physical wall identification or room-reconstruction accuracy has been established.** Synthetic fit error is not a physical accuracy result.
+
+[Preliminary research report](docs/RESEARCH_PREVIEW.md) · [Experiment evidence and next gates](docs/ECHO_EXPERIMENT_PLAN.md) · [Phone setup](docs/PHONE_SATELLITE.md)
+
+## Evidence and verification
+
+The repository separates analytical checks, software integration checks and physical experiments. The recorded browser benchmark measured **32.2 ms p95 from worker request to Canvas draw** for a 2,240-cell acoustic fixture on an M4 Pro. That historical run excludes input handling and display presentation; it is not a phone or general performance guarantee. [Scope, raw data and reproduction](docs/PERFORMANCE_EVIDENCE.md)
+
+```sh
+bun run test                 # Vitest: numerical packages and composables
+bun run test:satellite       # Relay, owner API and Android helper checks
+bun run test:tooling         # Capture workflow commands
+bun run test:repository      # Repository verification regressions
+bun run verify:repository    # Public-file hygiene and local Markdown targets
+bun run typecheck            # Run before build; both generate Nuxt state
+bun run verify:fixtures      # Independent algebra and portable-project checks
+bun run build
+bun run verify:static-security
+bun run verify:offline
+bunx playwright install chromium
+bun run test:echo            # Fresh test server; one browser worker
+```
+
+For the full browser suite after building, run `bun run test:e2e -- --workers=1`. CI also defines Firefox and WebKit jobs. See [verification evidence](reports/PORTFOLIO_VERIFICATION.md) for the checks actually performed and their limits.
+
+## Repository guide
+
+```text
+apps/web/       Nuxt interface, rendering adapters, workers and browser tests
+packages/       Pure TypeScript geometry, models, formats and analysis
+scripts/        Static build checks, benchmarks and optional capture tools
+docs/          Case study, model boundaries, workflows and research plan
+reports/        Scoped benchmarks and software verification evidence
+```
+
+Projects and computation stay in the browser. The optional phone relay receives only captures explicitly sent to it; its private owner API binds to loopback. Keep real recordings, floor plans, keys and private reports outside Git. [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Documentation index](docs/README.md)
+
+## License
+
+Original project code and documentation are available under the [MIT License](LICENSE). Dependencies retain their own licenses; see [third-party notices](THIRD_PARTY_NOTICES.md) and the [asset inventory](docs/ASSET_AND_DEPENDENCY_INVENTORY.md).

@@ -34,7 +34,22 @@ import { useSurvey } from './composables/useSurvey'
 import OfflineWorkspace from './components/OfflineWorkspace.vue'
 import { useOfflineWorkspace } from './composables/useOfflineWorkspace'
 
-useHead({ title: 'Cha Waves | Home field study', htmlAttrs: { lang: 'en' } })
+const EchoLab = defineAsyncComponent(() => import('./components/EchoLab.vue'))
+const PhoneSatellite = defineAsyncComponent(() => import('./components/PhoneSatellite.vue'))
+const phoneMode = ref(false)
+const phoneToken = ref('')
+const phoneTransport = ref<'wireless' | 'usb'>('wireless')
+const echoDialog = ref<HTMLDialogElement | null>(null)
+const echoOpen = ref(false)
+function openEchoLab(event: Event) { echoOpen.value = true; openWorkspaceDialog(echoDialog.value, event) }
+function closeEchoLab() { echoOpen.value = false; closeWorkspaceDialog() }
+function leavePhone() { window.location.assign('/') }
+
+useHead({
+  title: 'Cha Waves | An interactive propagation laboratory',
+  htmlAttrs: { lang: 'en' },
+  meta: [{ name: 'description', content: 'Explore simplified sound and Wi-Fi models in an editable floor plan. Local computation, explainable readings, baseline comparisons and experimental acoustic capture.' }],
+})
 
 type Point = [number, number]
 type EmitterItem = Scene['emitters'][number]
@@ -995,6 +1010,13 @@ function toggleSplitComparison() {
 
 let resizeObserver: ResizeObserver | null = null
 onMounted(() => {
+  if (new URLSearchParams(window.location.search).get('satellite') === '1') {
+    phoneMode.value = true
+    phoneTransport.value = new URLSearchParams(window.location.search).get('transport') === 'usb' ? 'usb' : 'wireless'
+    const candidate = window.location.hash.slice(1)
+    phoneToken.value = /^[A-Za-z0-9_-]{32,128}$/.test(candidate) ? candidate : ''
+    return
+  }
   appMounted.value = true
   try {
     createFieldWorker()
@@ -1041,7 +1063,8 @@ watch(splitComparison, active => { if (active) blurPlan(); else redrawPlan() })
 </script>
 
 <template>
-  <main class="app-shell">
+  <PhoneSatellite v-if="phoneMode" :token="phoneToken" :transport="phoneTransport" @leave="leavePhone" />
+  <main v-else class="app-shell">
     <a class="skip-link" href="#plan-canvas" @click.prevent="focusPlanForKeyboard">Skip to interactive plan</a>
     <input ref="fileInput" id="project-import" data-testid="project-import" class="visually-hidden" type="file" accept="application/json,.json" @change="importProjectFile"><label class="visually-hidden" for="project-import">Import a project JSON file</label>
     <header class="topbar">
@@ -1054,6 +1077,7 @@ watch(splitComparison, active => { if (active) blurPlan(); else redrawPlan() })
       </div>
       <div class="project-actions"><button class="export-button" data-testid="new-home" :disabled="projectStatus === 'loading' || workspaceBusy" @click="openWorkspaceDialog(homeDialog, $event)">New home</button><button class="export-button" data-testid="saved-homes" @click="openLibrary">Homes</button><button class="export-button" data-testid="experiment-library-open" :disabled="experimentsDisabled" @click="openExperiments">Experiments</button><button class="export-button guide-button" data-testid="scenario-open" aria-label="Guided home study" ref="guidedTrigger" @click="openDialog(guidedDialog, $event.currentTarget as HTMLButtonElement)">Explore</button><button class="export-button" aria-label="Import a project JSON file" :disabled="workspaceBusy" @click="fileInput?.click()">Import</button><button data-testid="project-export" class="export-button" :disabled="projectStatus === 'loading' || !!drag || !!previewScene" @click="exportProjectFile">Export <span>↗</span></button><button class="export-button method-button" aria-label="Method" ref="methodTrigger" @click="openDialog(methodDialog, $event.currentTarget as HTMLButtonElement)">Method</button></div>
     </header>
+    <div class="echo-entry"><button data-testid="echo-open" @click="openEchoLab"><span>RESEARCH PREVIEW</span><strong>Echo Lab</strong><span>Simulated reconstruction · experimental phone capture ↗</span></button></div>
     <section class="workspace" :inert="projectStatus === 'loading'">
       <aside class="tool-rail">
         <div class="domain-switch" role="group" aria-label="Field type">
@@ -1134,6 +1158,7 @@ watch(splitComparison, active => { if (active) blurPlan(); else redrawPlan() })
     <dialog ref="libraryDialog" class="workspace-dialog home-library" aria-labelledby="homes-title" @close="closeWorkspaceDialog"><button class="export-button" autofocus @click="libraryDialog?.close()">Close</button><span class="section-label">ON THIS DEVICE</span><h2 id="homes-title">Your homes</h2><p>Projects stay in this browser. Export a JSON backup to keep a portable copy.</p><label>Project name<input v-model="projectName" :disabled="workspaceBusy" maxlength="256" aria-label="Project name"></label><p v-if="libraryError" role="alert">{{ libraryError }}</p><button v-for="home in savedHomes" :key="home.id" class="saved-home" :disabled="workspaceBusy" @click="openSavedHome(home.id)"><strong>{{ home.id === projectDoc?.metadata.id ? projectName.trim() || 'Untitled home' : home.name }}</strong><span>{{ new Date(home.updatedAt).toLocaleString() }}</span></button><p v-if="!savedHomes.length && !libraryError">No saved homes yet.</p><OfflineWorkspace :state="offlineState" :disabled="experimentsDisabled || offlineState.busy" :action-error="offlineActionError" @enable="offlineWorkspace.enable" @check="offlineWorkspace.checkForUpdate" @update="reloadOfflineUpdate" @disable="offlineWorkspace.disable" @persist="offlineWorkspace.requestPersistence" /></dialog>
     <dialog ref="methodDialog" class="method-panel" aria-labelledby="method-dialog-title" @close="restoreDialogFocus('method')"><button class="close-method" aria-label="Close method notes" autofocus @click="closeMethodDialog">×</button><span class="section-label">MODEL NOTES</span><h2 id="method-dialog-title">Model notes</h2><p class="method-intro">Cha Waves computes a direct-path field from the scene geometry. It is designed for comparing changes in this apartment, not for certified room or network planning.</p><div class="method-row"><b>Sound</b><p>Distance loss from a point source with configured transmission through crossed assemblies. Relative direct level in dB; reflections and diffraction are not modeled.</p></div><div class="method-row"><b>Wi-Fi</b><p>Free-space path loss with configured wall losses at the selected band. Received power in dBm; multipath, antenna patterns, and throughput are not modeled.</p></div><div class="method-row"><b>Geometry</b><p>Walls and doors shape the computation. Furnishings and room labels are visual guides only. Move the source or probe and the field is recomputed locally in your browser.</p></div><div class="method-note">Computed locally · No data leaves this tab</div></dialog>
     <dialog ref="guidedDialog" class="guided-panel" aria-labelledby="guided-dialog-title" @close="restoreDialogFocus('guided')"><div class="guided-heading"><div><span class="section-label">GUIDED HOME STUDY</span><h2 id="guided-dialog-title">Test one change at a time.</h2></div><button class="close-method" aria-label="Close guided home study" autofocus @click="closeGuidedDialog">×</button></div><p class="method-intro">Start from an authored home example, read the exact direct-path estimate, then apply one controlled change. The example is saved as one undoable scene change.</p><label class="scenario-picker-label" for="scenario-select">Choose an example</label><select id="scenario-select" data-testid="scenario-select" :value="selectedScenario?.id" @change="chooseScenario(($event.target as HTMLSelectElement).value)"><option v-for="scenario in HOME_SCENARIOS" :key="scenario.id" :value="scenario.id">{{ scenario.title }}</option></select><section v-if="selectedScenario" class="scenario-card"><h3>{{ selectedScenario.title }}</h3><p>{{ selectedScenario.description }}</p><div class="scenario-baseline"><span>Authored baseline at {{ selectedScenario.scene.probes[0]?.name ?? 'probe' }}</span><strong>{{ readingText(scenarioBaselineReading, selectedScenario.settings) }}</strong></div><button data-testid="scenario-load" class="scenario-action" @click="loadGuidedBaseline">Load baseline example</button><label class="scenario-picker-label" for="intervention-select">Select a guided change</label><select id="intervention-select" :value="guidedInterventionId" @change="guidedInterventionId = ($event.target as HTMLSelectElement).value"><option v-for="item in selectedScenario.interventions" :key="item.id" :value="item.id">{{ item.title }}</option></select><p v-if="guidedPreviewIntervention" class="scenario-instruction">{{ guidedPreviewIntervention.instruction }}</p><div class="scenario-candidate" v-if="guidedPreviewIntervention"><span>Exact estimate after this change</span><strong>{{ readingText(guidedPreviewReading, guidedPreviewIntervention.settings) }}</strong><small>Change from authored baseline: {{ readingDelta(scenarioBaselineReading, guidedPreviewReading, selectedScenario.settings) }}</small></div><button data-testid="scenario-apply" class="scenario-action primary" :disabled="!guidedPreviewIntervention" @click="applyGuidedIntervention">Apply guided change</button><div v-if="loadedInterventionId" data-testid="scenario-result" class="scenario-result" role="status"><strong>Current exact reading at authored probe: {{ readingText(scenarioCurrentReading, settings) }}</strong><span>{{ selectedIntervention?.title }} · {{ scenarioCurrentDelta }} from authored baseline</span><small>Recomputed with evaluatePoint at the authored probe location. A delta appears only when the current field mode and probe position match the authored comparison.</small></div></section></dialog>
+    <dialog ref="echoDialog" data-testid="echo-dialog" class="workspace-dialog echo-dialog" aria-labelledby="echo-lab-title" @close="closeEchoLab"><EchoLab v-if="echoOpen" @close="echoDialog?.close()" /></dialog>
   </main>
 </template>
 
@@ -1243,4 +1268,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,su
 .plan-navigation-overlay{position:absolute;top:12px;left:12px;max-width:calc(100% - 24px);z-index:2}
 .canvas-wrap.pan-ready .plan-canvas{cursor:grab}.canvas-wrap.panning .plan-canvas{cursor:grabbing}
 @media(max-width:520px){.project-actions .export-button{flex:1 0 auto;padding:0 6px;font-size:10px}}
+</style>
+
+<style>
+.echo-entry{border-bottom:1px solid #d6ddcb;background:#e9eddf;padding:0 22px}.echo-entry button{display:flex;align-items:center;justify-content:center;gap:15px;width:100%;min-height:39px;border:0;background:transparent;color:#536e4d;cursor:pointer;text-align:left}.echo-entry button>span:first-child{font:8px ui-monospace,monospace;letter-spacing:1.2px;color:#874c29}.echo-entry strong{font:400 17px Georgia,serif;color:#2c4d35}.echo-entry button>span:last-child{font-size:10px}.echo-entry button:hover strong{text-decoration:underline;text-underline-offset:3px}.echo-dialog{width:min(1120px,96vw);padding:0;border-radius:8px}@media(max-width:520px){.echo-entry{padding:0 12px}.echo-entry button{justify-content:flex-start;gap:10px;min-height:44px}.echo-entry button>span:last-child{font-size:9px;line-height:1.4}.echo-entry button>span:first-child{display:none}.echo-entry strong{white-space:nowrap}.echo-dialog{max-height:96dvh}}
 </style>

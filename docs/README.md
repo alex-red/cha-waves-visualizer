@@ -1,6 +1,6 @@
-# Cha Waves Visualizer — project plan
+# Cha Waves documentation
 
-Planning baseline: **October 14, 2026**. Status: planning baseline complete; the initial application slice is implemented. See [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for verified capabilities and outstanding gates.
+Start with the [portfolio case study](CASE_STUDY.md), [preliminary acoustic research report](RESEARCH_PREVIEW.md), [current verification](../reports/PORTFOLIO_VERIFICATION.md) and [implementation status](IMPLEMENTATION_STATUS.md). The detailed planning baseline below dates to **October 14, 2026**; its targets are not automatically achieved capabilities.
 
 **See your home in waves.** A beautiful, local-first browser laboratory where moving a speaker, closing a door, or relocating a Wi-Fi access point produces an explainable change in a shared architectural model.
 
@@ -8,6 +8,17 @@ Start with [PROJECT_PLAN.md](PROJECT_PLAN.md), then [DESIGN_SYSTEM.md](DESIGN_SY
 
 | Document | Purpose |
 |---|---|
+| [CASE_STUDY.md](CASE_STUDY.md) | Product interaction, engineering decisions, evidence and limits |
+| [RESEARCH_PREVIEW.md](RESEARCH_PREVIEW.md) | Preliminary acoustic report, related work and uncompleted physical gates |
+| [../reports/PORTFOLIO_VERIFICATION.md](../reports/PORTFOLIO_VERIFICATION.md) | Current publication-preparation checks and their scope |
+| [ECHO_EXPERIMENT_PLAN.md](ECHO_EXPERIMENT_PLAN.md) | Current acoustic evidence, acquisition milestone and single-wall validation gates |
+| [ECHO_SINGLE_WALL.md](ECHO_SINGLE_WALL.md) | Staged measured-wall protocol, fixed controls, reference rules and stopping conditions |
+| [ECHO_WORKFLOW.md](ECHO_WORKFLOW.md) | Reproducible offline reports, read-only endpoint checks, focused tests and safe live-build refresh |
+| [ECHO_LOCAL_API.md](ECHO_LOCAL_API.md) | Private relay archives and authenticated local scan retrieval with exact-byte hashes |
+| [ECHO_LAB.md](ECHO_LAB.md) | Experimental echo reconstruction, acquisition review, peak selection and scan export |
+| [ECHO_SCAN_FORMAT.md](ECHO_SCAN_FORMAT.md) | Version 3 portable Echo Lab scans, acquisition metadata and v1/v2 migration |
+| [ECHO_ACQUISITION.md](ECHO_ACQUISITION.md) | Requested/applied microphone settings, software timing and input-continuity evidence |
+| [PHONE_SATELLITE.md](PHONE_SATELLITE.md) | QR pairing, Tailscale or LAN HTTPS, Android USB, and phone recording workflow |
 | [PERFORMANCE_EVIDENCE.md](PERFORMANCE_EVIDENCE.md) | Engine, worker and startup timing scopes and reproduction |
 | [SCENE_CONTROLS.md](SCENE_CONTROLS.md) | Individual door actions, source/probe heights and receiver-plane conventions |
 | [LOSS_BREAKDOWN.md](LOSS_BREAKDOWN.md) | Signed point-estimate budgets, assembly/ray-hit highlighting and reconstruction tolerance |
@@ -41,10 +52,10 @@ Start with [PROJECT_PLAN.md](PROJECT_PLAN.md), then [DESIGN_SYSTEM.md](DESIGN_SY
 
 ## How this plan governs future work
 
-The user requested planning and documentation. The source handoff is a proposal to review, not an instruction to execute its embedded implementation prompt. Its normative language and kickoff block do not automatically authorize implementation, publication, advisor outreach, or account creation.
+The source handoff is retained as the historical proposal. Its normative language and kickoff block do not automatically authorize new work or external actions. Current user instructions and [AGENTS.md](../AGENTS.md) govern implementation; use the status and verification documents to distinguish delivered behavior from proposals.
 
 For future implementation, this plan supplies the adopted project baseline; the original remains background reference. Resolve conflicts using the explicit decisions here, especially the P0 wall-editing boundary, renderer fallback, and amended result identity. Dates, versions, and performance targets are planning observations, not application accomplishments. Recheck dependency releases before installation; record exact resolved versions in the lockfile and a compatibility report.
 
-No external service, account, AI provider, remote computation, or GPU is required for the first experience. Original-code open sourcing is proposed; license and public launch remain future decisions.
+No external service, account, AI provider, remote computation, or GPU is required for the first experience. Original code and documentation are [MIT licensed](../LICENSE). Public hosting and repository visibility are separate publication steps.
 
 [Multi-probe readings](PROBE_READINGS.md) describes exact summaries, naming, baseline comparisons and CSV export.
