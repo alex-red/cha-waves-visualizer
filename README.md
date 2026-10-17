@@ -4,7 +4,7 @@
 
 A local-first browser laboratory for exploring sound and Wi-Fi propagation in an editable floor plan. Built with Nuxt, Vue, TypeScript, Web Workers and Three.js.
 
-[![CI](https://github.com/ban-red/cha-waves-visualizer/actions/workflows/ci.yml/badge.svg)](https://github.com/ban-red/cha-waves-visualizer/actions/workflows/ci.yml)
+[![CI](https://github.com/alex-red/cha-waves-visualizer/actions/workflows/ci.yml/badge.svg)](https://github.com/alex-red/cha-waves-visualizer/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-315c50.svg)](LICENSE)
 
 ![Cha Waves plan view with a modeled sound field, editable geometry and an exact probe reading](docs/images/workspace.png)
