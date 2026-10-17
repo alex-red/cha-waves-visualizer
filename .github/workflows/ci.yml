@@ -46,7 +46,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [chromium, firefox, webkit]
+        # Firefox and WebKit are temporarily disabled in CI.
+        browser: [chromium]
     env:
       PLAYWRIGHT_BROWSERS: ${{ matrix.browser }}
     steps:

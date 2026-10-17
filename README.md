@@ -93,7 +93,7 @@ bunx playwright install chromium
 bun run test:echo            # Fresh test server; one browser worker
 ```
 
-For the full browser suite after building, run `bun run test:e2e -- --workers=1`. CI also defines Firefox and WebKit jobs. See [verification evidence](reports/PORTFOLIO_VERIFICATION.md) for the checks actually performed and their limits.
+For the full browser suite after building, run `bun run test:e2e -- --workers=1`. CI currently runs Chromium only; Firefox and WebKit are temporarily disabled in CI but remain available locally through `PLAYWRIGHT_BROWSERS`. See [verification evidence](reports/PORTFOLIO_VERIFICATION.md) for the checks actually performed and their limits.
 
 ## Repository guide
 

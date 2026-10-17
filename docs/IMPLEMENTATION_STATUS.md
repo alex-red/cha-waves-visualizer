@@ -135,7 +135,7 @@ bun run benchmark:browser # Worker-to-Canvas timing; run bun run preview first
 bun run benchmark:startup # Fresh-context navigation-to-first-draw timing; preview required
 ```
 
-CI is configured for checks, static generation, and independent Chromium, Firefox, and WebKit integration jobs. It has not yet been run remotely. Fixture verification runs in CI. Benchmark scripts run separately so parallel tests do not distort the measurements.
+CI is configured for checks, static generation and Chromium integration. Firefox and WebKit jobs are temporarily disabled following reported CI failures; both remain opt-in local Playwright targets. This workflow change was validated locally; its remote CI outcome is not yet verified. Fixture verification runs in CI. Benchmark scripts run separately so parallel tests do not distort the measurements.
 
 ## Verification evidence
 
