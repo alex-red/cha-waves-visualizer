@@ -6,11 +6,19 @@ Status date: **October 17, 2026**. This records the current implementation again
 
 The first software increment under SPATIAL-02 implements a strict [spatial bundle v1](SPATIAL_BUNDLE.md), pure rigid transforms, deterministic report generation and `bun run spatial:inspect`. Manifests bind original Echo scan bytes by SHA256 to stable recorded capture IDs or hash-scoped synthetic indices, declared frames/clocks and separate speaker/microphone poses. Unknown registration stays unavailable; legacy plan coordinates and manual batch metadata do not become calibrated 3D poses. Bounded local reads reject escaping source paths, non-regular files, malformed UTF-8 and mismatched hashes. Reports contain no PCM, file paths or machine timestamps. Existing scan/project formats and the live capture workflow are unchanged.
 
-The public three-capture synthetic example replays identity and rotated/translated frames and retains an unknown frame. This is software registration evidence, not physical wall identification or geometry recovery. The next software increment is a synthetic one-plane 3D reference/evaluator; the next physical gate remains ECHO-04/05.
+The public three-capture synthetic example replays identity and rotated/translated frames and retains an unknown frame. This is software registration evidence, not physical wall identification or geometry recovery. The subsequent synthetic plane reference is recorded below; the next physical gate remains ECHO-04/05.
 
 Verification: all 363 Vitest checks passed, including 25 new spatial contract/transform/report/CLI checks. Full typecheck and repository link/hygiene checks passed. The documented example ran through the package command; its exact source and manifest hashes are covered by replay regressions, including unchanged input bytes. No browser build, live relay restart or physical recording was needed for this CLI-only increment.
 
 A follow-up transform regression found that quaternion roundoff accepted by the norm tolerance could produce metre-scale error at the coordinate limit. Operations now normalize accepted copies after validation; outside-tolerance inputs still fail. All five focused transform tests pass, including the large-coordinate inverse round trip and immutability checks.
+
+## Synthetic 3D plane reference — October 17, 2026
+
+The [single-plane reference](SPATIAL_PLANE_REFERENCE.md) adds a pure image-source predictor, fixed-source plane fitter, separate held-out evaluator and `bun run spatial:plane-demo`. Known microphone positions must have sufficient 3D diversity; the fitter rejects source motion, degenerate geometry, ill-conditioned pose coverage and inconsistent arrivals. Missing and multiple-candidate attempts remain in order without fit-based peak selection. Only accepted fits expose plane geometry. The evaluator rejects training/held-out ID overlap and preserves unavailable or unsupported comparisons rather than reporting zero error.
+
+Three frozen synthetic cases cover a tilted wall, floor and ceiling, each with six eligible training observations, one missing and one ambiguous attempt, and three held-out positions. Training, held-out and truth inputs are hashed separately; only training observations enter the estimator. Frozen delay literals reproduce identical training hashes in Bun and Node. All three demonstration cases fit and predict their held-out synthetic delays within floating-point roundoff. These results validate numerical behavior under the matched infinite-plane model; they do not validate a physical reflector, moving-phone reconstruction or general room geometry. The next software increment is the research inspection workspace; ECHO-04/05 remains the next physical gate.
+
+Verification: all 382 Vitest tests passed, including 18 plane-model/evaluation/demo checks and the quaternion-roundoff regression. Full typecheck and repository link/hygiene checks passed. Both documented spatial commands ran successfully. No browser build, live service change or new physical capture was part of these numerical/CLI increments.
 
 ## Research direction update — October 17, 2026
 

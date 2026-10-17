@@ -27,6 +27,7 @@
     "echo:inspect": "bun scripts/echo-inspect.ts",
     "echo:pull": "node scripts/echo-pull.mjs",
     "spatial:inspect": "bun scripts/spatial-inspect.ts",
+    "spatial:plane-demo": "bun scripts/spatial-plane-demo.ts",
     "test:satellite": "node --test scripts/satellite-server.test.mjs scripts/satellite-android.test.mjs scripts/lib/local-scan-api.test.mjs",
     "test:tooling": "node --test scripts/satellite-doctor.test.mjs scripts/test-echo.test.mjs scripts/echo-pull.test.mjs",
     "test:repository": "node --test scripts/verify-repository.test.mjs",
