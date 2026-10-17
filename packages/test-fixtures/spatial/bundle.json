@@ -1,0 +1,191 @@
+{
+  "format": "cha-spatial-bundle-v1",
+  "id": "synthetic-room-replay",
+  "worldFrame": {
+    "id": "world",
+    "units": "m",
+    "axes": "right-handed-z-up"
+  },
+  "frames": [
+    {
+      "id": "phone-local",
+      "toWorld": {
+        "status": "known",
+        "transform": {
+          "translationM": [
+            2,
+            0,
+            0
+          ],
+          "rotationXyzw": [
+            0,
+            0,
+            0.7071067811865476,
+            0.7071067811865476
+          ]
+        },
+        "method": "synthetic"
+      }
+    },
+    {
+      "id": "unregistered-phone",
+      "toWorld": {
+        "status": "unknown",
+        "reason": "Synthetic example leaves this local frame unregistered."
+      }
+    }
+  ],
+  "clocks": [
+    {
+      "id": "synthetic-clock",
+      "units": "ms"
+    }
+  ],
+  "sources": [
+    {
+      "id": "synthetic-room",
+      "path": "echo-synthetic.json",
+      "sha256": "23d118e0808c57c324531c67ffa622dadccd72993afed6d64c2322a16df4a768"
+    }
+  ],
+  "observations": [
+    {
+      "id": "world-observation",
+      "sourceId": "synthetic-room",
+      "captureRef": {
+        "kind": "synthetic",
+        "index": 0
+      },
+      "time": {
+        "status": "known",
+        "clockId": "synthetic-clock",
+        "timeMs": 0,
+        "method": "synthetic"
+      },
+      "speakerPose": {
+        "status": "known",
+        "frameId": "world",
+        "positionM": [
+          1,
+          1,
+          1.2
+        ],
+        "orientationXyzw": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "method": "synthetic"
+      },
+      "microphonePose": {
+        "status": "known",
+        "frameId": "world",
+        "positionM": [
+          1,
+          1,
+          1.2
+        ],
+        "orientationXyzw": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "method": "synthetic"
+      }
+    },
+    {
+      "id": "rotated-frame-observation",
+      "sourceId": "synthetic-room",
+      "captureRef": {
+        "kind": "synthetic",
+        "index": 1
+      },
+      "time": {
+        "status": "known",
+        "clockId": "synthetic-clock",
+        "timeMs": 1,
+        "method": "synthetic"
+      },
+      "speakerPose": {
+        "status": "known",
+        "frameId": "phone-local",
+        "positionM": [
+          1,
+          0,
+          1.2
+        ],
+        "orientationXyzw": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "method": "synthetic"
+      },
+      "microphonePose": {
+        "status": "known",
+        "frameId": "phone-local",
+        "positionM": [
+          1,
+          0,
+          1.2
+        ],
+        "orientationXyzw": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "method": "synthetic"
+      }
+    },
+    {
+      "id": "unknown-frame-observation",
+      "sourceId": "synthetic-room",
+      "captureRef": {
+        "kind": "synthetic",
+        "index": 2
+      },
+      "time": {
+        "status": "known",
+        "clockId": "synthetic-clock",
+        "timeMs": 2,
+        "method": "synthetic"
+      },
+      "speakerPose": {
+        "status": "known",
+        "frameId": "unregistered-phone",
+        "positionM": [
+          1,
+          2,
+          1.2
+        ],
+        "orientationXyzw": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "method": "synthetic"
+      },
+      "microphonePose": {
+        "status": "known",
+        "frameId": "unregistered-phone",
+        "positionM": [
+          1,
+          2,
+          1.2
+        ],
+        "orientationXyzw": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "method": "synthetic"
+      }
+    }
+  ]
+}

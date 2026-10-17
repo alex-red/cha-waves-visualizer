@@ -2,6 +2,8 @@
 
 Use the [experiment plan](ECHO_EXPERIMENT_PLAN.md) for the current hypothesis and acceptance gates. This guide covers the shortest reliable path from an exported scan to a reviewable result. Real audio remains local and outside version control.
 
+For scans explicitly linked to supplied 3D poses, the separate [spatial bundle workflow](SPATIAL_BUNDLE.md) validates hashes and replays declared frame registration with `spatial:inspect`. It preserves missing calibration and does not replace `echo:inspect`'s signal/timing analysis or establish a wall identity. Existing Echo exports need no format change.
+
 ## 1. Inspect an existing scan first
 
 When the [local owner API](ECHO_LOCAL_API.md) is enabled, run `bun run echo:pull` to list archives, then retrieve an explicit scan ID into a new local file. Accepted phone PCM and batches are archived automatically; desktop review edits still require a browser export. Otherwise export scan JSON before closing Echo Lab or restarting its relay. Retain the original file; the inspection command does not modify it, infer wall labels or upload data.

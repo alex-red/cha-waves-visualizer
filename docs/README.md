@@ -9,6 +9,7 @@ Use [PROJECT_PLAN.md](PROJECT_PLAN.md) and [IMPLEMENTATION_ROADMAP.md](IMPLEMENT
 | Document | Purpose |
 |---|---|
 | [SPATIAL_RESEARCH_PLAN.md](SPATIAL_RESEARCH_PLAN.md) | Long-term wave-based 3D mapping, repository gap analysis, sensor fusion, Gaussian splats, AI completion and staged evidence gates |
+| [SPATIAL_BUNDLE.md](SPATIAL_BUNDLE.md) | Implemented spatial observation/registration bundle, deterministic local replay CLI and synthetic example |
 | [CASE_STUDY.md](CASE_STUDY.md) | Product interaction, engineering decisions, evidence and limits |
 | [RESEARCH_PREVIEW.md](RESEARCH_PREVIEW.md) | Preliminary acoustic report, related work and uncompleted physical gates |
 | [../reports/PORTFOLIO_VERIFICATION.md](../reports/PORTFOLIO_VERIFICATION.md) | Current publication-preparation checks and their scope |

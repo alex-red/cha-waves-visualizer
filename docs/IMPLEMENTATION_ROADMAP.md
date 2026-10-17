@@ -14,7 +14,7 @@ The CW backlog below remains the educational visualizer's release plan. Further 
 
 ### Next reviewable increments
 
-Start with a minimal spatial observation/pose bundle **and its offline replay CLI in the same change set**. Follow with a synthetic one-plane 3D reference/evaluator, a research inspection workspace, then a registered visual/splat baseline. The [implementation sequence](SPATIAL_RESEARCH_PLAN.md#next-implementation-increments) gives bounded scopes, proposed file ownership, tests and explicit exclusions for each increment. Preserve the existing scan/project contracts and add small pure modules in the current layout.
+The [minimal spatial observation/pose bundle and offline replay CLI](SPATIAL_BUNDLE.md) are implemented together as the first SPATIAL-02 software slice. Next is a synthetic one-plane 3D reference/evaluator, then a research inspection workspace and a registered visual/splat baseline. The [implementation sequence](SPATIAL_RESEARCH_PLAN.md#next-implementation-increments) gives bounded scopes, file ownership, tests and explicit exclusions. Existing scan/project contracts are preserved; new pure modules use the current layout.
 
 The known-wall physical test remains an independent next action; it does not wait for these modules or a viewer. General room fitting and physical fusion claims remain gated by its evidence. AI completion follows an inspectable observed reconstruction and supported structural constraints; research progress must report the acoustic contribution separately from visual quality.
 

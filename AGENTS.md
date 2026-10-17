@@ -4,6 +4,8 @@ The long-term goal is research into using waves to map 3D visual space, augmente
 
 The active acoustic research sequence is [ECHO_EXPERIMENT_PLAN.md](docs/ECHO_EXPERIMENT_PLAN.md); reproducible commands and session handling are in [ECHO_WORKFLOW.md](docs/ECHO_WORKFLOW.md). The home field visualizer and the acoustic capture experiment are separate tracks. Prioritize research work that closes a spatial-plan evidence gap; preserve distinct observed, estimated and generated content. The next physical gate remains ECHO-04/05; offline registration/visual research can proceed independently without claiming acoustic success.
 
+Spatial bundle v1 and `bun run spatial:inspect` provide offline replay of hash-linked scans and explicitly supplied 3D registration. Read [SPATIAL_BUNDLE.md](docs/SPATIAL_BUNDLE.md) before extending this contract. Unknown poses/clocks remain unknown; replay is not wall identification or 3D geometry recovery. The next software increment is the synthetic one-plane reference/evaluator.
+
 ## Evidence before another physical experiment
 
 - The first phone test exercised capture/transport; it did not validate room mapping. ECHO-02/03 telemetry and repeated series are implemented and one real Android five-probe series has complete observed input. Its first strongest reference is 6 ms earlier than the other four, which is not a verified wall-timing result. The next gate is repeated identification of one known wall. See ECHO-02 through ECHO-05.

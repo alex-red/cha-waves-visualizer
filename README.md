@@ -54,8 +54,11 @@ Open [localhost:4173](http://localhost:4173). There is no public hosted demo con
 | Interaction | Cancellable worker fields, adaptive drag previews, undo/redo and compatible baseline comparisons |
 | Local workspace | IndexedDB projects, versioned JSON import/export, named experiments and optional offline app downloads |
 | Measurement tools | RSSI survey import and residual metrics; experimental phone audio capture and scan inspection |
+| Spatial research | Hash-linked observation bundles, supplied 3D frame/pose replay and explicit unknown registration through a local inspection CLI |
 
 [Portfolio case study](docs/CASE_STUDY.md) · [Architecture](docs/ARCHITECTURE.md) · [Current implementation status](docs/IMPLEMENTATION_STATUS.md)
+
+Try the [synthetic spatial replay](docs/SPATIAL_BUNDLE.md) with `bun run spatial:inspect -- --input packages/test-fixtures/spatial/bundle.json --format markdown`. This registers supplied poses and preserves unknown calibration; it does not recover physical geometry.
 
 ## Echo Lab: a separate research experiment
 

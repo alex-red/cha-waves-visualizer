@@ -82,7 +82,7 @@ The [spatial research plan](SPATIAL_RESEARCH_PLAN.md) adds an inverse-mapping di
 | `scripts/echo-inspect.ts`, `scripts/lib/echo-report.ts` | Bounded local inspection with hashes, timing candidates and integrity evidence |
 | `scripts/echo-pull.mjs`, `scripts/lib/local-scan-api.mjs` | Explicit authenticated retrieval of exact private scan bytes |
 
-Next architecture work is proposed, not delivered:
+The first inverse-research boundary is implemented in `packages/spatial-bundle.ts`, `spatial-registration.ts`, `spatial-report.ts` and `scripts/spatial-inspect.ts`. It validates hash-linked observations and replays supplied registration; it does not recover geometry or synchronize clocks. The [bundle contract and synthetic example](SPATIAL_BUNDLE.md) describe its current scope. The larger pipeline below remains proposed beyond that replay boundary:
 
 ```mermaid
 flowchart LR
@@ -98,7 +98,7 @@ flowchart LR
   Completion --> Inspect
 ```
 
-The minimal next increment joins a strict bundle contract to an offline replay consumer. Pure contracts, frame operations and reporting belong in small `packages/` modules. CLI adapters own file reads/hashing, browser adapters own lifecycle and presentation, and later reconstruction/model adapters consume validated immutable inputs. Build the first consumer before expanding the schema to unused modalities. See the [increment scopes and acceptance](SPATIAL_RESEARCH_PLAN.md#next-implementation-increments).
+The minimal implemented increment joins a strict bundle contract to an offline replay consumer. Pure contracts, frame operations and reporting live in small `packages/` modules. The CLI owns file reads/hashing. Future browser adapters own lifecycle and presentation, and reconstruction/model adapters consume validated immutable inputs. Extend a working consumer before expanding the schema to unused modalities. See the [increment scopes and acceptance](SPATIAL_RESEARCH_PLAN.md#next-implementation-increments).
 
 Research bundles supplement home project format 3 and Echo scan v3; they do not silently change either. Reference original artifacts by hashes and stable IDs, retain manual pose metadata as manual, and expose missing 3D calibration. A scene with X/Y, a manual height and heading is not automatically a calibrated camera/speaker/microphone trajectory. Structure, observed appearance and generated proposals remain separately inspectable. Moving a generated object must not silently edit the field solver's geometry.
 

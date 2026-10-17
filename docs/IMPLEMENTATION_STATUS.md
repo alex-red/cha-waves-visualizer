@@ -1,6 +1,14 @@
 # Implementation status
 
-Status date: **October 16, 2026**. This records the current implementation against the [roadmap](IMPLEMENTATION_ROADMAP.md). It is not a complete P0 release claim.
+Status date: **October 17, 2026**. This records the current implementation against the [roadmap](IMPLEMENTATION_ROADMAP.md). It is not a complete P0 release claim.
+
+## Spatial bundle and offline replay — October 17, 2026
+
+The first software increment under SPATIAL-02 implements a strict [spatial bundle v1](SPATIAL_BUNDLE.md), pure rigid transforms, deterministic report generation and `bun run spatial:inspect`. Manifests bind original Echo scan bytes by SHA256 to stable recorded capture IDs or hash-scoped synthetic indices, declared frames/clocks and separate speaker/microphone poses. Unknown registration stays unavailable; legacy plan coordinates and manual batch metadata do not become calibrated 3D poses. Bounded local reads reject escaping source paths, non-regular files, malformed UTF-8 and mismatched hashes. Reports contain no PCM, file paths or machine timestamps. Existing scan/project formats and the live capture workflow are unchanged.
+
+The public three-capture synthetic example replays identity and rotated/translated frames and retains an unknown frame. This is software registration evidence, not physical wall identification or geometry recovery. The next software increment is a synthetic one-plane 3D reference/evaluator; the next physical gate remains ECHO-04/05.
+
+Verification: all 363 Vitest checks passed, including 25 new spatial contract/transform/report/CLI checks. Full typecheck and repository link/hygiene checks passed. The documented example ran through the package command; its exact source and manifest hashes are covered by replay regressions, including unchanged input bytes. No browser build, live relay restart or physical recording was needed for this CLI-only increment.
 
 ## Research direction update — October 17, 2026
 
