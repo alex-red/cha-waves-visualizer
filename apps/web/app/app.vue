@@ -35,20 +35,32 @@ import OfflineWorkspace from './components/OfflineWorkspace.vue'
 import { useOfflineWorkspace } from './composables/useOfflineWorkspace'
 
 const EchoLab = defineAsyncComponent(() => import('./components/EchoLab.vue'))
+const ResearchLab = defineAsyncComponent(() => import('./components/ResearchLab.vue'))
 const PhoneSatellite = defineAsyncComponent(() => import('./components/PhoneSatellite.vue'))
 const phoneMode = ref(false)
 const phoneToken = ref('')
 const phoneTransport = ref<'wireless' | 'usb'>('wireless')
 const echoDialog = ref<HTMLDialogElement | null>(null)
 const echoOpen = ref(false)
+const researchDialog = ref<HTMLDialogElement | null>(null)
+const researchOpen = ref(false)
+const researchMounted = ref(false)
+let researchTrigger: HTMLElement | null = null
+function openResearchLab(event: Event) {
+  researchTrigger = event.currentTarget instanceof HTMLElement ? event.currentTarget : null
+  researchMounted.value = true
+  researchOpen.value = true
+  researchDialog.value?.showModal()
+}
+function closeResearchLab() { researchOpen.value = false; researchTrigger?.focus() }
 function openEchoLab(event: Event) { echoOpen.value = true; openWorkspaceDialog(echoDialog.value, event) }
 function closeEchoLab() { echoOpen.value = false; closeWorkspaceDialog() }
 function leavePhone() { window.location.assign('/') }
 
 useHead({
-  title: 'Cha Waves | An interactive propagation laboratory',
+  title: 'Cha Waves | Wave mapping research and field visualizer',
   htmlAttrs: { lang: 'en' },
-  meta: [{ name: 'description', content: 'Explore simplified sound and Wi-Fi models in an editable floor plan. Local computation, explainable readings, baseline comparisons and experimental acoustic capture.' }],
+  meta: [{ name: 'description', content: 'Explore wave mapping research with supplied 3D registration and synthetic reconstruction, alongside a local sound and Wi-Fi field visualizer and experimental acoustic capture.' }],
 })
 
 type Point = [number, number]
@@ -1069,7 +1081,7 @@ watch(splitComparison, active => { if (active) blurPlan(); else redrawPlan() })
     <input ref="fileInput" id="project-import" data-testid="project-import" class="visually-hidden" type="file" accept="application/json,.json" @change="importProjectFile"><label class="visually-hidden" for="project-import">Import a project JSON file</label>
     <header class="topbar">
       <a class="brand" href="#" aria-label="Cha Waves home"><span class="brand-mark">cw</span><span>cha waves</span></a>
-      <div class="project-title"><span class="eyebrow">APARTMENT STUDY</span><strong>{{ projectName }}</strong></div>
+      <div class="project-title"><span class="eyebrow">FIELD VISUALIZER</span><strong>{{ projectName }}</strong></div>
       <div class="history-controls">
         <button class="icon-button" aria-label="Undo" :disabled="projectStatus === 'loading' || !undoStack.length" @click="undo">↶</button>
         <button class="icon-button" aria-label="Redo" :disabled="projectStatus === 'loading' || !redoStack.length" @click="redo">↷</button>
@@ -1077,7 +1089,7 @@ watch(splitComparison, active => { if (active) blurPlan(); else redrawPlan() })
       </div>
       <div class="project-actions"><button class="export-button" data-testid="new-home" :disabled="projectStatus === 'loading' || workspaceBusy" @click="openWorkspaceDialog(homeDialog, $event)">New home</button><button class="export-button" data-testid="saved-homes" @click="openLibrary">Homes</button><button class="export-button" data-testid="experiment-library-open" :disabled="experimentsDisabled" @click="openExperiments">Experiments</button><button class="export-button guide-button" data-testid="scenario-open" aria-label="Guided home study" ref="guidedTrigger" @click="openDialog(guidedDialog, $event.currentTarget as HTMLButtonElement)">Explore</button><button class="export-button" aria-label="Import a project JSON file" :disabled="workspaceBusy" @click="fileInput?.click()">Import</button><button data-testid="project-export" class="export-button" :disabled="projectStatus === 'loading' || !!drag || !!previewScene" @click="exportProjectFile">Export <span>↗</span></button><button class="export-button method-button" aria-label="Method" ref="methodTrigger" @click="openDialog(methodDialog, $event.currentTarget as HTMLButtonElement)">Method</button></div>
     </header>
-    <div class="echo-entry"><button data-testid="echo-open" @click="openEchoLab"><span>RESEARCH PREVIEW</span><strong>Echo Lab</strong><span>Simulated reconstruction · experimental phone capture ↗</span></button></div>
+    <nav class="workspace-entry" aria-label="Research workspaces"><span class="workspace-current">Field visualizer <small>Known geometry → predicted fields</small></span><button data-testid="research-open" @click="openResearchLab"><strong>Research Lab</strong><span>3D references · observation replay ↗</span></button><button data-testid="echo-open" @click="openEchoLab"><strong>Echo Lab</strong><span>Acoustic acquisition & review ↗</span></button></nav>
     <section class="workspace" :inert="projectStatus === 'loading'">
       <aside class="tool-rail">
         <div class="domain-switch" role="group" aria-label="Field type">
@@ -1158,7 +1170,8 @@ watch(splitComparison, active => { if (active) blurPlan(); else redrawPlan() })
     <dialog ref="libraryDialog" class="workspace-dialog home-library" aria-labelledby="homes-title" @close="closeWorkspaceDialog"><button class="export-button" autofocus @click="libraryDialog?.close()">Close</button><span class="section-label">ON THIS DEVICE</span><h2 id="homes-title">Your homes</h2><p>Projects stay in this browser. Export a JSON backup to keep a portable copy.</p><label>Project name<input v-model="projectName" :disabled="workspaceBusy" maxlength="256" aria-label="Project name"></label><p v-if="libraryError" role="alert">{{ libraryError }}</p><button v-for="home in savedHomes" :key="home.id" class="saved-home" :disabled="workspaceBusy" @click="openSavedHome(home.id)"><strong>{{ home.id === projectDoc?.metadata.id ? projectName.trim() || 'Untitled home' : home.name }}</strong><span>{{ new Date(home.updatedAt).toLocaleString() }}</span></button><p v-if="!savedHomes.length && !libraryError">No saved homes yet.</p><OfflineWorkspace :state="offlineState" :disabled="experimentsDisabled || offlineState.busy" :action-error="offlineActionError" @enable="offlineWorkspace.enable" @check="offlineWorkspace.checkForUpdate" @update="reloadOfflineUpdate" @disable="offlineWorkspace.disable" @persist="offlineWorkspace.requestPersistence" /></dialog>
     <dialog ref="methodDialog" class="method-panel" aria-labelledby="method-dialog-title" @close="restoreDialogFocus('method')"><button class="close-method" aria-label="Close method notes" autofocus @click="closeMethodDialog">×</button><span class="section-label">MODEL NOTES</span><h2 id="method-dialog-title">Model notes</h2><p class="method-intro">Cha Waves computes a direct-path field from the scene geometry. It is designed for comparing changes in this apartment, not for certified room or network planning.</p><div class="method-row"><b>Sound</b><p>Distance loss from a point source with configured transmission through crossed assemblies. Relative direct level in dB; reflections and diffraction are not modeled.</p></div><div class="method-row"><b>Wi-Fi</b><p>Free-space path loss with configured wall losses at the selected band. Received power in dBm; multipath, antenna patterns, and throughput are not modeled.</p></div><div class="method-row"><b>Geometry</b><p>Walls and doors shape the computation. Furnishings and room labels are visual guides only. Move the source or probe and the field is recomputed locally in your browser.</p></div><div class="method-note">Computed locally · No data leaves this tab</div></dialog>
     <dialog ref="guidedDialog" class="guided-panel" aria-labelledby="guided-dialog-title" @close="restoreDialogFocus('guided')"><div class="guided-heading"><div><span class="section-label">GUIDED HOME STUDY</span><h2 id="guided-dialog-title">Test one change at a time.</h2></div><button class="close-method" aria-label="Close guided home study" autofocus @click="closeGuidedDialog">×</button></div><p class="method-intro">Start from an authored home example, read the exact direct-path estimate, then apply one controlled change. The example is saved as one undoable scene change.</p><label class="scenario-picker-label" for="scenario-select">Choose an example</label><select id="scenario-select" data-testid="scenario-select" :value="selectedScenario?.id" @change="chooseScenario(($event.target as HTMLSelectElement).value)"><option v-for="scenario in HOME_SCENARIOS" :key="scenario.id" :value="scenario.id">{{ scenario.title }}</option></select><section v-if="selectedScenario" class="scenario-card"><h3>{{ selectedScenario.title }}</h3><p>{{ selectedScenario.description }}</p><div class="scenario-baseline"><span>Authored baseline at {{ selectedScenario.scene.probes[0]?.name ?? 'probe' }}</span><strong>{{ readingText(scenarioBaselineReading, selectedScenario.settings) }}</strong></div><button data-testid="scenario-load" class="scenario-action" @click="loadGuidedBaseline">Load baseline example</button><label class="scenario-picker-label" for="intervention-select">Select a guided change</label><select id="intervention-select" :value="guidedInterventionId" @change="guidedInterventionId = ($event.target as HTMLSelectElement).value"><option v-for="item in selectedScenario.interventions" :key="item.id" :value="item.id">{{ item.title }}</option></select><p v-if="guidedPreviewIntervention" class="scenario-instruction">{{ guidedPreviewIntervention.instruction }}</p><div class="scenario-candidate" v-if="guidedPreviewIntervention"><span>Exact estimate after this change</span><strong>{{ readingText(guidedPreviewReading, guidedPreviewIntervention.settings) }}</strong><small>Change from authored baseline: {{ readingDelta(scenarioBaselineReading, guidedPreviewReading, selectedScenario.settings) }}</small></div><button data-testid="scenario-apply" class="scenario-action primary" :disabled="!guidedPreviewIntervention" @click="applyGuidedIntervention">Apply guided change</button><div v-if="loadedInterventionId" data-testid="scenario-result" class="scenario-result" role="status"><strong>Current exact reading at authored probe: {{ readingText(scenarioCurrentReading, settings) }}</strong><span>{{ selectedIntervention?.title }} · {{ scenarioCurrentDelta }} from authored baseline</span><small>Recomputed with evaluatePoint at the authored probe location. A delta appears only when the current field mode and probe position match the authored comparison.</small></div></section></dialog>
-    <dialog ref="echoDialog" data-testid="echo-dialog" class="workspace-dialog echo-dialog" aria-labelledby="echo-lab-title" @close="closeEchoLab"><EchoLab v-if="echoOpen" @close="echoDialog?.close()" /></dialog>
+    <dialog ref="echoDialog" data-testid="echo-dialog" class="workspace-dialog echo-dialog" aria-labelledby="echo-lab-title" @close="closeEchoLab"><EchoLab v-if="echoOpen" @close="echoDialog?.close()" @research="openResearchLab" /></dialog>
+    <dialog ref="researchDialog" data-testid="research-dialog" class="workspace-dialog research-dialog" aria-labelledby="research-lab-title" @close="closeResearchLab"><ResearchLab v-if="researchMounted" :active="researchOpen" :return-label="echoOpen ? 'Back to Echo Lab' : 'Field visualizer'" @close="researchDialog?.close()" /></dialog>
   </main>
 </template>
 
@@ -1250,6 +1263,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,su
 </style>
 
 <style scoped>
+.workspace-entry{display:flex;align-items:center;gap:10px;padding:10px 22px;border-bottom:1px solid #cbd3c3;background:#e9eddf}.workspace-current{margin-right:auto;color:#294b3c;font:14px Georgia,serif}.workspace-current small{display:block;margin-top:3px;color:#52614f;font:10px ui-sans-serif,system-ui}.workspace-entry button{display:flex;align-items:center;gap:9px;min-height:42px;padding:9px 13px;border:1px solid #becbb7;border-radius:5px;background:#f9f8ee;color:#2d513b;text-align:left;cursor:pointer}.workspace-entry button strong{font:16px Georgia,serif;white-space:nowrap}.workspace-entry button span{font-size:10px}.workspace-entry button:hover{border-color:#456d51;background:#fffdf5}.workspace-entry button:focus-visible{outline:2px solid #8f4a27;outline-offset:3px}.research-dialog{width:min(1200px,96vw)}@media(max-width:700px){.workspace-entry{flex-wrap:wrap;padding:10px 12px;gap:8px}.workspace-current{flex-basis:100%}.workspace-entry button{flex:1;flex-wrap:wrap;gap:3px;min-width:0}.workspace-entry button span{flex-basis:100%;font-size:9px}}
 .workspace-dialog{border:1px solid #c6cbbd;background:#faf8f2;color:#253735;width:min(1160px,96vw);max-width:96vw;max-height:94dvh;padding:0;border-radius:12px;box-shadow:0 24px 90px #142b2855;overflow:auto}.workspace-dialog::backdrop{background:#18292799;backdrop-filter:blur(3px)}.home-library{padding:30px;width:min(560px,94vw)}.home-library h2{font-size:32px}.home-library label{display:grid;gap:8px;margin:20px 0}.home-library input{padding:12px;border:1px solid #b8beb3;background:#fffdf8;color:inherit}.saved-home{display:flex;flex-direction:column;gap:8px;text-align:left;background:transparent;color:inherit;border:0;border-top:1px solid #d5d8cd;padding:20px 0;width:100%;cursor:pointer}.saved-home span{font-size:12px;color:#65726a}.reference-toggle{display:flex;gap:7px;font-size:12px;padding:8px}.project-actions{flex-wrap:wrap}.topbar{height:auto;min-height:76px}@media(max-width:760px){.project-title{display:none}.project-actions{gap:4px}.project-actions .export-button{padding:7px 6px;font-size:11px}.topbar{padding:12px;gap:8px;flex-wrap:wrap}.workspace-dialog{max-height:96dvh;width:96vw}}
 @media(max-width:520px){.project-actions .export-button{flex:1 0 auto;padding:0 6px;font-size:10px}}
 </style>

@@ -54,13 +54,15 @@ Open [localhost:4173](http://localhost:4173). There is no public hosted demo con
 | Interaction | Cancellable worker fields, adaptive drag previews, undo/redo and compatible baseline comparisons |
 | Local workspace | IndexedDB projects, versioned JSON import/export, named experiments and optional offline app downloads |
 | Measurement tools | RSSI survey import and residual metrics; experimental phone audio capture and scan inspection |
-| Spatial research | Hash-linked observation bundles, supplied 3D registration replay and a fixed-source synthetic 3D plane reference with held-out evaluation |
+| Spatial research | Research Lab with synthetic 3D plane/evidence inspection, local hash-verified bundle replay, report download and matching offline CLIs |
 
 [Portfolio case study](docs/CASE_STUDY.md) · [Architecture](docs/ARCHITECTURE.md) · [Current implementation status](docs/IMPLEMENTATION_STATUS.md)
 
 Try the [synthetic spatial replay](docs/SPATIAL_BUNDLE.md) with `bun run spatial:inspect -- --input packages/test-fixtures/spatial/bundle.json --format markdown`. This registers supplied poses and preserves unknown calibration; it does not recover physical geometry.
 
 Run `bun run spatial:plane-demo -- --format markdown` for the separate [synthetic 3D plane reference](docs/SPATIAL_PLANE_REFERENCE.md). It fits tilted-wall/floor/ceiling fixtures with a fixed speaker and evaluates held-out positions, retaining missing and ambiguous attempts. It is not a validated phone room scan.
+
+Open **Research Lab** in the app to inspect these references visually or select a local bundle and its source files. It can also open over an active Echo Lab review while keeping the scan in place. [Research workspace guide](docs/SPATIAL_WORKSPACE.md)
 
 ## Echo Lab: a separate research experiment
 
