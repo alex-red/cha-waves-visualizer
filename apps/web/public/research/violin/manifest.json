@@ -1,0 +1,37 @@
+{
+  "format": "cha-visual-bundle-v1",
+  "id": "cc0-violin-10k",
+  "label": "Violin \u00b7 CC0 mesh conversion",
+  "asset": {
+    "fileName": "violin_10k.splat",
+    "format": "splat32",
+    "sha256": "6cb5a33059da30752a49324ab6f84721bb29527bac3810e0856283f0ab59a6dc",
+    "splatCount": 10000
+  },
+  "assetFrame": {
+    "handedness": "right",
+    "up": "-y",
+    "cameraConvention": "opengl"
+  },
+  "worldFrame": {
+    "units": "m",
+    "axes": "right-handed-z-up"
+  },
+  "registration": {
+    "status": "unknown",
+    "reason": "The source mesh is normalized, not metric. No transform to the Cha Waves world frame is supplied."
+  },
+  "provenance": {
+    "kind": "mesh-conversion",
+    "creator": "Virtual Museums of Malopolska (mesh); Marcel Padilla (splat conversion)",
+    "sourceUrl": "https://github.com/marcelpadilla/splats/blob/main/data/violin/meta.json",
+    "license": {
+      "name": "CC0-1.0",
+      "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    "method": "mesh2splat area-uniform surface sampling with baked matte shading",
+    "version": "data-2026-08-11 / 10k LOD",
+    "notes": "Source mesh: Virtual Museums of Malopolska via odedstein-meshes. This is a direct mesh conversion, without photographs, COLMAP or image training. Color encodes LOD; no captured cameras or metric scale are supplied."
+  },
+  "cameras": []
+}

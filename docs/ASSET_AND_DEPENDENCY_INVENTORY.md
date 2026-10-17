@@ -1,6 +1,6 @@
 # Asset and dependency inventory
 
-Inventory updated October 16, 2026 for portfolio preparation. Original code and documentation use the [MIT License](../LICENSE), selected by the project owner. Dependencies retain their own licenses.
+Inventory updated October 17, 2026. Original code and documentation use the [MIT License](../LICENSE), selected by the project owner. Dependencies and external assets retain their own licenses.
 
 ## Authored application assets
 
@@ -14,7 +14,7 @@ Inventory updated October 16, 2026 for portfolio preparation. Original code and 
 | Portfolio screenshots in `docs/images/` | Dedicated captures of the authored demo and synthetic Echo Lab | No real scans, live pairing codes or private endpoints |
 | Original specification | User-supplied handoff copied unchanged into docs | Background reference; preserve separately from adopted implementation decisions |
 
-There are no stock photos, generated raster illustrations, remote map tiles, or external 3D assets in the current app. Future uploads and third-party assets need their own provenance entries.
+The visual research baseline adds a self-authored procedural Gaussian-splat room (MIT) and one external 10,000-Gaussian violin fixture (CC0-1.0). The violin is a mesh conversion by Marcel Padilla from the Virtual Museums of Malopolska mesh via odedstein-meshes; its [attribution, exact hash and caveats](../apps/web/public/research/violin/ATTRIBUTION.md) and original per-file metadata accompany the asset. It is nonmetric and has no capture cameras. No photographs, image-trained scene, generated raster illustration or remote map tiles are bundled. Future uploads and third-party assets need their own provenance entries.
 
 ## Dependency metadata
 
