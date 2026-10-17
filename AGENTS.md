@@ -1,6 +1,8 @@
 # Working on Cha Waves
 
-Read [implementation status](docs/IMPLEMENTATION_STATUS.md) for verified capabilities. The active acoustic research sequence is [ECHO_EXPERIMENT_PLAN.md](docs/ECHO_EXPERIMENT_PLAN.md); reproducible commands and session handling are in [ECHO_WORKFLOW.md](docs/ECHO_WORKFLOW.md). The home field visualizer and the acoustic capture experiment are separate tracks.
+The long-term goal is research into using waves to map 3D visual space, augmented by AI: ultimately map any 3D space and enrich its representation using techniques such as Gaussian splatting and scene completion. Read [SPATIAL_RESEARCH_PLAN.md](docs/SPATIAL_RESEARCH_PLAN.md) for the research direction, dependencies and evaluation gates, and [implementation status](docs/IMPLEMENTATION_STATUS.md) for verified capabilities. General 3D mapping, sensor fusion, splats and AI completion are planned, not delivered.
+
+The active acoustic research sequence is [ECHO_EXPERIMENT_PLAN.md](docs/ECHO_EXPERIMENT_PLAN.md); reproducible commands and session handling are in [ECHO_WORKFLOW.md](docs/ECHO_WORKFLOW.md). The home field visualizer and the acoustic capture experiment are separate tracks. Prioritize research work that closes a spatial-plan evidence gap; preserve distinct observed, estimated and generated content. The next physical gate remains ECHO-04/05; offline registration/visual research can proceed independently without claiming acoustic success.
 
 ## Evidence before another physical experiment
 

@@ -1,6 +1,6 @@
 # Decisions, risks, and remaining discovery
 
-These decisions form the planning baseline. No implementation spike or validation is implied by an accepted planning decision.
+These decisions form the planning baseline. The long-term research direction was clarified October 17, 2026 in [SPATIAL_RESEARCH_PLAN.md](SPATIAL_RESEARCH_PLAN.md); visualizer decisions below retain their product scope. No implementation spike or validation is implied by an accepted planning decision.
 
 ## Architecture decisions
 
@@ -20,6 +20,7 @@ These decisions form the planning baseline. No implementation spike or validatio
 | 012 | Accepted: no P0 GPU physics or AI | Numerical credibility and first interaction do not require providers or hardware |
 | 013 | Proposed: MIT for original code | Straightforward reuse; owner/license inventory review before public release |
 | 014 | Accepted: static deployment architecture | No server compute cost or per-drag networking; host choice remains operational |
+| 015 | Accepted direction: wave-based 3D mapping augmented by AI | General spatial mapping is the ambition; acoustic evidence, registration, 3D structure/fusion, splats and completion need separate gates. Keep observed, estimated and generated content traceable; P0's no-AI boundary applies to the visualizer release |
 
 Record implementation outcomes and changes beneath the relevant ADR, including failed experiments. If a conditional choice fails, use its stated fallback without weakening validation.
 
@@ -38,7 +39,9 @@ Record implementation outcomes and changes beneath the relevant ADR, including f
 | Browser storage loss | Quota/private mode/eviction | Export affordance, unsaved state, recoverable memory workflow |
 | Material presets sound authoritative | Users assume “masonry” always has the shown loss | Explicit fixture assumption and editable construction context |
 | Calibration flatters a weak model | Great fit, poor holdout or unidentifiable parameters | Freeze splits and parameter family; publish negative findings |
-| Research scope absorbs product work | FDTD/3D work starts before usable comparison | Keep P2 isolated; require P0 completion/evidence first |
+| Research and product acceptance become conflated | A polished field map or splat scene is presented as recovered physical geometry | Keep separate release/research exits; prioritize the spatial evidence gates without requiring every visualizer feature first |
+| AI completion obscures missing evidence | Generated surfaces appear measured or silently affect physical calculations | Preserve raw observations, support/derivation metadata and independently inspectable structure/appearance; allow unknown regions and hideable/rejectable completions |
+| Fusion hides whether wave sensing helps | A strong visual reconstruction is attributed to acoustic measurements | Compare acoustic-only, visual/depth-only and fused baselines on frozen held-out data; report failures and revise the sensing role if gains are absent |
 
 ## Questions to resolve during implementation discovery
 
@@ -49,7 +52,7 @@ These do not block this plan. Defaults are chosen so development can begin.
 - **Dependency patches:** resolve exact compatible versions and compiler bridge rather than estimating newest patches.
 - **Physical terminology:** seek acoustic/RF technical review before public precision claims; no outreach has been authorized or performed by this planning task.
 - **Deployment/domain/license:** choose when a release candidate exists. No purchase, publication, account setup, or license file is part of this task.
-- **First P1 priority:** default to plan tracing and RSSI calibration; specialize after observing users' actual needs.
+- **Next research priority:** ECHO-04/05 for physical wall evidence; independent offline work can define registration/provenance and test observed visual reconstruction under the spatial plan. Further visualizer P1 work responds to demonstrated product needs.
 
 ## Decision discipline
 

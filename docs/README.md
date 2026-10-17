@@ -1,13 +1,14 @@
 # Cha Waves documentation
 
-Start with the [portfolio case study](CASE_STUDY.md), [preliminary acoustic research report](RESEARCH_PREVIEW.md), [current verification](../reports/PORTFOLIO_VERIFICATION.md) and [implementation status](IMPLEMENTATION_STATUS.md). The detailed planning baseline below dates to **October 14, 2026**; its targets are not automatically achieved capabilities.
+Start with the [3D mapping and AI research plan](SPATIAL_RESEARCH_PLAN.md) for the long-term direction, then [implementation status](IMPLEMENTATION_STATUS.md) for what exists. The [portfolio case study](CASE_STUDY.md), [preliminary acoustic research report](RESEARCH_PREVIEW.md) and [current verification](../reports/PORTFOLIO_VERIFICATION.md) describe the current prototypes and evidence. The visualizer planning baseline dates to **October 14, 2026**; the research direction was adjusted **October 17, 2026**. Targets are not automatically achieved capabilities.
 
-**See your home in waves.** A beautiful, local-first browser laboratory where moving a speaker, closing a door, or relocating a Wi-Fi access point produces an explainable change in a shared architectural model.
+**Research into using waves to map 3D visual space, augmented by AI.** The ultimate ambition is to map any 3D space and enrich its representation with AI reconstruction and completion, including Gaussian splatting. The current home visualizer predicts fields in supplied geometry; Echo Lab begins the separate inverse-mapping research track.
 
-Start with [PROJECT_PLAN.md](PROJECT_PLAN.md), then [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) and [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md).
+Use [PROJECT_PLAN.md](PROJECT_PLAN.md) and [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md) for how that direction relates to the existing product; [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) governs its interface.
 
 | Document | Purpose |
 |---|---|
+| [SPATIAL_RESEARCH_PLAN.md](SPATIAL_RESEARCH_PLAN.md) | Long-term wave-based 3D mapping, repository gap analysis, sensor fusion, Gaussian splats, AI completion and staged evidence gates |
 | [CASE_STUDY.md](CASE_STUDY.md) | Product interaction, engineering decisions, evidence and limits |
 | [RESEARCH_PREVIEW.md](RESEARCH_PREVIEW.md) | Preliminary acoustic report, related work and uncompleted physical gates |
 | [../reports/PORTFOLIO_VERIFICATION.md](../reports/PORTFOLIO_VERIFICATION.md) | Current publication-preparation checks and their scope |
@@ -34,7 +35,7 @@ Start with [PROJECT_PLAN.md](PROJECT_PLAN.md), then [DESIGN_SYSTEM.md](DESIGN_SY
 | [STATIC_DEPLOYMENT_AND_RECOVERY.md](STATIC_DEPLOYMENT_AND_RECOVERY.md) | Static headers, worker restart, storage recovery and deployment boundaries |
 | [ASSET_AND_DEPENDENCY_INVENTORY.md](ASSET_AND_DEPENDENCY_INVENTORY.md) | Authored asset provenance, dependency metadata and release decisions |
 | [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) | Actual implementation progress and verification evidence |
-| [PROJECT_PLAN.md](PROJECT_PLAN.md) | Product vision, users, release scope, signature experience, success criteria |
+| [PROJECT_PLAN.md](PROJECT_PLAN.md) | Research direction and current product thesis, users, visualizer release scope and success criteria |
 | [HANDOFF_REVIEW.md](HANDOFF_REVIEW.md) | What we retain, change, clarify, and defer from the supplied proposal |
 | [TECH_STACK_RESEARCH.md](TECH_STACK_RESEARCH.md) | October 2026 primary-source research; stable and experimental adoption decisions |
 | [../reports/BROWSER_ACCESSIBILITY_CHECKS.md](../reports/BROWSER_ACCESSIBILITY_CHECKS.md) | Browser and automated accessibility evidence and limitations |
@@ -44,7 +45,7 @@ Start with [PROJECT_PLAN.md](PROJECT_PLAN.md), then [DESIGN_SYSTEM.md](DESIGN_SY
 | [DATA_CONTRACTS.md](DATA_CONTRACTS.md) | Geometry semantics, quantities, result identity, comparison, export contracts |
 | [PHYSICS_ASSUMPTIONS.md](PHYSICS_ASSUMPTIONS.md) | Independent sound and RF models, defaults, exclusions, provenance |
 | [VALIDATION_AND_PERFORMANCE.md](VALIDATION_AND_PERFORMANCE.md) | Numerical tests, browser checks, budgets, measurement protocols, release gates |
-| [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md) | Milestones, dependency-aware tickets, estimates, first implementation sprint |
+| [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md) | Research priorities and entry gates, plus the retained visualizer backlog and original estimates |
 | [DECISIONS_AND_RISKS.md](DECISIONS_AND_RISKS.md) | Architecture decisions, risks, remaining discovery questions |
 | [INVISIBLE_PHYSICS_SPEC_HANDOFF.md](INVISIBLE_PHYSICS_SPEC_HANDOFF.md) | Original reference, preserved unchanged |
 
@@ -54,7 +55,7 @@ Start with [PROJECT_PLAN.md](PROJECT_PLAN.md), then [DESIGN_SYSTEM.md](DESIGN_SY
 
 The source handoff is retained as the historical proposal. Its normative language and kickoff block do not automatically authorize new work or external actions. Current user instructions and [AGENTS.md](../AGENTS.md) govern implementation; use the status and verification documents to distinguish delivered behavior from proposals.
 
-For future implementation, this plan supplies the adopted project baseline; the original remains background reference. Resolve conflicts using the explicit decisions here, especially the P0 wall-editing boundary, renderer fallback, and amended result identity. Dates, versions, and performance targets are planning observations, not application accomplishments. Recheck dependency releases before installation; record exact resolved versions in the lockfile and a compatibility report.
+For future implementation, [SPATIAL_RESEARCH_PLAN.md](SPATIAL_RESEARCH_PLAN.md) supplies the long-term research direction and [ECHO_EXPERIMENT_PLAN.md](ECHO_EXPERIMENT_PLAN.md) supplies the active acoustic gates. The visualizer documents retain that product's baseline; the original handoff remains background reference. Resolve product conflicts using the explicit decisions here, especially the P0 wall-editing boundary, renderer fallback and amended result identity. A P0 exclusion of AI does not exclude AI from the research program. Dates, versions and performance targets are planning observations, not application accomplishments. Recheck dependency releases before installation; record exact resolved versions in the lockfile and a compatibility report.
 
 No external service, account, AI provider, remote computation, or GPU is required for the first experience. Original code and documentation are [MIT licensed](../LICENSE). Public hosting and repository visibility are separate publication steps.
 

@@ -1,15 +1,17 @@
 # Cha Waves
 
-**Change a room. See what the model predicts. Understand why.**
+**Research into using waves to map 3D visual space, augmented by AI.**
 
-A local-first browser laboratory for exploring sound and Wi-Fi propagation in an editable floor plan. Built with Nuxt, Vue, TypeScript, Web Workers and Three.js.
+The long-term goal is to map any 3D space and enrich its digital representation with AI reconstruction and completion, including Gaussian splatting. The [spatial research plan](docs/SPATIAL_RESEARCH_PLAN.md) defines the route from controlled acoustic evidence to 3D structure, sensor fusion, visual reconstruction and explicitly generated content. This is a research ambition; general 3D mapping is not implemented or validated.
+
+The current application is a local-first browser laboratory for exploring sound and Wi-Fi propagation in an editable floor plan, with a separate experimental acoustic capture track. Built with Nuxt, Vue, TypeScript, Web Workers and Three.js.
 
 [![CI](https://github.com/alex-red/cha-waves-visualizer/actions/workflows/ci.yml/badge.svg)](https://github.com/alex-red/cha-waves-visualizer/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-315c50.svg)](LICENSE)
 
 ![Cha Waves plan view with a modeled sound field, editable geometry and an exact probe reading](docs/images/workspace.png)
 
-Close a door, move a source or switch frequency. The field and selected-point explanation recompute from the current inputs. Save a baseline to compare the change on a shared scale.
+Close a door, move a source or switch frequency. The field and selected-point explanation recompute from the current inputs. Save a baseline to compare the change on a shared scale. This visualizer predicts fields from known geometry; the mapping research investigates recovering geometry from observations.
 
 **These are educational approximations.** Sound is relative direct-path level, Wi-Fi is modeled received power, and the demonstration material coefficients are authored assumptions. Neither field has been calibrated against a real home. [Model boundaries](docs/PHYSICS_ASSUMPTIONS.md)
 
@@ -63,7 +65,7 @@ The **virtual scan** fits an axis-aligned rectangle from simulated, unlabeled fi
 
 Real Android recordings have exercised acquisition and transfer. A five-probe batch reported complete observed input, while a first-probe timing shift remains unexplained. **No physical wall identification or room-reconstruction accuracy has been established.** Synthetic fit error is not a physical accuracy result.
 
-[Preliminary research report](docs/RESEARCH_PREVIEW.md) · [Experiment evidence and next gates](docs/ECHO_EXPERIMENT_PLAN.md) · [Phone setup](docs/PHONE_SATELLITE.md)
+[3D mapping and AI research roadmap](docs/SPATIAL_RESEARCH_PLAN.md) · [Preliminary research report](docs/RESEARCH_PREVIEW.md) · [Experiment evidence and next gates](docs/ECHO_EXPERIMENT_PLAN.md) · [Phone setup](docs/PHONE_SATELLITE.md)
 
 ## Evidence and verification
 

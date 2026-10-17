@@ -70,6 +70,40 @@ flowchart TD
 
 Pure domain packages have no dependency on Nuxt, Vue, Three, storage, DOM, audio, or network. The coordinator owns lifecycle and adapters own presentation. Physics never comes from rendered pixels or decorative animation.
 
+## Spatial research boundary · October 17, 2026
+
+The [spatial research plan](SPATIAL_RESEARCH_PLAN.md) adds an inverse-mapping direction alongside the existing forward-modeling workspace. The following Echo infrastructure exists; it is not a general 3D reconstruction pipeline:
+
+| Existing source | Reuse for research |
+|---|---|
+| `packages/echo.ts` | Chirp/matching helpers and the synthetic four-wall rectangle reference |
+| `packages/echo-scan.ts`, `satellite.ts` | Strict portable scans, stable capture/review links and shared PCM decoding |
+| `packages/acquisition.ts`, `probe-batch.ts` | Input-continuity metadata and complete repeated-attempt records, including manual pose context |
+| `scripts/echo-inspect.ts`, `scripts/lib/echo-report.ts` | Bounded local inspection with hashes, timing candidates and integrity evidence |
+| `scripts/echo-pull.mjs`, `scripts/lib/local-scan-api.mjs` | Explicit authenticated retrieval of exact private scan bytes |
+
+Next architecture work is proposed, not delivered:
+
+```mermaid
+flowchart LR
+  Evidence[Immutable observations and hashes] --> Bundle[Versioned spatial bundle]
+  Frames[Poses, calibration and clock registration] --> Bundle
+  Bundle --> Replay[Shared replay and evidence report]
+  Replay --> Structure[Supported structural estimates]
+  Bundle --> Visual[Observed visual reconstruction]
+  Structure --> Inspect[Research inspection workspace]
+  Visual --> Inspect
+  Structure --> Completion[Optional AI completion proposals]
+  Visual --> Completion
+  Completion --> Inspect
+```
+
+The minimal next increment joins a strict bundle contract to an offline replay consumer. Pure contracts, frame operations and reporting belong in small `packages/` modules. CLI adapters own file reads/hashing, browser adapters own lifecycle and presentation, and later reconstruction/model adapters consume validated immutable inputs. Build the first consumer before expanding the schema to unused modalities. See the [increment scopes and acceptance](SPATIAL_RESEARCH_PLAN.md#next-implementation-increments).
+
+Research bundles supplement home project format 3 and Echo scan v3; they do not silently change either. Reference original artifacts by hashes and stable IDs, retain manual pose metadata as manual, and expose missing 3D calibration. A scene with X/Y, a manual height and heading is not automatically a calibrated camera/speaker/microphone trajectory. Structure, observed appearance and generated proposals remain separately inspectable. Moving a generated object must not silently edit the field solver's geometry.
+
+Add this boundary in the current repository layout. The existing worker/import/persistence patterns can inform implementation, but avoid a broad package move, new orchestration framework, new cloud dependency or renderer rewrite before replay and its first 3D reference case work. The next acoustic physical test uses existing tooling independently of this proposed architecture.
+
 ## Proposed repository
 
 ```text

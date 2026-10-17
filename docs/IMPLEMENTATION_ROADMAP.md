@@ -1,8 +1,26 @@
 # Implementation roadmap and backlog
 
-Status: implementation underway; see [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for current evidence. Estimates assume one experienced engineer, scoped P0 editing, and occasional specialist review; they are effort ranges, not calendar commitments. A polished P0 is approximately **7–10 engineering weeks** including integration contingency. Data-dependent P1 is another 4–8+ weeks; research P2 is unbounded.
+Status: implementation underway; see [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for current evidence. Research direction adjusted **October 17, 2026**.
 
-## Milestones and exits
+## Research destination and active priority
+
+**Research into using waves to map 3D visual space, augmented by AI.** The ultimate ambition is to map any 3D space and fill out its digital representation using AI reconstruction and completion, including Gaussian splatting. The [spatial research plan](SPATIAL_RESEARCH_PLAN.md) supplies the investigation, primary-source references, data requirements and SPATIAL-01–07 milestones.
+
+The research path is supported wall evidence → registered 3D observations → supported 3D structure and fusion/localization → observed visual reconstruction → constrained AI completion → broader environments. These stages have distinct exits: an uploaded recording, a synthetic rectangle, a rendered cutaway and a splat viewer each demonstrate different things. Current physical room mapping remains unvalidated.
+
+**Next physical gate:** ECHO-04/05's controlled known-wall test. **Independent offline work:** SPATIAL-02's coordinate/timing/provenance contract and SPATIAL-05's bounded visual-data spike can start while that gate remains open. Acoustic gains require held-out evidence and sensor ablations. Unknown, estimated and generated regions remain explicit.
+
+The CW backlog below remains the educational visualizer's release plan. Further UI polish, RF prediction and time-domain wave simulation are optional branches relative to the spatial research goal. They are not prerequisites for the first reconstruction proof. Keep existing product release gates when shipping that product; do not treat its 2.5D scene as an unknown-space 3D reconstruction.
+
+### Next reviewable increments
+
+Start with a minimal spatial observation/pose bundle **and its offline replay CLI in the same change set**. Follow with a synthetic one-plane 3D reference/evaluator, a research inspection workspace, then a registered visual/splat baseline. The [implementation sequence](SPATIAL_RESEARCH_PLAN.md#next-implementation-increments) gives bounded scopes, proposed file ownership, tests and explicit exclusions for each increment. Preserve the existing scan/project contracts and add small pure modules in the current layout.
+
+The known-wall physical test remains an independent next action; it does not wait for these modules or a viewer. General room fitting and physical fusion claims remain gated by its evidence. AI completion follows an inspectable observed reconstruction and supported structural constraints; research progress must report the acoustic contribution separately from visual quality.
+
+## Visualizer milestones and exits
+
+The original visualizer estimates below assume one experienced engineer, scoped P0 editing and occasional specialist review; they are effort ranges, not remaining-work estimates or calendar commitments. The planning baseline estimated a polished P0 at **7–10 engineering weeks** including integration contingency, data-dependent P1 at another 4–8+ weeks, and research P2 as unbounded. The spatial research milestones have no delivery estimate yet.
 
 | Milestone | Effort | Deliverable | Exit gate |
 |---|---|---|---|
@@ -48,7 +66,7 @@ IDs use CW to distinguish this adopted backlog from source IP tickets. Each row 
 
 Critical path: CW-001 → CW-002 → CW-005 → CW-006/007 → CW-008 → CW-009/010 → CW-014/015 → CW-021/023. Constrained editing and persistence are additional required branches. Design work can proceed independently after fixture/projection contracts settle; no delegation or separate chats are required by this plan.
 
-## First implementation sprint
+## Original visualizer implementation sprint
 
 1. Confirm bootstrap versions against TECH_STACK_RESEARCH and build the minimal compatibility spike.
 2. Implement source/receiver/open-field schemas and exact algebra tests.
@@ -59,9 +77,9 @@ Critical path: CW-001 → CW-002 → CW-005 → CW-006/007 → CW-008 → CW-009
 
 Success is a functioning vertical slice with both domains, not a full editor, wave solver, or cloud service. The Bun workspace scripts are `bun run dev`, `bun run build`, `bun run typecheck`, `bun run test`, `bun run test:e2e`, `bun run verify:fixtures`, and `bun run benchmark`. `bun run test` invokes Vitest. Core development/build/typecheck/test commands, analytical fixture verification, and both engine/browser benchmark harnesses now exist. See implementation status and performance evidence for their measured scopes.
 
-## P1/P2 backlog
+## Visualizer P1/P2 backlog and acoustic entry point
 
-The acoustic capture research track now follows [ECHO_EXPERIMENT_PLAN.md](ECHO_EXPERIMENT_PLAN.md). Its first real-phone session exercised transport and exposed an unverified fixed response; it did not reconstruct a room. The next dependency chain is reproducible inspection → acquisition telemetry → repeated probes → a known single-wall delay test → multi-reflector reconstruction only after that test passes. The [workflow guide](ECHO_WORKFLOW.md) describes focused verification and reproducible evidence. This track does not redefine the existing home visualizer's completed capabilities or release gates.
+The acoustic capture research track follows [ECHO_EXPERIMENT_PLAN.md](ECHO_EXPERIMENT_PLAN.md) as the first sensing branch of the [spatial research plan](SPATIAL_RESEARCH_PLAN.md). Its first real-phone session exercised transport and exposed an unverified fixed response; it did not reconstruct a room. Inspection, acquisition telemetry and repeated probes are implemented; a known single-wall delay test remains next, with multi-reflector reconstruction gated on that test. The [workflow guide](ECHO_WORKFLOW.md) describes focused verification and reproducible evidence. This track does not redefine the existing home visualizer's completed capabilities or release gates.
 
 | ID | Scope | Gate/dependencies |
 |---|---|---|

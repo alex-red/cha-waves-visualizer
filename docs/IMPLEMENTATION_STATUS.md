@@ -2,6 +2,10 @@
 
 Status date: **October 16, 2026**. This records the current implementation against the [roadmap](IMPLEMENTATION_ROADMAP.md). It is not a complete P0 release claim.
 
+## Research direction update — October 17, 2026
+
+The long-term goal is research into using waves to map 3D visual space, augmented by AI: ultimately map any 3D space and enrich its representation with techniques such as Gaussian splatting and scene completion. The [spatial research plan](SPATIAL_RESEARCH_PLAN.md) now connects that ambition to staged wall evidence, 3D registration/structure, fusion, observed visual reconstruction and generated completion. The visualizer remains a separate forward-modeling product. General 3D reconstruction, visual SLAM/sensor fusion, Gaussian splats and AI completion are not implemented; no new physical evidence is claimed by this documentation update. ECHO-04/05 remains the next physical gate.
+
 ## Current manual-test increment
 
 Portfolio preparation adds a screenshot-led [README](../README.md), [case study](CASE_STUDY.md), [preliminary research report](RESEARCH_PREVIEW.md), owner-selected MIT licensing, direct runtime dependency notices, contribution/security guidance and a bounded public-file hygiene check. Echo Lab now labels synthetic reconstruction and experimental acquisition at the point of use. The [current verification record](../reports/PORTFOLIO_VERIFICATION.md) describes the checks performed for this snapshot separately from historical counts below. Public hosting, repository visibility and physical validation remain separate steps.

@@ -1,0 +1,115 @@
+# Wave-based 3D mapping and AI completion
+
+Direction updated **October 17, 2026**. This is the long-term research plan. Milestones below are proposed work, with current capabilities recorded in [implementation status](IMPLEMENTATION_STATUS.md).
+
+## Goal
+
+**Research into using waves to map 3D visual space, augmented by AI.** The ultimate ambition is to map any 3D space and fill out its digital representation using AI techniques, including Gaussian splatting, learned reconstruction and scene completion.
+
+“Any 3D space” sets the direction. Each demonstrated capability must name its supported environments, sensors, coverage and accuracy. Start with controlled indoor reflectors, progress to measured rooms, then test more varied geometry and environments. Unobserved regions can remain unknown or receive explicitly generated proposals. A plausible completion does not establish what was physically there.
+
+Acoustic probing is the first sensing experiment. Camera, IMU and optional depth observations are candidate complementary inputs. Other wave modalities, including RF sensing, require their own hardware, observability and validation studies. The existing Wi-Fi propagation model and RSSI survey do not implement RF geometry sensing.
+
+## Investigation: where this repository already points
+
+The repository supports part of this direction, but its previous primary roadmap led to an educational propagation visualizer and left general spatial reconstruction undefined.
+
+| Inspected evidence | Present contribution | Gap to the ultimate goal |
+|---|---|---|
+| [Product plan](PROJECT_PLAN.md), [roadmap](IMPLEMENTATION_ROADMAP.md), [field engine](../packages/engine.ts) | Predict sound/RF behavior from supplied geometry; metric editing, workers, comparisons and persistence | This is a forward problem: known geometry → predicted field. Mapping needs the inverse: observations → estimated geometry and poses |
+| [Echo numerical model](../packages/echo.ts) | Synthetic inverse for four axis-aligned walls, known X/Y capture positions and exactly four first-order arrivals per pose | No recovered Z geometry, arbitrary surfaces, estimated trajectory or incomplete-reflector solution |
+| [Acoustic experiment plan](ECHO_EXPERIMENT_PLAN.md), [preliminary report](RESEARCH_PREVIEW.md) | Real phone capture/transport, repeated probes, continuity telemetry, provenance and review | No physical wall has been identified; physical room accuracy remains unvalidated |
+| [Architecture](ARCHITECTURE.md), [scene contracts](DATA_CONTRACTS.md) | A single-level scene with heights and a rendered cutaway; reusable local workspace infrastructure | Height-aware forward calculations and an extruded cutaway do not recover an unknown 3D space |
+| Source and dependency inspection | No Gaussian-splat, visual SLAM, multimodal reconstruction or generative-completion pipeline found | These need explicit research milestones and data contracts |
+
+Keep two tracks with distinct acceptance evidence. The home visualizer remains a usable educational product and can host future inspection tools. Echo Lab is the acquisition and inverse-research starting point. Completing a visualizer feature does not automatically advance spatial reconstruction; completing a research milestone does not automatically finish a product release.
+
+## What the research supports
+
+Primary sources checked October 17, 2026. These establish relevant methods and constraints; they do not validate Cha Waves or constitute a complete literature review.
+
+| Work | Relevant finding | Implication for this project |
+|---|---|---|
+| [Dokmanić et al., *Acoustic echoes reveal room shape* (2013)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3725100/) | Reconstructs convex polyhedral geometry using first-order echo assignment and known microphone relationships | Geometry inference from sound has a foundation with specific observability assumptions; a single moving phone needs a separately validated setup |
+| [Luo et al., *Indoor Smartphone SLAM with Acoustic Echoes*](https://tanrui.github.io/pub/TMC-ELFSLAM.pdf) | Combines learned echo features, IMU trajectory correction and wall-distance estimation; its room procedure assumes fixed height and a loop along sidewalls | Investigate learned association and localization, while distinguishing trajectory/floor-contour recovery from arbitrary 3D reconstruction |
+| [Lan et al., *Building Audio-Visual Digital Twins with Smartphones*](https://arxiv.org/html/2512.10778v1) and [MobiSys 2026 project page](https://waves.seas.upenn.edu/projects/av-twin/) | Uses two phones, native audio access, visual SLAM/mesh grounding and acoustic measurements to recover editable audio-visual scenes | A relevant fusion reference, with acquisition and geometry inputs beyond the current browser experiment. It does not establish audio-only recovery of visual appearance |
+| [Kerbl et al., *3D Gaussian Splatting for Real-Time Radiance Field Rendering* (2023)](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/) | Optimizes an explicit Gaussian radiance representation from calibrated visual observations and renders novel views | Candidate appearance representation; importing or rendering splats is a separate achievement from measuring accurate geometry |
+| [Chung et al., *LucidDreamer: Domain-free Generation of 3D Gaussian Splatting Scenes*](https://luciddreamer-cvlab.github.io/) | Uses diffusion inpainting, estimated depth and alignment to expand scenes represented with Gaussian splats | Candidate family for generated completion, whose invented content needs a visible origin and separate evaluation |
+
+Our inference from these sources is to investigate a multimodal pipeline while measuring the contribution of acoustic evidence explicitly. Limited acoustic observations do not uniquely determine visual texture, color or every hidden object. Gaussian splatting is a representation and rendering method; a generative model is an additional component. A visually convincing splat scene alone cannot establish metric accuracy or the value of wave sensing.
+
+## Intended pipeline and evidence contract
+
+The proposed flow is **capture → register poses and clocks → infer supported structure → reconstruct observed appearance → propose missing content → inspect and export**. Acoustic and visual estimates may constrain one another; the flow does not assume all geometry must first be solved from sound alone.
+
+| Layer | Proposed contents | Required distinction |
+|---|---|---|
+| Observations | Original PCM, images/video, optional depth/IMU, acquisition conditions and hashes | Immutable received evidence, with gaps and unavailable settings retained |
+| Registration | Timestamp associations, clock offsets/uncertainty, metric scale, camera intrinsics, sensor extrinsics and 6-DoF trajectories | Software schedule versus acoustic timing; supplied poses versus estimated poses |
+| Structural estimates | Planes, surfaces or occupancy with supporting observations, residuals, uncertainty and coverage | Measured constraints versus model assumptions; unsupported structure can remain absent |
+| Appearance reconstruction | Image-supported mesh, Gaussian splats or another replaceable representation in the same coordinate frame | Observed-view reconstruction versus visual extrapolation; rendering quality versus geometry quality |
+| AI proposals | Learned associations, depth/geometry priors, semantic labels and generated appearance or geometry | Inference and generation remain traceable to model/version, inputs and parameters; confidence is not automatically calibrated |
+
+Keep observation support and derivation as separate metadata: an image-fitted splat is still an estimate; a measured echo is not a measured wall until its interpretation is supported. Allow estimated surfaces to cite mixed evidence. Generated regions must remain selectable and hideable, with alternatives or rejection available. Show coverage and uncertainty rather than forcing a closed room.
+
+Use SI units and an explicit transform into the existing plan's X/Y/Z convention. Preserve source IDs/hashes, capture-to-pose links, calibration versions, reconstruction settings and model/checkpoint identity in a future versioned research bundle. Unknown transforms or timing must stay unknown. Do not silently reinterpret current home project format 3 or Echo scan v3 as a 6-DoF multimodal format; introduce and test a separate versioned contract when implementation starts. The structural model and appearance assets must be independently inspectable and exportable so generated furniture or texture cannot silently become a physical solver input.
+
+## Research milestones and decision gates
+
+These IDs supplement the existing CW visualizer and ECHO acquisition tickets. They are a dependency plan, not completed capabilities, delivery dates or external issues. Freeze each experiment's dataset/splits, metrics and acceptance criteria before evaluation.
+
+| ID | Dependencies | Bounded deliverable | Exit evidence / next decision |
+|---|---|---|---|
+| SPATIAL-01: supported wall evidence | Existing ECHO-01–03; follow ECHO-04/05 | Identify a repeatable direct/reflection pair for one measured wall using the staged protocol | Pass the existing timing, slope and continuity criteria with defensible feature identities; otherwise investigate ECHO-06/07 on saved data and retain an incomplete gate |
+| SPATIAL-02: 3D observations and registration | Contract design can start now; physical collection needs its own controlled protocol | Specify the research bundle and offline replay; test timestamp/transform/scale handling with synthetic data and an explicitly reusable existing visual dataset | Reproduce coordinate transforms and timing associations, expose missing calibration, and retain original inputs. Decide whether browser/native and one/two-device capture can supply the required data |
+| SPATIAL-03: supported 3D structure | 01 and 02; ECHO-08 extends reflector association | Infer multiple reflectors including floor/ceiling and non-axis-aligned planes with known 3D poses initially; allow missing/ambiguous observations | Compare estimated surfaces to independently measured geometry on held-out sessions; report failures and coverage. Do not extrude a rectangle and call its height recovered |
+| SPATIAL-04: fusion and localization | 02; 01/03 before claiming acoustic mapping gains | Compare acoustic-only, visual/depth-only and fused geometry; evaluate estimated trajectories separately from supplied-pose experiments | Report pose/scale and surface errors, ambiguity, data and compute cost. Wave sensing must show a measured benefit or a useful operating condition; if it does not, revise its role |
+| SPATIAL-05: observed visual reconstruction | 02; can start on existing visual data while acoustic gates remain open | Reconstruct/import a bounded image-supported splat scene; register it to structural estimates when 03/04 support them | Reopen/export with scale, transforms and provenance preserved; evaluate unseen camera views and geometry separately, plus viewer memory/loading/rendering costs. This can pass independently of acoustic mapping |
+| SPATIAL-06: constrained AI completion | 05 and an accepted structural/evidence interface from 03/04 | Generate alternative completions for a masked region while preserving observed constraints; retain an unknown-region option | Test against deliberately withheld observations, report structural conflicts and cross-view consistency, and verify generated content can be hidden/rejected without changing evidence or physical results |
+| SPATIAL-07: broader spaces | 03–06 evaluated within a declared scope | Expand in stages to furnished/nonrectangular rooms, connected spaces, varying heights and then additional environment classes | Hold out rooms, sessions and devices as appropriate; publish accuracy, completeness, unsupported cases and failures for each expansion. Outdoor, large, dynamic or poorly observed spaces require new scope-specific gates |
+
+The next physical action remains [ECHO-04](ECHO_SINGLE_WALL.md). Independent offline work can prepare SPATIAL-02 and the visual reconstruction spike without another capture or an acoustic-success claim. Learned signal processing can be tested on preserved data under ECHO-06; AI use does not need to wait until scene completion. Evaluate acquisition alternatives when evidence justifies them rather than assuming a browser-only phone is sufficient for every stage.
+
+For future prioritization, prefer work that reduces uncertainty in one of these gates or fixes a demonstrated product problem. Extra field-visualizer polish, broader RF prediction and a time-domain wave solver are optional product/research branches; none is a prerequisite for the first spatial-reconstruction proof. Preserve their existing release requirements if shipping that product.
+
+## Next implementation increments
+
+The immediate alignment work is to give reconstruction code a usable observation/pose contract and a replayable result. The existing scan contract has capture X/Y and optional manual batch height/orientation/heading, but no calibrated 6-DoF trajectory or shared multimodal clock. The current inverse also requires exactly four wall arrivals. Those are concrete boundaries to extend through new modules, while preserving existing exports and the rectangle reference.
+
+The following are proposed change sets, not implemented features. Start with increment 1. Keep each scope small enough to review and use immediately; avoid designing a general sensor framework before one artifact can be replayed.
+
+| Order | Change set | Concrete outcome and acceptance |
+|---|---|---|
+| 1 | Minimal spatial bundle and offline replay (SPATIAL-02) | A versioned manifest links a synthetic Echo scan by SHA256/capture ID to explicit coordinate/clock frames and supplied or unknown 3D sensor poses. A bounded local CLI validates the manifest and referenced bytes, then produces a deterministic report without modifying inputs. No source file or missing calibration becomes invented 3D data |
+| 2 | One-plane 3D reference and evaluation (preparation for SPATIAL-03) | Replay synthetic observations for a non-axis-aligned plane at known 3D source/receiver poses. Retain missing and ambiguous observations; compare estimates to withheld fixture truth with explicit distance/orientation errors. Cover floor/ceiling orientations and speaker/microphone separation. Label this synthetic-only; physical geometry claims still require the acoustic gate |
+| 3 | Research inspection workspace (SPATIAL-02/03 interface) | Make Research Lab and Field Visualizer visibly separate destinations. Research inspection shows imported observations, pose/calibration availability, structural hypotheses and unknown regions. Selecting a surface leads back to supporting capture IDs and analysis. A synthetic demonstration is usable without a microphone; entering research preserves unsaved field projects and Echo reviews |
+| 4 | Registered visual baseline (SPATIAL-05) | On one explicitly reusable dataset, first import a precomputed splat/mesh and its cameras/scale, then reproduce an image-supported reconstruction. Keep those as separate outcomes. Evaluate held-out views and registration to independent structure; record asset format, transforms, hashes, licenses, memory and loading costs before selecting a renderer/training dependency |
+
+Suggested module boundaries for increment 1 are `packages/spatial-bundle.ts` for strict browser-safe contracts, `packages/spatial-registration.ts` for pure frame/pose operations, a pure `packages/spatial-report.ts` report builder, and `scripts/spatial-inspect.ts` for argument parsing, bounded local reads and hashing. These are proposed paths. Add the CLI script only when it exists. Reuse the existing scan parser, capture IDs, PCM decoding and report evidence; keep Vue, renderer, filesystem and model dependencies out of the core. Add modules in the current layout rather than reorganizing all existing packages.
+
+The first bundle should represent only what its replay actually consumes: stable IDs and hashes, declared units/frame conventions, timestamps with clock identity, explicit known/unknown registration, derivation/support metadata, and the linked scan. Do not require images, dense IMU streams, camera calibration, a model registry or generated content to replay an audio-only artifact. Record speaker/microphone transforms separately when known. An old scan's X/Y plus manual height/heading does not establish full sensor extrinsics; missing orientation, acoustic centers and cross-clock timing remain unknown.
+
+For increment 1, tests should catch dangling capture references, mismatched source bytes, non-finite or invalid poses, reversed transforms, undeclared clocks and accidental treatment of unknown registration as identity. Check deterministic replay and unchanged source bytes, with public synthetic fixtures only. Define size/count limits and reject unsupported versions. File references resolve only through the explicit input bundle; no automatic remote fetch, extraction or private-path logging is required. Run focused unit/tool checks and full typecheck; a browser build becomes necessary when the interface changes.
+
+For increment 2, keep the inference input separate from evaluator-only truth so the estimator cannot read the answer. Include false/missing arrivals, insufficient pose diversity and model mismatch. Use a documented reflected-path model with distinct emitter/receiver positions and direct-relative timing rather than extending the current colocated `2d/c` shortcut to every setup. A passing synthetic fit establishes numerical behavior, with physical error still unknown.
+
+**Physical work can proceed independently of these software increments.** The capture/transport infrastructure already supports the staged [single-wall test](ECHO_SINGLE_WALL.md); do not make a new bundle, viewer or acquisition feature a prerequisite. At the next agreed physical session, follow its fixed hypothesis, controls, expected delay change and stopping rules. Inspect each stage using the existing commands, retain every attempt, and record the outcome against ECHO-05. An inconclusive result redirects acoustic work to ECHO-06/07; it does not justify an arbitrary whole-room scan.
+
+After increment 4 and supported structure/fusion are available, add one masked-region AI-completion experiment under SPATIAL-06. Choose its method from the actual error/coverage evidence. Learned echo association or denoising can be evaluated earlier on saved data, but neither a new model nor a photorealistic viewer is a substitute for an acoustic contribution test.
+
+Use the existing Bun/Vitest/typecheck/CI paths for the new modules. Every research change should identify its SPATIAL/ECHO gate, exact input provenance, supported result and remaining uncertainty. Deterministic synthetic replay belongs in CI; real recordings and private reports stay local. Larger reconstruction/training benchmarks need a separate reproducible workflow with explicit data access and hardware requirements, rather than becoming a prerequisite for the basic browser build.
+
+## Evaluation and first meaningful result
+
+Define accuracy targets for each bounded experiment before looking at its answers. Do not inherit numerical targets from another paper or convert a timing-fit residual into physical confidence.
+
+- **Acoustics:** identified-arrival delay/slope, within-pose variability, false/missed associations and full matched-window integrity. Retain every attempt and keep schedule-relative timing separate.
+- **Structure:** plane distance/orientation, floor/ceiling height, surface-distance distributions, completeness at a declared tolerance and false surfaces. Compare against independent measurements; report metric scale errors without hiding them through a fitted rescaling.
+- **Localization/fusion:** trajectory error and drift with the alignment convention stated; compare the same frozen captures across sensor ablations. Split by session/room/device where generalization is claimed.
+- **Appearance:** held-out-view quality and cross-view consistency, evaluated separately from surface accuracy. An attractive render or a high image score does not certify unobserved structure.
+- **Completion:** mask real observations to create a checkable task, quantify conflicts with known geometry and report plausible alternatives. Agreement on a benchmark does not turn truly unseen generated content into a measurement.
+- **Practicality:** acquisition effort, failure rate, runtime, memory, storage and compute/hardware requirements. Check model/data/code licenses before choosing dependencies; original repo licensing does not license external checkpoints or assets.
+
+The first meaningful integrated result is a bounded, independently measured room dataset that replays into an inspectable 3D structural estimate and a registered visual reconstruction, with an acoustic ablation, explicit unknown regions and a separately switchable AI completion. Partial results count for their own gates. A beautiful rectangle, a successful phone upload, or a standalone splat viewer is not that integrated result.
+
+Current physical evidence remains acquisition/transport evidence. This planning update adds no new capture, benchmark, sensor integration, AI model or validated reconstruction.

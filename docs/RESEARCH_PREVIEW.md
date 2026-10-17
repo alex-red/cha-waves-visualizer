@@ -14,6 +14,8 @@ Can a browser-based phone capture pipeline produce interpretable, repeatable dir
 
 The current contribution is an implemented testbed and a reproducible inspection workflow. Novelty relative to other acquisition systems has not been established. The home sound/RF visualizer is a separate educational modeling track and is not part of this acoustic evaluation.
 
+The [long-term spatial research plan](SPATIAL_RESEARCH_PLAN.md), clarified October 17, 2026, extends the ambition to wave-based 3D mapping, multimodal reconstruction and AI completion, including Gaussian splatting. Those are future research stages; this report evaluates only the acquisition and synthetic inverse work described here.
+
 ## System
 
 The phone emits an 80 ms chirp and records mono PCM in a 700 ms window. Repeated mode uses one microphone stream and AudioContext, a one-second software-clock warmup target and five separate capture windows. Telemetry distinguishes present input, missing input, unobserved frames and present zero-valued input. Requested and browser-reported processing settings are retained without claiming unprocessed hardware audio.

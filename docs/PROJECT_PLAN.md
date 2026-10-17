@@ -2,7 +2,13 @@
 
 **Name:** Cha Waves Visualizer. **Tagline:** See your home in waves. **Demo invitation:** Move a speaker. See what changes.
 
-## Product thesis
+## Long-term research direction
+
+**Research into using waves to map 3D visual space, augmented by AI.** The ultimate goal is to map any 3D space and enrich its digital representation using AI reconstruction and completion, including Gaussian splatting. The [spatial research plan](SPATIAL_RESEARCH_PLAN.md) defines staged evidence gates for this ambition; it is not a current capability claim.
+
+The existing home visualizer solves a forward problem: supplied geometry → predicted sound/RF fields. The mapping research solves an inverse problem: observations → estimated geometry and poses, followed by observed visual reconstruction and explicitly generated completion. Acoustic probing is the first sensing experiment; complementary camera/IMU/depth inputs are research choices. Maintain the visualizer and mapping research as separate tracks with their own acceptance evidence.
+
+## Current product thesis
 
 Make invisible behavior tangible in an editable home. The memorable experience is a small architectural cutaway whose sound or wireless field changes when the user changes something physical. Inspection reveals the computed path, assumptions, and units; comparison reveals the effect of one controlled intervention.
 
@@ -32,7 +38,9 @@ Prioritize curiosity and relative exploration in P0. Personal-home ingestion is 
 
 A secondary negative-control scenario moves an unrelated wall and demonstrates that the direct model may show no change. An exact open-field fixture makes distance scaling inspectable.
 
-## Release scope
+## Visualizer release scope
+
+P0/P1/P2 below describe the educational visualizer's release scope. They do not limit the long-term spatial research direction or make completion of every visualizer feature a prerequisite for that research.
 
 | Capability | P0: polished public demo | P1: personal-home laboratory | P2: selected research |
 |---|---|---|---|
@@ -72,4 +80,6 @@ Engineering targets and validation gates live in [VALIDATION_AND_PERFORMANCE.md]
 
 The current [acoustic experiment plan](ECHO_EXPERIMENT_PLAN.md) separates phone capture/transport from physical reconstruction. The first three-position Android experiment is complete as a diagnostic run. Further room scanning is gated on instrumented acquisition and a repeatable reflection from one wall at known distances; the rectangle solver remains a synthetic/reference case until measured inputs support it.
 
-P1 earns practical value by importing a user's scaled plan, keeping uncertain construction inputs visible, and comparing against independently collected measurements. Prioritize one radio calibration workflow before broadening domain count. P2's strongest candidate is a validated acoustic wave experiment that reveals diffraction or interference missing from P0; show disagreement explicitly and avoid equating 2D pressure with real 3D room SPL.
+P1 earns practical value by importing a user's scaled plan, keeping uncertain construction inputs visible, and comparing against independently collected measurements. Radio calibration and a validated acoustic wave experiment remain optional extensions of that product. A wave simulation can reveal diffraction or interference missing from P0, but is not a prerequisite for inverse mapping; avoid equating 2D pressure with real 3D room SPL.
+
+The research priority is the [spatial milestone sequence](SPATIAL_RESEARCH_PLAN.md): supported wall evidence, registered 3D observations, supported structure, fusion/localization, image-supported visual reconstruction and constrained AI completion, then broader environments. Some offline registration and visual work can proceed while acoustic validation remains open. Evaluate the added value of waves against visual-only baselines, and keep measured constraints, estimated surfaces and generated details distinguishable.
