@@ -10,6 +10,8 @@ The public three-capture synthetic example replays identity and rotated/translat
 
 Verification: all 363 Vitest checks passed, including 25 new spatial contract/transform/report/CLI checks. Full typecheck and repository link/hygiene checks passed. The documented example ran through the package command; its exact source and manifest hashes are covered by replay regressions, including unchanged input bytes. No browser build, live relay restart or physical recording was needed for this CLI-only increment.
 
+A follow-up transform regression found that quaternion roundoff accepted by the norm tolerance could produce metre-scale error at the coordinate limit. Operations now normalize accepted copies after validation; outside-tolerance inputs still fail. All five focused transform tests pass, including the large-coordinate inverse round trip and immutability checks.
+
 ## Research direction update — October 17, 2026
 
 The long-term goal is research into using waves to map 3D visual space, augmented by AI: ultimately map any 3D space and enrich its representation with techniques such as Gaussian splatting and scene completion. The [spatial research plan](SPATIAL_RESEARCH_PLAN.md) now connects that ambition to staged wall evidence, 3D registration/structure, fusion, observed visual reconstruction and generated completion. The visualizer remains a separate forward-modeling product. General 3D reconstruction, visual SLAM/sensor fusion, Gaussian splats and AI completion are not implemented; no new physical evidence is claimed by this documentation update. ECHO-04/05 remains the next physical gate.

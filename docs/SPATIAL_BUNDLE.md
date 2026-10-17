@@ -35,7 +35,7 @@ All external objects reject unknown fields. Numbers must be finite. Maximum mani
 
 `method` is one of `supplied`, `estimated` or `synthetic`. It describes derivation, not accuracy or confidence. A source scan's synthetic/recorded mode is reported independently; a supplied pose associated with synthetic echoes does not make them physical observations.
 
-A rigid transform is `{ translationM: [x,y,z], rotationXyzw: [x,y,z,w] }`. Quaternions must have unit norm within 1e-6; do not silently normalize invalid input. Coordinates/translations are bounded to ±1,000,000 m. The transform maps a point as `p_target = R(q) * p_source + translationM`. Composition `composeRigidTransforms(outer, inner)` applies `inner` first, then `outer`.
+A rigid transform is `{ translationM: [x,y,z], rotationXyzw: [x,y,z,w] }`. Quaternions must have unit norm within 1e-6; inputs outside that tolerance are rejected. Transform operations normalize a copy of accepted quaternion roundoff before calculation, preserving caller inputs and rigid rotation at large coordinates. Coordinates/translations are bounded to ±1,000,000 m. The transform maps a point as `p_target = R(q) * p_source + translationM`. Composition `composeRigidTransforms(outer, inner)` applies `inner` first, then `outer`.
 
 Registration state:
 

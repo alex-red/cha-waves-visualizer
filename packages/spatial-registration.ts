@@ -20,10 +20,15 @@ function finiteQuaternion(value: unknown, label: string): asserts value is Quate
   }
 }
 
-function validateTransform(transform: RigidTransform): void {
+function validateTransform(transform: RigidTransform): Quaternion {
   if (!transform || typeof transform !== 'object') throw new RangeError('transform must be an object.')
   finiteVector(transform.translationM, 'transform.translationM')
   finiteQuaternion(transform.rotationXyzw, 'transform.rotationXyzw')
+  const q = transform.rotationXyzw
+  const norm = Math.hypot(q[0], q[1], q[2], q[3])
+  // Inputs within the contract tolerance represent a rotation; use an exact unit
+  // copy for the rigid math while preserving the caller's original tuple.
+  return [q[0] / norm, q[1] / norm, q[2] / norm, q[3] / norm]
 }
 
 function multiplyQuaternion(a: Quaternion, b: Quaternion): Quaternion {
@@ -62,8 +67,8 @@ function ensureFiniteResult(vector: Vector3): Vector3 {
 
 export function applyRigidTransform(point: Vector3, transform: RigidTransform): Vector3 {
   finiteVector(point, 'point')
-  validateTransform(transform)
-  const rotated = rotateVector(point, transform.rotationXyzw)
+  const rotation = validateTransform(transform)
+  const rotated = rotateVector(point, rotation)
   return ensureFiniteResult([
     rotated[0] + transform.translationM[0],
     rotated[1] + transform.translationM[1],
@@ -72,8 +77,7 @@ export function applyRigidTransform(point: Vector3, transform: RigidTransform): 
 }
 
 export function invertRigidTransform(transform: RigidTransform): RigidTransform {
-  validateTransform(transform)
-  const [x, y, z, w] = transform.rotationXyzw
+  const [x, y, z, w] = validateTransform(transform)
   const rotationXyzw: Quaternion = [-x, -y, -z, w]
   const rotatedTranslation = rotateVector(transform.translationM, rotationXyzw)
   return {
@@ -83,10 +87,10 @@ export function invertRigidTransform(transform: RigidTransform): RigidTransform 
 }
 
 export function composeRigidTransforms(outer: RigidTransform, inner: RigidTransform): RigidTransform {
-  validateTransform(outer)
-  validateTransform(inner)
-  const rotationXyzw = normalizeComputedQuaternion(multiplyQuaternion(outer.rotationXyzw, inner.rotationXyzw))
-  const translatedInner = rotateVector(inner.translationM, outer.rotationXyzw)
+  const outerRotation = validateTransform(outer)
+  const innerRotation = validateTransform(inner)
+  const rotationXyzw = normalizeComputedQuaternion(multiplyQuaternion(outerRotation, innerRotation))
+  const translatedInner = rotateVector(inner.translationM, outerRotation)
   const translationM = ensureFiniteResult([
     translatedInner[0] + outer.translationM[0],
     translatedInner[1] + outer.translationM[1],

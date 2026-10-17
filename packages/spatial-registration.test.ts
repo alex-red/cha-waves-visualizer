@@ -39,4 +39,20 @@ describe('spatial rigid transforms', () => {
     expect(transform).toEqual(quarterTurnZ)
     expect(point).toEqual(originalPoint)
   })
+
+  it('normalizes accepted quaternion roundoff before large-coordinate rigid operations', () => {
+    const k = Math.SQRT1_2 * (1 + 4e-7)
+    const transform: RigidTransform = { translationM: [1, 2, 3], rotationXyzw: [0, 0, k, k] }
+    const original = structuredClone(transform)
+    const point: [number, number, number] = [1e6, 2e5, 1]
+    const inverse = invertRigidTransform(transform)
+    const inverseNorm = Math.hypot(...inverse.rotationXyzw)
+    expect(inverseNorm).toBeCloseTo(1, 14)
+    const roundTrip = applyRigidTransform(applyRigidTransform(point, transform), inverse)
+    roundTrip.forEach((value, index) => expect(Math.abs(value - point[index]!)).toBeLessThan(1e-8))
+    const composed = composeRigidTransforms(transform, quarterTurnX)
+    expect(Math.hypot(...composed.rotationXyzw)).toBeCloseTo(1, 14)
+    expect(transform).toEqual(original)
+    expect(() => applyRigidTransform(point, { ...transform, rotationXyzw: [0, 0, k * (1 + 2e-6), k * (1 + 2e-6)] })).toThrow(/unit quaternion/)
+  })
 })
