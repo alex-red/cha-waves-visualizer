@@ -35,14 +35,17 @@ describe('Middlebury input adaptation', () => {
     expect(() => parseMiddleburyCalibration(calibration('vmin=1\nvmin=2'))).toThrow(/repeated/)
   })
 
-  it('decodes little- and big-endian PFM and flips bottom-up rows to top-down', () => {
+  it('uses PFM scale sign for endianness only and flips bottom-up rows to top-down', () => {
     const little = parseMiddleburyPfm(pfm([3, 4, 1, Number.NaN], 2, 2, 'little', 2))
     expect(little.width).toBe(2)
-    expect([...little.values.slice(0, 1)]).toEqual([2])
+    expect([...little.values.slice(0, 1)]).toEqual([1])
     expect(little.values[1]).toBeNaN()
-    expect([...little.values.slice(2)]).toEqual([6, 8])
+    expect([...little.values.slice(2)]).toEqual([3, 4])
     const big = parseMiddleburyPfm(pfm([9, 10], 2, 1, 'big', 0.5))
-    expect([...big.values]).toEqual([4.5, 5])
+    expect([...big.values]).toEqual([9, 10])
+    // This is the non-unit scale value used by the pinned Middlebury PFM.
+    expect(parseMiddleburyPfm(pfm([120], 1, 1, 'little', 0.003922)).values[0]).toBe(120)
+    expect(parseMiddleburyPfm(pfm([120], 1, 1, 'big', 0.003922)).values[0]).toBe(120)
   })
 
   it('preserves positive infinity as missing, rejects negative infinity and malformed raster sizes', () => {
@@ -52,8 +55,8 @@ describe('Middlebury input adaptation', () => {
     expect(() => parseMiddleburyPfm(pfm([1], 1, 1).subarray(0, 10))).toThrow()
     expect(() => parseMiddleburyPfm(new TextEncoder().encode('PF\n1 1\n-1\n' + '\0'.repeat(12)))).toThrow(/grayscale Pf/)
     expect(() => parseMiddleburyPfm(new TextEncoder().encode(`${'X'.repeat(300)}\n1 1\n-1\n`))).toThrow(/oversized token/)
-    expect(() => parseMiddleburyPfm(pfm([3.4e38], 1, 1, 'little', 2))).toThrow(/overflows/)
-    expect(() => parseMiddleburyPfm(new TextEncoder().encode('Pf\n1 1\n-1001\n\0\0\0\0'))).toThrow(/scale.*magnitude/)
+    expect(parseMiddleburyPfm(pfm([3.4e38], 1, 1, 'little', 0.003922)).values[0]).toBe(Math.fround(3.4e38))
+    expect(() => parseMiddleburyPfm(new TextEncoder().encode('Pf\n1 1\n0\n\0\0\0\0'))).toThrow(/nonzero/)
   })
 
   it('area-averages RGB with deterministic rounding and rejects upsampling or malformed bytes', () => {

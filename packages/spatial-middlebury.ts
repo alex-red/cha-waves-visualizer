@@ -152,10 +152,8 @@ export function parseMiddleburyPfm(input: Uint8Array): MiddleburyPfm {
   const width = dimension(finiteNumber(tokens[1], 'PFM width'), 'PFM width')
   const height = dimension(finiteNumber(tokens[2], 'PFM height'), 'PFM height')
   if (width * height > MAX_SOURCE_PIXELS) fail('PFM dimensions', 'exceed the pixel limit')
-  const signedScale = finiteNumber(tokens[3], 'PFM scale')
-  if (signedScale === 0) fail('PFM scale', 'must be nonzero')
-  const scale = Math.abs(signedScale)
-  if (scale > 1_000) fail('PFM scale', 'exceeds the supported magnitude')
+  const signedScale = finiteNumber(tokens[3], 'PFM scale metadata')
+  if (signedScale === 0) fail('PFM scale metadata', 'must be nonzero')
   const byteLength = width * height * 4
   if (input.byteLength - offset !== byteLength) fail('PFM raster', 'must contain exactly one float per pixel')
   const littleEndian = signedScale < 0
@@ -163,16 +161,13 @@ export function parseMiddleburyPfm(input: Uint8Array): MiddleburyPfm {
   const values = new Float32Array(width * height)
   for (let sourceIndex = 0; sourceIndex < values.length; sourceIndex += 1) {
     const rawValue = sourceView.getFloat32(offset + sourceIndex * 4, littleEndian)
-    const scaledValue = rawValue * scale
-    const value = Math.fround(scaledValue)
-    if (Number.isFinite(rawValue) && (!Number.isFinite(scaledValue) || !Number.isFinite(value))) {
-      fail('PFM raster', 'contains a finite sample that overflows after scaling')
-    }
-    if (value === -Infinity) fail('PFM raster', 'contains negative infinity')
+    // Middlebury disparity PFM uses the scale sign for byte order only; its
+    // absolute magnitude is ignored and samples already represent pixel units.
+    if (rawValue === -Infinity) fail('PFM raster', 'contains negative infinity')
     const sourceRow = Math.floor(sourceIndex / width)
     const column = sourceIndex % width
     const targetRow = height - sourceRow - 1
-    values[targetRow * width + column] = value
+    values[targetRow * width + column] = rawValue
   }
   return { width, height, values }
 }

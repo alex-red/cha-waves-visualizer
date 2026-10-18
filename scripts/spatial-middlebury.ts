@@ -1,6 +1,7 @@
 import { spawnSync } from 'node:child_process'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { z } from 'zod'
 import { createMiddleburyCameras, parseMiddleburyCalibration, parseMiddleburyPfm, resizeMiddleburyRgb, resizeMiddleburyTruth } from '../packages/spatial-middlebury.ts'
 import { encodePpm } from '../packages/spatial-ppm.ts'
 import { STEREO_SETTINGS } from '../packages/spatial-stereo-types.ts'
@@ -13,6 +14,20 @@ export type SourcePin = {
   preparation: { width: number; height: number; minDisparity: number; maxDisparity: number; version: string }
   sources: Record<'calib.txt' | 'im0.png' | 'im1.png' | 'disp0.pfm', { url: string; sha256: string; bytes: number }>
 }
+const pinnedFileSchema = z.object({ url: z.string().url().max(2048), sha256: z.string().regex(/^[a-f0-9]{64}$/), bytes: z.number().int().min(1).max(64_000_256) }).strict()
+const sourcePinSchema = z.object({
+  format: z.literal('cha-middlebury-source-pin-v1'), dataset: z.string().min(1).max(160), sourceUrl: z.string().url().startsWith('https://').max(2048),
+  license: z.object({ name: z.string().min(1).max(256), url: z.string().url().startsWith('https://').max(2048), attribution: z.string().min(1).max(1024) }).strict(),
+  preparation: z.object({ width: z.number().int().min(1).max(256), height: z.number().int().min(1).max(192), minDisparity: z.number().int().min(1).max(254), maxDisparity: z.number().int().min(2).max(255), version: z.literal('area-rgb-nearest-truth-v1') }).strict(),
+  sources: z.object({ 'calib.txt': pinnedFileSchema, 'im0.png': pinnedFileSchema, 'im1.png': pinnedFileSchema, 'disp0.pfm': pinnedFileSchema }).strict(),
+}).strict().superRefine((pin, context) => {
+  if (pin.sources['calib.txt'].bytes > 64 * 1024 || pin.sources['im0.png'].bytes > 32 * 1024 * 1024 || pin.sources['im1.png'].bytes > 32 * 1024 * 1024) context.addIssue({ code: 'custom', message: 'Pinned source byte count exceeds its format limit.' })
+  if (pin.preparation.minDisparity >= pin.preparation.maxDisparity || pin.preparation.maxDisparity >= pin.preparation.width) context.addIssue({ code: 'custom', message: 'Invalid pinned disparity range.' })
+  for (const record of Object.values(pin.sources)) {
+    const url = new URL(record.url)
+    if (url.protocol !== 'https:' || url.hostname !== 'vision.middlebury.edu' || url.username || url.password || url.port) context.addIssue({ code: 'custom', message: 'Source URL must be an official HTTPS Middlebury URL.' })
+  }
+})
 type RgbImage = { width: number; height: number; rgb: Uint8Array<ArrayBuffer> }
 type Dependencies = { pin?: SourcePin; decodePng?: (bytes: Uint8Array) => RgbImage; fetchImpl?: typeof fetch }
 
@@ -21,6 +36,7 @@ const HELP = 'Usage: bun run spatial:middlebury -- <fetch|prepare|truth> [option
 
 /** Optional Pillow decoder. It opens no files, URLs or truth; input/output are bounded bytes. */
 export function decodePngRgb(bytes: Uint8Array): RgbImage {
+  if (!(bytes instanceof Uint8Array) || bytes.length === 0 || bytes.length > 32 * 1024 * 1024) throw new Error('PNG source exceeds its supported byte limit.')
   const helper = fileURLToPath(new URL('./lib/decode-png-rgb.py', import.meta.url))
   const child = spawnSync('python3', [helper], { input: bytes, maxBuffer: 16_000_000 * 3 + 8, timeout: 30_000 })
   if (child.error || child.status !== 0) throw new Error('PNG decoding requires Python 3 and Pillow, and a bounded RGB PNG source.')
@@ -80,8 +96,7 @@ export async function runSpatialMiddlebury(args: readonly string[], dependencies
   const options = parseFileArguments(values.slice(1), keys)
   if ('help' in options) return HELP
   const pinBytes = dependencies.pin ? jsonBytes(dependencies.pin) : await readBounded(PIN_PATH, 16 * 1024)
-  const pin = dependencies.pin ?? JSON.parse(new TextDecoder().decode(pinBytes)) as SourcePin
-  if (pin.format !== 'cha-middlebury-source-pin-v1') throw new Error('Unsupported source pin.')
+  const pin = sourcePinSchema.parse(dependencies.pin ?? JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(pinBytes)))
   if (mode === 'fetch') {
     await installNewDirectory(options['--output']!, await fetchOriginals(pin, dependencies.fetchImpl ?? fetch))
     return JSON.stringify({ mode, dataset: pin.dataset, sourcePinSha256: sha256(pinBytes), files: pin.sources }, null, 2) + '\n'
@@ -121,7 +136,7 @@ export async function runSpatialMiddlebury(args: readonly string[], dependencies
   const manifest = stereoGeometryTruthSchema.parse({
     format: 'cha-stereo-geometry-truth-v1', inputSha256: sha256(input.bytes), camera: cameras.left,
     disparity: { fileName: 'disparity.f32', sha256: sha256(disparity) }, depth: { fileName: 'depth.f32', sha256: sha256(depth) },
-    provenance: { dataset: pin.dataset, sourceUrl: pin.sourceUrl, method: 'Independent structured-light disparity; nearest original truth sample per output pixel.', notes: `Original PFM SHA256 ${pin.sources['disp0.pfm'].sha256}; calibration SHA256 ${pin.sources['calib.txt'].sha256}; source pin SHA256 ${sha256(pinBytes)}; missing truth retained; no held-out camera views or estimated registration.` },
+    provenance: { dataset: pin.dataset, sourceUrl: pin.sourceUrl, method: 'Independent structured-light raw pixel disparity; PFM header magnitude ignored; nearest original truth sample per output pixel.', notes: `Original PFM SHA256 ${pin.sources['disp0.pfm'].sha256}; calibration SHA256 ${pin.sources['calib.txt'].sha256}; source pin SHA256 ${sha256(pinBytes)}; missing truth retained; no held-out camera views or estimated registration.` },
   })
   const manifestBytes = jsonBytes(manifest)
   await installNewDirectory(options['--output']!, { 'truth.json': manifestBytes, 'disparity.f32': disparity, 'depth.f32': depth })
@@ -130,7 +145,8 @@ export async function runSpatialMiddlebury(args: readonly string[], dependencies
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   runSpatialMiddlebury(process.argv.slice(2)).then(output => process.stdout.write(output), error => {
-    process.stderr.write(`spatial:middlebury: ${error instanceof Error ? error.message : 'Failed.'}\n`)
+    const filesystemCode = typeof error === 'object' && error !== null && 'code' in error && typeof error.code === 'string' ? error.code : null
+    process.stderr.write(`spatial:middlebury: ${filesystemCode ? `Local file operation failed (${filesystemCode}).` : error instanceof Error ? error.message : 'Failed.'}\n`)
     process.exitCode = 1
   })
 }

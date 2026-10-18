@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { createStereoFixtureFiles } from './spatial-stereo-fixture.ts'
 import { installNewDirectory, jsonBytes, sha256 } from './lib/stereo-files.ts'
-import { runSpatialMiddlebury, type SourcePin } from './spatial-middlebury.ts'
+import { decodePngRgb, runSpatialMiddlebury, type SourcePin } from './spatial-middlebury.ts'
 
 function syntheticSource() {
   const width = 32, height = 24
@@ -93,10 +93,14 @@ describe('bounded real-image preparation workflow with synthetic inputs', () => 
       await expect(readFile(join(root, 'changed/calib.txt'))).rejects.toThrow()
       source.pin.sources['calib.txt'].url = 'https://example.com/no'
       await expect(runSpatialMiddlebury(['fetch', '--output', join(root, 'foreign')], { ...source, fetchImpl })).rejects.toThrow(/official/)
+      source.pin.sources['calib.txt'].url = 'https://vision.middlebury.edu/synthetic/calib.txt'
+      source.pin.sources['im0.png'].bytes = 64 * 1024 * 1024
+      await expect(runSpatialMiddlebury(['fetch', '--output', join(root, 'oversize')], { ...source, fetchImpl })).rejects.toThrow()
     } finally { await rm(root, { recursive: true, force: true }) }
   })
 
   it('requires explicit modes/options and cannot use unrelated synthetic fixture calibration', async () => {
+    expect(() => decodePngRgb(new Uint8Array())).toThrow(/byte limit/)
     expect(await runSpatialMiddlebury(['--help'])).toMatch(/^Usage:/)
     await expect(runSpatialMiddlebury([])).rejects.toThrow(/Choose/)
     await expect(runSpatialMiddlebury(['prepare', '--source', 'x'])).rejects.toThrow(/Missing/)
