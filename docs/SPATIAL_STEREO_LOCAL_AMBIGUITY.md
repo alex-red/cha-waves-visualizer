@@ -44,3 +44,56 @@ Keep deterministic scores separate from resource/runtime and eligibility-decisio
 If parent sampling is unavailable, retain that status; a valid worker OS checkpoint still permits the resource gate, as in the previous confidence protocol. Missing OS measurement fails it. The budget covers each worker's startup, input generation, estimation, serialization and output. Parent orchestration and browser/GPU memory are outside this per-job scope. Exit 2 records an ineligible completed screen; exit 1 records a validation or installation failure.
 
 The earlier no-variance failure remains a regression record. This run does not search settings, replace cases, relax thresholds, select a production candidate or estimate on holdout-C. A future held-out test requires a distinct candidate, pin, selection rule and resource check frozen before estimation. This work makes no physical-room, world-registration, AI-completion, acoustic or UI claim; ECHO-04/05 and the broader SPATIAL-05 evidence gates remain open.
+
+## Recorded result — October 18, 2026: ineligible
+
+Setup commit **`7b482272acce61a732e1d43e6f155ae8b3dbb2e0`** froze the implementation and protocol before the first development estimation run. All **27/27** jobs completed and were retained. The command exited **2**: negative support, pooled relative and measured resource gates pass, but one positive case fails its coverage gate. No case, setting, rule or threshold changed after this result.
+
+| Unsupported correspondence mask | SAD accepted | Full Census/SGM accepted | Local-filter proposal accepted |
+|---|---:|---:|---:|
+| Uniform pair, 14,848 pixels | 0 | 0 | 0 — pass |
+| Independent noise, 14,848 pixels | 0 | 0 | 0 — pass |
+| Periodic stripes, 14,848 pixels | 0 | 14,848 (100%) | **0 — pass** |
+| Corrupted right patch, 2,170 pixels | 0 | 0 | 0 — pass |
+
+The local filter rejects every periodic assignment over the whole frame, including the complete unsupported mask. Full SGM retains 17,168 points with unknown geometry, as in the earlier screen. Their disparity-error rates remain null. This shows abstention on this fixed repeated pattern; it does not establish calibrated confidence on arbitrary repetition or real scenes. The corrupted-patch mask covers only its unsupported domain; accepted points outside that domain remain in the result.
+
+| Positive case | Proposal coverage | Proposal bad-1 among estimates | Depth P90 / maximum | Absolute gates |
+|---|---:|---:|---:|---|
+| Textured tilt + occluder | 12,050 / 19,200 = 62.760% | 5 / 12,050 = 0.041% | 0.11022 / 0.43632 m | Pass |
+| Weak stripe + repeated pattern | 7,859 / 19,200 = 40.932% | 137 / 7,859 = 1.743% | 0.15395 / 1.20342 m | Pass |
+| Exposure + tilt + occluder | 12,377 / 19,200 = 64.464% | 23 / 12,377 = 0.186% | 0.11930 / 1.67895 m | Pass |
+| Exposure + noise | **6,235 / 19,200 = 32.474%** | 19 / 6,235 = 0.305% | 0.13227 / 0.42376 m | **Fails 35% coverage minimum** |
+| Low contrast | 11,316 / 19,200 = 58.938% | 15 / 11,316 = 0.133% | 0.12273 / 1.79711 m | Pass |
+
+Each positive passes the bad-1 and depth P90 requirements. Coverage is the decisive failure: the exposure/noise case falls from the earlier no-variance proposal's 52.479% to 32.474%, which misses the frozen minimum by 2.526 percentage points. Favorable pooled scores cannot override a required per-case gate. Large individual depth errors remain in three other cases even where P90 passes.
+
+| Pooled measure over five positive cases | SAD baseline | Local-filter proposal |
+|---|---:|---:|
+| Valid-truth pixels | 96,000 | 96,000 |
+| Accepted with truth / unestimated truth | 15,608 / 80,392 | 49,837 / 46,163 |
+| Coverage | 16.258% | 51.914% |
+| Bad-1 among estimates | 158 / 15,608 = 1.012% | 199 / 49,837 = 0.399% |
+| Bad-1 counting missing | 83.906% | 48.294% |
+
+Missing-aware error improves by 35.6125 percentage points against SAD; coverage improves by 35.6552 points and bad-1 fraction among estimates decreases. All relative gates pass. Compared with the earlier no-variance proposal, the filter removes 23,931 positive estimates, including 23,613 correct and 318 bad disparities. Surviving points retain their exact disparity, geometry and color; this check abstains rather than correcting estimates. Full per-region outcomes and support transitions against full SGM remain in the local score record, without adding overlapping region denominators.
+
+## Resource and artifact record
+
+One local **macOS arm64, Bun 1.4.3** run measured all 27 isolated workers. Maximum wall time was **230 ms**, maximum worker OS checkpoint **64.4375 MiB**, and maximum parent RSS sample **85.625 MiB**. The gate uses their maximum, **85.625 MiB**. Every job had both OS and sampled memory records and passed the 30 s / 512 MiB limits. These observations cover the fixed 160×120, 25-label jobs; they do not describe maximum supported input sizes, parent orchestration or browser/GPU costs.
+
+| Artifact in ignored `local-captures/stereo-local-ambiguity-development/` | SHA256 |
+|---|---|
+| `scores.json` | `961eff298c62c8b90adb5aff3cb759084dc121f0be7b224d7cad7bdba3c4f5df` |
+| `resource-runtime.json` | `2667cceb88adc93ed3cea10a19d8a24348f54262c3ecf119b01be7a8eeeda1e4` |
+| `decision.json` | `c0da2c7b69c816c1af11e08908b06c8448e0cdd5a35fe3bd5cc39b9250067c30` |
+
+All **554 Vitest checks** and full package/script/Vue typechecks pass. Focused checks cover raw local costs and repeated aliases, invalid support/competitors, unchanged surviving points, outcome accounting, fixed eligibility adaptation, pin verification, internal case/variant boundaries and all 27 retained mocked trials. The final focused CLI check and script typecheck also cover preserving decoded resource records when later scoring fails; the trial still fails eligibility.
+
+A separate saved-artifact calculation, without an estimator or shared evaluator, verified all input/image/truth/region/mask/result links, the 18 implementation-source hashes, point/outcome accounting, every full-scene and per-region geometry summary, pooled positive rates, unsupported acceptance and the eligibility decision. It independently confirmed strict >1 px errors and interpolated depth percentiles. SAD and full SGM arrays exactly match their earlier confidence artifacts; local surviving points exactly match a subset of the prior no-variance result. Recorded resource limits and score/runtime decision hashes also agree. This audit checks saved measurements rather than remeasuring the workers or validating physical accuracy. Holdout-C remains unopened for estimation, and its pin bytes retain the reserved hash. The existing preview, UI build, capture relay and Tailscale route were preserved.
+
+## Decision and next diagnostic
+
+Keep SAD as the default, retain this ineligible proposal as a development reference, and keep holdout-C unopened for estimation. The filter fixes the specific periodic negative while removing too much useful exposure/noise support to satisfy the complete rule. Neither that partial success nor the pooled improvement justifies promotion.
+
+Next, diagnose **where correct development support is lost** under the fixed forward and reverse local predicates. Separate raw anchored-cost rejection from nonadjacent-competitor ambiguity and invalid support, with evaluator-only correctness and region summaries. Preserve this run's frozen settings and failure rather than lowering a threshold to pass it. A later distinct proposal must have its own declared rule and pin before development screening and a separately frozen candidate decision before holdout estimation. Broader independently measured camera/registration evidence, acoustic fusion and AI completion remain open.

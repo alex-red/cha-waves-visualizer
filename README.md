@@ -70,6 +70,8 @@ A separate [Census/SGM comparison](docs/SPATIAL_STEREO_COMPARISON.md) retains th
 
 The [confidence eligibility screen](docs/SPATIAL_STEREO_CONFIDENCE.md) rejects that proposal: it and full Census/SGM accept 100% of an ambiguous periodic-stripe domain, against a ≤1% limit; SAD abstains. Positive geometry and measured resource gates pass, but cannot override this unsupported correspondence. Defaults remain unchanged, and the fresh holdout remains unopened.
 
+The follow-up [fixed local-ambiguity screen](docs/SPATIAL_STEREO_LOCAL_AMBIGUITY.md) accepts no pixels within any of the four unsupported negative masks, including 0/14,848 periodic-stripe pixels, but is also ineligible: exposure/noise coverage is 32.474%, below the 35% positive-case gate. Pooled relative and resource gates pass. No candidate was selected or SAD/SGM defaults changed; holdout-C remains unopened.
+
 Open **Research Lab** in the app to inspect these references visually or select a local bundle and its source files. It can also open over an active Echo Lab review while keeping the scan in place. [Research workspace guide](docs/SPATIAL_WORKSPACE.md)
 
 In **Visual splats**, load the synthetic metric room, CC0 violin or synthetic stereo reconstruction; inspect camera/scale provenance and save/reopen the original manifest and splat. The Middlebury evaluation is available through its dedicated CLI and stores local source assets outside version control. The violin's world placement remains unknown. Independent world registration, acoustic fusion and AI completion remain future work. [Manual research walkthrough](docs/MANUAL_TESTING.md#research-lab-walkthrough)

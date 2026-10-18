@@ -1,6 +1,6 @@
 # Implementation status
 
-Status date: **October 17, 2026**. This records the current implementation against the [roadmap](IMPLEMENTATION_ROADMAP.md). It is not a complete P0 release claim.
+Status date: **October 18, 2026**. This records the current implementation against the [roadmap](IMPLEMENTATION_ROADMAP.md). It is not a complete P0 release claim.
 
 ## Spatial bundle and offline replay — October 17, 2026
 
@@ -79,6 +79,12 @@ The [fixed development eligibility screen](SPATIAL_STEREO_CONFIDENCE.md) adds po
 The proposal is **ineligible**. All five positive absolute gates, the pooled relative screen and worker resource gates pass, but it accepts **14,848/14,848 unsupported periodic pixels (100%, required ≤1%)**. Full SGM fails the same control; SAD accepts none. Other negative domains have zero proposal acceptance. Across five positive cases, coverage is 76.842% and bad-1 among estimates 0.701%, with missing-aware error 23.697%; these favorable synthetic scores do not override the support failure. One local run completed all 27 workers with maximum wall time 222 ms and maximum gate RSS 77.125 MiB, within the 30 s / 512 MiB per-worker limits.
 
 All **541 Vitest checks**, full package/script/Vue typechecks and repository hygiene pass. A separate artifact calculation verified all input/result/mask hashes, numerical summaries, eligibility and recorded resources without running an estimator. Bounded test concurrency, hashed fixture comparisons and an appropriate integration-test deadline resolve full-suite load timeouts without changing research gates. Holdout-C remains unopened; no distinct candidate was selected, no default changed and no new physical or real-scene evidence is claimed. Next work tests local correspondence ambiguity separately from aggregated SGM confidence under a frozen proposal and the retained negative cap. Independent registration, unseen real cameras, acoustic contribution and AI completion remain open.
+
+## Stereo local-ambiguity screen — October 18, 2026
+
+The fixed [local-ambiguity follow-up](SPATIAL_STEREO_LOCAL_AMBIGUITY.md) applies one bidirectional 5×5 grayscale Census check to points accepted by the no-variance SGM proposal. It reuses the nine pinned confidence cases and masks, compares SAD/full SGM/the post-filter, and keeps the earlier failed no-variance record intact. Local evidence is under ignored `local-captures/stereo-local-ambiguity-development/`; the detailed report contains its exact pin, score and setup hashes.
+
+The proposal is **ineligible**: it accepts no pixels within any of the four unsupported masks, and the pooled relative/resource gates pass, but exposure/noise coverage is 6,235/19,200 (32.474%, below 35%). Its bad-1 rate (0.305%) and depth P90 (0.13227 m) pass. All 27 workers completed; one local run measured a maximum 230 ms wall time and 85.625 MiB effective peak RSS (64.4375 MiB OS checkpoint, 85.625 MiB sample). All **554 Vitest checks** and full package/script/Vue typechecks pass, including the focused suite and script typecheck after the resource-retention fix. An independent saved-array audit verified hashes, counts, full-scene/per-region geometry, unchanged baseline arrays, support losses, eligibility and recorded resources without an estimator. No UI build, real-scene evaluation or physical mapping result follows. Holdout-C remains unopened; no candidate was selected or default changed. Next work is a fixed development attrition diagnostic for forward/reverse local raw costs against alternate minima, especially under exposure/noise; do not lower thresholds or open the holdout for selection.
 
 ## Research direction update — October 17, 2026
 
