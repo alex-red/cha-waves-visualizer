@@ -17,6 +17,7 @@ Use [PROJECT_PLAN.md](PROJECT_PLAN.md) and [IMPLEMENTATION_ROADMAP.md](IMPLEMENT
 | [SPATIAL_STEREO_ABLATION.md](SPATIAL_STEREO_ABLATION.md) | Fixed development-only correspondence/filter diagnostics, source hashes and reserved fresh evaluation split |
 | [SPATIAL_STEREO_CONFIDENCE.md](SPATIAL_STEREO_CONFIDENCE.md) | Positive/negative correspondence controls, fixed proposal eligibility rule and per-worker time/RSS measurements |
 | [SPATIAL_STEREO_LOCAL_AMBIGUITY.md](SPATIAL_STEREO_LOCAL_AMBIGUITY.md) | Fixed local Census ambiguity post-filter, unchanged development controls and eligibility gates |
+| [SPATIAL_STEREO_LOCAL_ATTRITION.md](SPATIAL_STEREO_LOCAL_ATTRITION.md) | Saved-result diagnostics separating forward/reverse local Census rejection and correct/incorrect support losses |
 | [SPATIAL_WORKSPACE.md](SPATIAL_WORKSPACE.md) | Research Lab interface, synthetic evidence inspection, browser-local bundle replay and state preservation |
 | [SPATIAL_VISUAL_BASELINE.md](SPATIAL_VISUAL_BASELINE.md) | Visual manifest, native Gaussian-splat viewing, metric/unknown registration, original-file round trips and fixture provenance |
 | [CASE_STUDY.md](CASE_STUDY.md) | Product interaction, engineering decisions, evidence and limits |

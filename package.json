@@ -37,6 +37,7 @@
     "spatial:stereo:ablate": "bun scripts/spatial-stereo-ablate.ts",
     "spatial:stereo:confidence": "bun scripts/spatial-stereo-confidence.ts",
     "spatial:stereo:local": "bun scripts/spatial-stereo-local-ambiguity.ts",
+    "spatial:stereo:attrition": "bun scripts/spatial-stereo-local-attrition.ts",
     "spatial:middlebury": "bun scripts/spatial-middlebury.ts",
     "test:satellite": "node --test scripts/satellite-server.test.mjs scripts/satellite-android.test.mjs scripts/lib/local-scan-api.test.mjs",
     "test:tooling": "node --test scripts/satellite-doctor.test.mjs scripts/test-echo.test.mjs scripts/echo-pull.test.mjs",
