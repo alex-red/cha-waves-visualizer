@@ -39,3 +39,65 @@ bun run spatial:stereo:attrition -- --confidence local-captures/stereo-confidenc
 ```
 
 `--pins` emits metadata and hashes only; it performs no case analysis. The implementation and `docs/data/stereo-local-attrition.json` must be frozen before running the nine-case analysis. The diagnostic adds no estimator resource-gate claim. Any later proposal requires a separate, explicit freeze and eligibility screen before holdout estimation. Broader independent camera/registration evidence, the physical ECHO-04/05 gate and AI completion remain open.
+
+## Recorded diagnostic — October 18, 2026
+
+Setup commit **`c6915ba5fadec2ba50540d5ae5646c7df90f2e58`** froze the implementation and protocol before the saved-case run. All **nine cases** completed, producing input-only evidence for **103,779 base-accepted points** and separate truth/mask diagnostics. Every predicted keep-set matches the saved local-filter result exactly, including point order/values and accepted→ambiguous outcome changes. No reconstruction estimator ran and no setting changed.
+
+Across the five positives, the same **23,931 estimates** are lost: **23,613 correct and 318 bad**. The joint partition makes directional overlap explicit:
+
+| Five-positive partition | Correct | Bad | Total |
+|---|---:|---:|---:|
+| Retained: both directions pass | 49,638 | 199 | 49,837 |
+| Forward-only failure | 6,427 | 47 | 6,474 |
+| Reverse-only failure | 7,624 | 132 | 7,756 |
+| Both directions fail | 9,562 | 139 | 9,701 |
+| All base-accepted points | 73,251 | 517 | 73,768 |
+
+These four groups partition accepted estimates; they do not describe mutually exclusive causes within a direction. Valid truth remains 96,000 pixels. Base coverage is 76.842%, and retained coverage is 51.914%, matching the previous screen. No negative-case accuracy is added to these denominators.
+
+## Exposure/noise: ambiguity dominates the loss
+
+The decisive failed case retains **6,235 / 19,200 truth pixels (32.474%)**, with 6,216 correct and 19 bad estimates. Its 3,841 lost estimates partition as follows:
+
+| Exposure/noise loss group | Correct | Bad | Total |
+|---|---:|---:|---:|
+| Forward-only failure | 1,194 | 6 | 1,200 |
+| Reverse-only failure | 1,325 | 16 | 1,341 |
+| Both directions fail | 1,292 | 8 | 1,300 |
+
+For each direction, the following **first-failure** counts partition all 10,076 base estimates. Forward and reverse columns refer to overlapping point sets and must not be added together:
+
+| First failure | Forward correct / bad | Reverse correct / bad |
+|---|---:|---:|
+| Invalid anchor | 0 / 0 | 0 / 0 |
+| Invalid patch support | 0 / 0 | 3 / 0 |
+| Anchored raw cost >6 | **6 / 0** | **47 / 0** |
+| No valid competing label | 0 / 0 | 0 / 0 |
+| Zero-cost competing minimum | 255 / 1 | 326 / 3 |
+| Ratio >0.8 with positive competitor | **2,225 / 13** | **2,241 / 21** |
+| Pass | 7,541 / 35 | 7,410 / 25 |
+
+The raw-cost cap is a small part of this observed attrition. Most first failures concern competing labels: either a zero-cost minimum or an insufficient raw-cost margin. Independent ratio failures total 2,243 forward and 2,309 reverse, including failures already labeled raw-cost first; the overlap is retained in the report. These counts are not a threshold sweep or a claim that relaxing one predicate would restore a corresponding number of points.
+
+A geometrically correct stored disparity can still lack unique local image evidence. Correctness under the synthetic truth therefore does not justify accepting an ambiguous assignment. This diagnostic explains why the current confidence rule loses coverage; it does not validate a replacement rule.
+
+## Negative controls and limits
+
+The periodic control loses all **17,168** base estimates, each with unknown geometry: 15,450 fail both directions, 882 fail forward only and 836 fail reverse only. Every failing direction has a zero-cost competitor as its first failure. All **14,848 / 14,848** base-accepted points in its predefined unsupported mask are rejected. The directional asymmetry is retained rather than treating a repeated pattern as geometrically correct or assuming every point has identical search support.
+
+Uniform and independent-noise controls already have empty base results, so they provide no attrition rows. The corrupted-patch case has zero base acceptance in its 2,170-pixel unsupported mask; its accepted points outside that mask remain separately scored. These cases do not establish new negative-control performance: they explain the previously recorded filter decisions.
+
+## Artifacts and verification
+
+The deterministic report is in ignored `local-captures/stereo-local-attrition-development/report.json`, SHA256 **`fc6b5a5a3c2918c067f4bac02d3eac4353598aabbda3c58a80303d219a190b7a`**. It links all nine input-only evidence files by exact hash and links each case to its original input/images, base/local results, truth, regions and unsupported mask. Original artifacts are preserved.
+
+All **565 Vitest checks** across 80 files, full package/script/Vue typechecks and repository hygiene pass. New checks cover raw cost/ratio/zero/absent competitors, asymmetric support, null predicates/truth, stratified partitions and region pooling, exact point order/value/outcome preservation, tampered evidence and result metadata, frozen input boundaries, deterministic reports and refusal to overwrite output. This CLI-only increment preserves the current browser build, live preview, capture relay and Tailscale route; it adds no worker resource-budget claim.
+
+An independent saved-artifact audit used a separate P6 decoder, grayscale Census descriptor implementation and Hamming lookup, with no shared diagnostic or reconstruction function. All **103,779 point rows / 207,558 directional records** matched exactly, including competing minima, first minimizing labels, tie/valid-label counts, ratios, nullable checks and failure labels. Recomputed case/region summaries, the five-positive pool, truth support and unsupported retention also matched. Hashes, unchanged source results, exact filtered subsets/order/values and all outcome transitions were checked. This verifies reproducibility of the saved-data explanation, not physical accuracy or a new confidence calibration. The ignored audit summary SHA256 is `75d2182960f7961e61fb01c33e1cc87e503dd155e2b544dd85cfc5ba5739d491`.
+
+## Next evidence question
+
+Keep both ineligible proposals as regression records, keep SAD as the default, and keep holdout-C unopened. The observed bottleneck is discriminating correspondence evidence, especially in the exposure/noise control; raising a raw-cost allowance would not address the dominant recorded ambiguity.
+
+Next, freeze a bounded **additional-view evidence test** to determine whether extra image observations resolve the current aliases while retaining negative controls and missing support. Its hypothesis, camera/input contract and decision rule must precede estimation. Do not assume another view will resolve repetition or select a production candidate from this diagnostic alone. Independently measured real-camera geometry/registration can proceed in parallel; acoustic ECHO-04/05 and the broader mapping/AI gates remain open.

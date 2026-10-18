@@ -72,6 +72,8 @@ The [confidence eligibility screen](docs/SPATIAL_STEREO_CONFIDENCE.md) rejects t
 
 The follow-up [fixed local-ambiguity screen](docs/SPATIAL_STEREO_LOCAL_AMBIGUITY.md) accepts no pixels within any of the four unsupported negative masks, including 0/14,848 periodic-stripe pixels, but is also ineligible: exposure/noise coverage is 32.474%, below the 35% positive-case gate. Pooled relative and resource gates pass. No candidate was selected or SAD/SGM defaults changed; holdout-C remains unopened.
 
+The read-only [saved attrition analysis](docs/SPATIAL_STEREO_LOCAL_ATTRITION.md) localizes the 23,613 correct and 318 bad estimates removed by that filter across the five positive cases, including separate forward/reverse and joint failure groups. It reruns no estimator and changes no gate. The next question is whether an additional view can resolve some ambiguous matches; this remains untested, with independent camera/registration evidence still open.
+
 Open **Research Lab** in the app to inspect these references visually or select a local bundle and its source files. It can also open over an active Echo Lab review while keeping the scan in place. [Research workspace guide](docs/SPATIAL_WORKSPACE.md)
 
 In **Visual splats**, load the synthetic metric room, CC0 violin or synthetic stereo reconstruction; inspect camera/scale provenance and save/reopen the original manifest and splat. The Middlebury evaluation is available through its dedicated CLI and stores local source assets outside version control. The violin's world placement remains unknown. Independent world registration, acoustic fusion and AI completion remain future work. [Manual research walkthrough](docs/MANUAL_TESTING.md#research-lab-walkthrough)
