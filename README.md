@@ -68,6 +68,8 @@ A separate [Census/SGM comparison](docs/SPATIAL_STEREO_COMPARISON.md) retains th
 
 [Fixed development-only ablations](docs/SPATIAL_STEREO_ABLATION.md) now isolate the matching/filter tradeoffs. Bypassing the texture screen raises synthetic coverage from 36.0% to 82.9%, while adding 247 false matches; the matcher defaults are unchanged. Run `bun run spatial:stereo:ablate -- --output local-captures/my-ablation` to reproduce all nine diagnostics. A fresh four-case evaluation split is pinned and reserved for a later candidate decision.
 
+The [confidence eligibility screen](docs/SPATIAL_STEREO_CONFIDENCE.md) rejects that proposal: it and full Census/SGM accept 100% of an ambiguous periodic-stripe domain, against a ≤1% limit; SAD abstains. Positive geometry and measured resource gates pass, but cannot override this unsupported correspondence. Defaults remain unchanged, and the fresh holdout remains unopened.
+
 Open **Research Lab** in the app to inspect these references visually or select a local bundle and its source files. It can also open over an active Echo Lab review while keeping the scan in place. [Research workspace guide](docs/SPATIAL_WORKSPACE.md)
 
 In **Visual splats**, load the synthetic metric room, CC0 violin or synthetic stereo reconstruction; inspect camera/scale provenance and save/reopen the original manifest and splat. The Middlebury evaluation is available through its dedicated CLI and stores local source assets outside version control. The violin's world placement remains unknown. Independent world registration, acoustic fusion and AI completion remain future work. [Manual research walkthrough](docs/MANUAL_TESTING.md#research-lab-walkthrough)
