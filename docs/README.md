@@ -11,6 +11,7 @@ Use [PROJECT_PLAN.md](PROJECT_PLAN.md) and [IMPLEMENTATION_ROADMAP.md](IMPLEMENT
 | [SPATIAL_RESEARCH_PLAN.md](SPATIAL_RESEARCH_PLAN.md) | Long-term wave-based 3D mapping, repository gap analysis, sensor fusion, Gaussian splats, AI completion and staged evidence gates |
 | [SPATIAL_BUNDLE.md](SPATIAL_BUNDLE.md) | Implemented spatial observation/registration bundle, deterministic local replay CLI and synthetic example |
 | [SPATIAL_PLANE_REFERENCE.md](SPATIAL_PLANE_REFERENCE.md) | Fixed-source synthetic 3D plane inference, held-out evaluation, frozen input hashes and limits |
+| [SPATIAL_IMAGE_REFERENCE.md](SPATIAL_IMAGE_REFERENCE.md) | Bounded calibrated synthetic-stereo reconstruction, held-out-view evaluation, frozen input hashes and limits |
 | [SPATIAL_WORKSPACE.md](SPATIAL_WORKSPACE.md) | Research Lab interface, synthetic evidence inspection, browser-local bundle replay and state preservation |
 | [SPATIAL_VISUAL_BASELINE.md](SPATIAL_VISUAL_BASELINE.md) | Visual manifest, native Gaussian-splat viewing, metric/unknown registration, original-file round trips and fixture provenance |
 | [CASE_STUDY.md](CASE_STUDY.md) | Product interaction, engineering decisions, evidence and limits |

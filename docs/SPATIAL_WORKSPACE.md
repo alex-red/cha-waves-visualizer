@@ -29,6 +29,8 @@ A failed import preserves the previous report. Changing selected files or closin
 
 **Visual splats** opens a separate precomputed-asset inspector. **Load metric room** supplies an authored Gaussian-splat room with known synthetic scale/rotation/translation and three illustrative camera poses. **Load CC0 violin** opens a reusable mesh conversion with unknown metric/world registration and no capture cameras. Source kind, license, original hashes and camera roles remain visible. Neither example is an image-trained scene or acoustic reconstruction.
 
+**Load stereo reconstruction** opens an actual [synthetic two-image inverse](SPATIAL_IMAGE_REFERENCE.md) with 14,599 stereo-derived Gaussians and two training camera poses. Its exact bundled hashes enable an offline evaluation record: accepted coverage, depth P90, the retained 1.64 m worst error, two held-out view scores and a downloadable report. Unknown pixels remain holes; these heuristic splats were not trained by Gaussian optimization. Supplied synthetic calibration establishes scale, rather than estimated or physically measured registration.
+
 The native Three.js Gaussian renderer uses WebGPU or WebGL2. Orbit/zoom, keyboard controls, independent appearance/frustum visibility and intrinsics-based camera previews affect only the view. Closing the workspace or leaving the section releases renderer resources; the accepted bundle remains in memory for reopening. `?spatial-webgl=1` selects the WebGL2 path for focused checks. A renderer failure preserves file inspection/downloads and offers retry.
 
 To use your own asset, select a [visual manifest](SPATIAL_VISUAL_BASELINE.md) and its named standard `.splat` file. It is a separate contract from the audio bundle. The importer verifies exact bytes before renderer allocation, retains the previous scene on rejection, and never follows manifest URLs. Use **Save manifest** and **Save original splat** together for lossless reopening; a refresh clears current-tab inspection state. Read the [manual walkthrough](MANUAL_TESTING.md#research-lab-walkthrough) for the complete round trip and negative checks.
@@ -37,7 +39,7 @@ To use your own asset, select a [visual manifest](SPATIAL_VISUAL_BASELINE.md) an
 
 `apps/web/app/components/ResearchLab.vue` owns presentation and import lifecycle. `apps/web/app/lib/spatial-browser.ts` owns bounded reads of explicitly selected browser files, strict decoding and Web Crypto hashing. Shared bundle, registration, plane/evaluation and report modules remain outside Vue and rendering.
 
-The UI does not automatically fit the audio bundle's existing four-arrival rectangle data to the fixed-source plane reference or register it to a visual asset. The three sections retain their separate input contracts. Real mapping still requires [ECHO-04/05](ECHO_SINGLE_WALL.md) evidence and later association/fusion work. Splat import/rendering is implemented; image-supported reconstruction, fusion and AI completion remain future stages.
+The UI does not automatically fit the audio bundle's existing four-arrival rectangle data to the fixed-source plane reference or register it to a visual asset. The three sections retain their separate input contracts. Real mapping still requires [ECHO-04/05](ECHO_SINGLE_WALL.md) evidence and later association/fusion work. Splat viewing and a synthetic stereo reference are implemented; real-image reconstruction, independent registration, fusion and AI completion remain future stages.
 
 Focused checks:
 

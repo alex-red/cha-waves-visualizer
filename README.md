@@ -54,7 +54,7 @@ Open [localhost:4173](http://localhost:4173). There is no public hosted demo con
 | Interaction | Cancellable worker fields, adaptive drag previews, undo/redo and compatible baseline comparisons |
 | Local workspace | IndexedDB projects, versioned JSON import/export, named experiments and optional offline app downloads |
 | Measurement tools | RSSI survey import and residual metrics; experimental phone audio capture and scan inspection |
-| Spatial research | Research Lab with synthetic plane evidence, hash-verified observation replay and local Gaussian-splat viewing with explicit registration/provenance |
+| Spatial research | Research Lab with synthetic plane evidence, calibrated synthetic-stereo reconstruction/evaluation, hash-verified observation replay and local Gaussian-splat viewing with explicit registration/provenance |
 
 [Portfolio case study](docs/CASE_STUDY.md) · [Architecture](docs/ARCHITECTURE.md) · [Current implementation status](docs/IMPLEMENTATION_STATUS.md)
 
@@ -62,9 +62,18 @@ Try the [synthetic spatial replay](docs/SPATIAL_BUNDLE.md) with `bun run spatial
 
 Run `bun run spatial:plane-demo -- --format markdown` for the separate [synthetic 3D plane reference](docs/SPATIAL_PLANE_REFERENCE.md). It fits tilted-wall/floor/ceiling fixtures with a fixed speaker and evaluates held-out positions, retaining missing and ambiguous attempts. It is not a validated phone room scan.
 
+The bounded [calibrated stereo reference](docs/SPATIAL_IMAGE_REFERENCE.md) reconstructs metric points from self-authored synthetic RGB images and supplied camera calibration, then evaluates two held-out views. Reproduce its frozen example with new output directories:
+
+```sh
+bun run spatial:stereo -- --input packages/test-fixtures/stereo/training/input.json --output local-captures/stereo-run
+bun run spatial:stereo:evaluate -- --input packages/test-fixtures/stereo/training/input.json --result local-captures/stereo-run/reconstruction.json --evaluation packages/test-fixtures/stereo/evaluation/evaluation.json --output local-captures/stereo-scores
+```
+
+This is a synthetic calibrated-stereo baseline with stereo-derived heuristic splats, not 3DGS optimization, real-image reconstruction, independent pose recovery, acoustic fusion or AI completion.
+
 Open **Research Lab** in the app to inspect these references visually or select a local bundle and its source files. It can also open over an active Echo Lab review while keeping the scan in place. [Research workspace guide](docs/SPATIAL_WORKSPACE.md)
 
-In **Visual splats**, load the synthetic metric room or CC0 violin, inspect camera/scale provenance, and save/reopen the original manifest and splat. The violin's world placement remains unknown. This is precomputed-asset viewing, without image training, acoustic fusion or AI completion. [Manual research walkthrough](docs/MANUAL_TESTING.md#research-lab-walkthrough)
+In **Visual splats**, load the synthetic metric room, CC0 violin or stereo reconstruction; inspect camera/scale provenance and save/reopen the original manifest and splat. The stereo example includes its separate held-out evaluation and retained 1.64 m worst error. The violin's world placement remains unknown. Gaussian training, acoustic fusion and AI completion remain future work. [Manual research walkthrough](docs/MANUAL_TESTING.md#research-lab-walkthrough)
 
 ## Echo Lab: a separate research experiment
 

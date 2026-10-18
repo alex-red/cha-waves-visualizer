@@ -268,6 +268,67 @@ test('CC0 violin stays asset-local with unknown registration and only Free orbit
   await dialog.getByRole('button', { name: 'Close Research Lab', exact: true }).click()
 })
 
+test('bundled stereo reconstruction renders with its frozen offline evidence and report', async ({ page }, testInfo) => {
+  await page.goto('/?spatial-webgl=1')
+  const dialog = await openResearch(page)
+  const visual = await openVisualTab(dialog)
+  await visual.getByTestId('visual-example-stereo').click()
+  await expect(visual.getByTestId('visual-title')).toHaveText('synthetic-tilted-backdrop-v1 · stereo reconstruction')
+  await expect(visual.getByTestId('visual-import-status')).toContainText('14,599 Gaussians')
+  await expect(visual.getByTestId('visual-asset-hash')).toHaveText('232305feb7f48cee4e2598803259a7173e00db04f7050ba9e0bf3b05e038e13c')
+  await expect(visual.getByTestId('visual-registration')).toContainText('registration')
+  await expect(visual.getByTestId('visual-renderer-status')).toContainText('WebGL2', { timeout: 30_000 })
+
+  const canvas = visual.getByTestId('visual-canvas')
+  await expect(canvas).toHaveAttribute('data-backend', 'webgl')
+  const rendered = await canvas.screenshot({ path: testInfo.outputPath('visual-stereo.png') })
+  expect(rendered.byteLength).toBeGreaterThan(1000)
+
+  const evidence = visual.getByTestId('visual-stereo-evidence')
+  await expect(evidence).toBeVisible()
+  await expect(evidence).toContainText('two training images')
+  await expect(evidence).toContainText('14,599 / 19,200 · 76%')
+  await expect(evidence).toContainText('4.25 cm')
+  await expect(evidence).toContainText('1.64 m')
+  await expect(evidence).toContainText('82.3% / 85.0%')
+  await expect(evidence).toContainText('34.24 / 31.25 of 255')
+  await expect(evidence).toContainText('Holes and distant outliers are retained')
+  await expect(evidence).toContainText('No 3D Gaussian splatting optimization')
+
+  const camera = visual.getByTestId('visual-camera-select')
+  await expect(camera.locator('option')).toHaveCount(3)
+  await camera.selectOption('stereo-left')
+  await expect(camera).toHaveValue('stereo-left')
+  await nextFrames(page)
+  const cameraPreview = await canvas.screenshot()
+  expect(cameraPreview).not.toEqual(rendered)
+  const appearance = visual.getByTestId('visual-toggle-asset')
+  await appearance.uncheck()
+  await nextFrames(page)
+  const withoutSplats = await canvas.screenshot()
+  const appearanceDifference = await compareCanvasPngs(page, cameraPreview, withoutSplats)
+  expect(appearanceDifference.meanAbsoluteRgbError).toBeGreaterThan(0.1)
+  await appearance.check()
+  await nextFrames(page)
+  const restored = await canvas.screenshot()
+  expect((await compareCanvasPngs(page, cameraPreview, restored)).meanAbsoluteRgbError).toBeLessThan(0.1)
+
+  const [download] = await Promise.all([
+    page.waitForEvent('download'),
+    visual.getByTestId('visual-stereo-report-download').click(),
+  ])
+  expect(download.suggestedFilename()).toBe('stereo-evaluation-report.json')
+  const reportPath = await download.path()
+  expect(reportPath).toBeTruthy()
+  expect((await readFile(reportPath!)).byteLength).toBeGreaterThan(0)
+
+  await visual.getByTestId('visual-example-room').click()
+  await expect(visual.getByTestId('visual-title')).toContainText('Synthetic study room')
+  await expect(visual.getByTestId('visual-stereo-evidence')).toBeHidden()
+  await expect(visual.locator('.boundary')).toContainText('without image-quality evaluation')
+  await dialog.getByRole('button', { name: 'Close Research Lab', exact: true }).click()
+})
+
 test('a distant accepted camera keeps the asset inside its clipping range', async ({ page }, testInfo) => {
   await page.goto('/?spatial-webgl=1')
   const dialog = await openResearch(page)

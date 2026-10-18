@@ -1,6 +1,6 @@
 # Visual splat import baseline
 
-This is the precomputed-asset import slice of SPATIAL-05. It supplements the audio [spatial bundle](SPATIAL_BUNDLE.md) with a separate, deliberately small visual contract. Rendering, registration, image-supported reconstruction and acoustic fusion are distinct outcomes. This slice does not train a reconstruction, recover physical scale, validate cameras against images or pass the full SPATIAL-05 research gate.
+This is the precomputed-asset import slice of SPATIAL-05. It supplements the audio [spatial bundle](SPATIAL_BUNDLE.md) with a separate, deliberately small visual contract. Rendering, registration, image-supported reconstruction and acoustic fusion are distinct outcomes. The importer does not train a reconstruction or validate physical accuracy. A subsequent [calibrated stereo reference](SPATIAL_IMAGE_REFERENCE.md) now reconstructs a bounded synthetic image pair, exports through this contract and evaluates separate held-out images; the full SPATIAL-05 gate remains open.
 
 ## Manifest and original asset
 
@@ -28,8 +28,9 @@ Each standard record is 32 bytes: little-endian float32 center XYZ, positive flo
 |---|---|---|
 | Metric study room | Self-authored procedural fixture, 1,883 Gaussians / 60,256 bytes, MIT; asset SHA256 `14f5c2425e69891d4e045e21dd76c48bd8fa3f69b9b02e3880a5afba9a012697`; synthetic scale 1 m/unit, 90° Z rotation, translation [1, 2, 0] m; three illustrative cameras | Software transforms and camera projection on known synthetic inputs |
 | CC0 violin | [Marcel Padilla's 10k mesh conversion](https://github.com/marcelpadilla/splats/blob/main/data/violin/meta.json), 10,000 Gaussians / 320,000 bytes; asset SHA256 `6cb5a33059da30752a49324ab6f84721bb29527bac3810e0856283f0ab59a6dc`; nonmetric scale, unknown world placement, no cameras | External file parsing and rendering; no image training or camera validation |
+| Synthetic stereo reconstruction | [Frozen two-image inverse and held-out evaluation](SPATIAL_IMAGE_REFERENCE.md), MIT; 14,599 Gaussians / 467,168 bytes; asset SHA256 `232305feb7f48cee4e2598803259a7173e00db04f7050ba9e0bf3b05e038e13c`; supplied metric calibration, two training cameras | Actual synthetic image correspondence → metric points → heuristic splats; no Gaussian optimization, real-data or physical registration validation |
 
-The metric-room fixture tests software scale/rotation/translation and synthetic camera projection; it is not measured geometry. Its generator uses fixed inputs and packed output, with a frozen hash. The violin's original source metadata and [attribution](../apps/web/public/research/violin/ATTRIBUTION.md) are retained beside the unmodified file. Its asset-specific CC0 terms are separate from the repository license. Neither example is an image-supported reconstruction dataset.
+The metric-room fixture tests software scale/rotation/translation and synthetic camera projection; it is not measured geometry. Its generator uses fixed inputs and packed output, with a frozen hash. The violin's original source metadata and [attribution](../apps/web/public/research/violin/ATTRIBUTION.md) are retained beside the unmodified file. Its asset-specific CC0 terms are separate from the repository license. The room and violin are not image-supported reconstruction datasets; the stereo reference supplies its own separately frozen images and cameras.
 
 ## Browser boundary
 
@@ -37,4 +38,4 @@ The metric-room fixture tests software scale/rotation/translation and synthetic 
 
 Reported decoded-attribute bytes cover only center, covariance and RGBA arrays (40 bytes per Gaussian). They exclude original files, sorting buffers, renderer/GPU allocations and other overhead. Local read/hash/inspection and first-render timings are per-load observations; they are not frame-rate, phone performance or total-memory claims.
 
-The renderer uses the repository's existing Three.js dependency. Training a splat model, reconstructing an image-supported scene, validating held-out views, and comparing registration to independent structure remain subsequent experiments. The known-wall ECHO-04/05 physical gate stays independent of visual import.
+The renderer uses the repository's existing Three.js dependency. The stereo reference's exact bundled hashes enable a fixed offline-evidence panel; the general importer still does not open source images or evaluate their camera claims. Training a splat model, real-image reconstruction and registration against independent structure remain subsequent experiments. The known-wall ECHO-04/05 physical gate stays independent of visual import.
