@@ -17,3 +17,43 @@ Freeze these screening gates: **at least 35% of pixels with truth receive an est
 This pair offers no independent held-out camera view. The right image is an estimator input and must not be relabeled held-out. Structured-light truth checks geometry in the supplied calibrated rig frame; it does not test estimated registration, room coverage, acoustic contribution, Gaussian optimization or AI completion. ECHO-04/05 remains the independent physical acoustic gate.
 
 The [source pin](data/middlebury-adirondack.json) records original byte sizes and SHA256 values. Its SHA256 is `938bfe7f63bc1c6ec6c6d6aefde2d7f02717053675bd0ebe9987fda8331820aa`; the prepared 256 × 177 input manifest is `8d6c7a33c309e21d8fddbe65a4a1845a3262b846585933f986888fe12524b459`. These were frozen before running reconstruction or ground-truth evaluation. Original PFM SHA256 is `7f60d0734b9a00c8ac56db21a36a2193b67e4ddb02d84360c476c094574a03ff`; hashing does not expose its contents to the estimator.
+
+## Reproduce locally
+
+Bun runs the workflow. PNG preparation additionally needs Python 3 and Pillow; observed preparation used Pillow 12.2.0. No CV/ML runtime, model, GPU or other package was installed. Pillow only decodes RGB PNG bytes; TypeScript performs the deterministic area resize, calibration conversion, matching and evaluation. CI tests those paths with synthetic inputs and a supplied decoder, without downloads or a Pillow dependency.
+
+Use new output directories. The explicit fetch command retrieves approximately 35 MB from the pinned official HTTPS URLs and rejects changed hashes/sizes; preparation and evaluation make no network requests.
+
+```sh
+bun run spatial:middlebury -- fetch --output local-captures/adk-original
+bun run spatial:middlebury -- prepare --source local-captures/adk-original --output local-captures/adk-input
+bun run spatial:stereo -- --input local-captures/adk-input/input.json --output local-captures/adk-result
+bun run spatial:middlebury -- truth --source local-captures/adk-original --input local-captures/adk-input/input.json --output local-captures/adk-truth
+bun run spatial:stereo:geometry -- --input local-captures/adk-input/input.json --result local-captures/adk-result/reconstruction.json --truth local-captures/adk-truth/truth.json --output local-captures/adk-scores
+```
+
+Preparation reads only calibration and the two PNGs. Reconstruction receives the prepared input alone. The separate truth step opens the PFM and writes hash-linked little-endian float32 disparity/depth maps, with NaN representing missing truth. Evaluation binds input/result/truth hashes, both cameras, settings and original prepared image hashes; it performs no alignment or rescaling. Exit 2 means a completed evaluation with failed gates, 1 means an input/I/O error, and 0 means a pass. Reports retain every coverage denominator and the ten worst pixel IDs. All output directories refuse replacement.
+
+Open `adk-result/manifest.json` plus `adk-result/reconstruction.splat` through **Research Lab → Visual splats → Open your own visual bundle**. The asset has two training cameras and supplied metric rig registration; this is a coordinate convention, not recovered world placement. The real-data evaluation remains a separate local report and does not acquire the synthetic example's hash-gated badge. No real source or derived asset is bundled into the website.
+
+## Corrected frozen result: all gates fail
+
+| Measure | Result | Frozen gate |
+|---|---|---|
+| Total / valid-truth / missing-truth pixels | 45,312 / 45,035 / 277 | Report all support |
+| Accepted pixels | 13,146: 12,968 with truth, 178 without | Unknown truth is not scored as success |
+| Valid truth receiving an estimate | **28.795%**; 32,067 truth pixels unestimated | ≥35% — **fail** |
+| Disparity error >1 output pixel among evaluated estimates | **20.512%** (2,660 / 12,968) | ≤10% — **fail** |
+| Disparity error >1 pixel, counting missing estimates as failures | 77.111% | Report abstention cost |
+| Absolute axial-depth error | Median 0.02531 m; mean 0.10711 m; **P90 0.42693 m**; maximum 1.40005 m | P90 ≤0.25 m — **fail** |
+| Absolute disparity error | Median 0.30483 px; mean 1.28481 px; P90 4.09812 px; maximum 17.95710 px | Report error tail |
+
+Every outcome remains: 1,761 border, 17,011 textureless, 563 photometric, 9,133 ambiguous, 3,698 inconsistent and 13,146 accepted pixels. These categories are screening outcomes, not independently verified explanations of every failure. No threshold or matcher setting changed after evaluation. The matcher has insufficient coverage and retains large incorrect matches on this real scene; the small synthetic pass does not generalize to this protocol.
+
+Reconstruction JSON SHA256: `49888365d20fb80d4130dff8918ea33b4a49e92ebc8108637f238cbe8c437104`. Corrected truth manifest SHA256: `f8ec0592ce4fd06b2ef1c144788cd161c475c9b311c02512d4382542f1f9bc2c`. Corrected report SHA256: `eba8439064789e6ab91d9b8c163f7d9b15a66a7e679827d5e3ea44b114b09701`. A separate review recalculated the counts, >1-pixel rates, depth/disparity percentiles and maxima from the retained result/maps and verified the source hashes. The initial report used an incorrect multiplication by the PFM header magnitude and is explicitly marked **invalid** in local storage. Its input/reconstruction bytes were preserved for the corrected evaluation; the codec fix follows the official format convention, rather than changing estimator parameters.
+
+## Verification and next decision
+
+All **479 Vitest checks** and full package/script/Vue typechecks pass. Synthetic checks cover non-unit PFM headers in both byte orders, row orientation/missing truth, half-pixel calibration, deterministic area resize, unequal principal points, bound/hash/lineage rejection, absent truth during preparation, no partial download installation and failed-gate exit status. The earlier synthetic reconstruction/result/bundled artifacts remain byte-identical. The real PNG preparation, reconstruction and corrected geometry evaluation ran locally; originals and reports remain ignored. This CLI-only change does not replace a browser build, preview, capture relay or Tailscale route.
+
+Next, characterize texture/occlusion and false matches on explicit development cases before comparing a stronger stereo method. Freeze another independent scene/session before selecting parameters; preserve this run as a failed baseline. Add broader camera/view coverage and independently measured world registration before a full SPATIAL-05 claim. Gaussian optimization or completion should not conceal missing support or turn these incorrect points into physical evidence.

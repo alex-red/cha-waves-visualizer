@@ -21,7 +21,9 @@ This walkthrough needs no phone, microphone, private recording or model service.
 10. Open Echo Lab's synthetic five-position example, then **Open Research Lab** inside it. Close Research: the scan must still be present and keyboard focus must return to its Research trigger. Close Echo: focus must return to the original Echo trigger. Re-export the field project and compare scene/settings to step 1; research operations must not alter them.
 11. Repeat at 390px width and with keyboard-only navigation. Review the actual screen reader, touch orbit/pinch, contrast, reading order and scroll areas. On a real GPU, test the default renderer and the `?spatial-webgl=1` WebGL2 override. If rendering is unavailable, the verified metadata and original-file downloads must remain usable and **Retry renderer** must be available.
 
-See [visual format/provenance](SPATIAL_VISUAL_BASELINE.md) and [workspace details](SPATIAL_WORKSPACE.md). Physical ECHO-04/05, real-image reconstruction/independent registration, acoustic/visual fusion and AI completion remain separate research gates.
+For the separate real-data workflow, follow the [Middlebury cross-check](SPATIAL_REAL_STEREO.md), inspect its local geometry report and open its exported manifest/splat through the same importer. The fixed photographic run fails all three screening gates; it is not another bundled example or a held-out camera-view result.
+
+See [visual format/provenance](SPATIAL_VISUAL_BASELINE.md) and [workspace details](SPATIAL_WORKSPACE.md). Physical ECHO-04/05, robust real-image reconstruction/independent registration, acoustic/visual fusion and AI completion remain separate research gates.
 
 ## Suggested walkthrough
 

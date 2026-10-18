@@ -39,7 +39,7 @@ To use your own asset, select a [visual manifest](SPATIAL_VISUAL_BASELINE.md) an
 
 `apps/web/app/components/ResearchLab.vue` owns presentation and import lifecycle. `apps/web/app/lib/spatial-browser.ts` owns bounded reads of explicitly selected browser files, strict decoding and Web Crypto hashing. Shared bundle, registration, plane/evaluation and report modules remain outside Vue and rendering.
 
-The UI does not automatically fit the audio bundle's existing four-arrival rectangle data to the fixed-source plane reference or register it to a visual asset. The three sections retain their separate input contracts. Real mapping still requires [ECHO-04/05](ECHO_SINGLE_WALL.md) evidence and later association/fusion work. Splat viewing and a synthetic stereo reference are implemented; real-image reconstruction, independent registration, fusion and AI completion remain future stages.
+The UI does not automatically fit the audio bundle's existing four-arrival rectangle data to the fixed-source plane reference or register it to a visual asset. The three sections retain their separate input contracts. Real mapping still requires [ECHO-04/05](ECHO_SINGLE_WALL.md) evidence and later association/fusion work. Splat viewing, the synthetic stereo reference and a [local photographic cross-check](SPATIAL_REAL_STEREO.md) are implemented. The photographic baseline failed its frozen geometry gates; its exported manifest/splat can use the existing importer, with its geometry report kept separately. Robust reconstruction, independent world registration, fusion and AI completion remain future stages.
 
 Focused checks:
 
