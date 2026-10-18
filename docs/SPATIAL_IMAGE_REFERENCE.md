@@ -16,6 +16,8 @@ Before running the benchmark, freeze these synthetic screening gates: accepted r
 
 Negative controls must include blank images, a mismatched/corrupted right image and unsupported calibration. The estimator must have no access to truth or held-out views. Exact original image bytes, calibration, settings, splits, reconstruction and evaluation hashes must accompany the result.
 
+Frozen training manifest SHA256: `caeaf104bd0d6e75420045d78179e2af765606eaac5b93f3f24a657c55271c0f`. Separate evaluator manifest SHA256: `da1e6092fc1463b2bb251eb87ebfc9dde178fafeb439520a6baa15ef9058b4aa`. The manifests hash-link all four original P6 images and three little-endian float32 axial-depth maps. The generator has no reconstruction dependency.
+
 ## Method references and limits
 
 [OpenCV's stereo documentation](https://docs.opencv.org/5.0/main_modules/stereo.html) describes block matching, uniqueness filtering, reverse disparity checks and reprojection. The [Middlebury evaluation protocol](https://vision.middlebury.edu/stereo/eval3/MiddEval3-newFeatures.html) motivates reporting both error distributions and failed/occluded support rather than a single attractive result. This implementation is a bounded independent reference, not an OpenCV implementation or a Middlebury benchmark entry.

@@ -1,0 +1,62 @@
+{
+  "format": "cha-stereo-evaluation-input-v1",
+  "inputSha256": "caeaf104bd0d6e75420045d78179e2af765606eaac5b93f3f24a657c55271c0f",
+  "referenceDepth": {
+    "fileName": "reference-depth.f32",
+    "sha256": "54ee0fd80409c84dbcc2a78ca162fc0a16cfb79b98377d792c1e0ee07c3b7071"
+  },
+  "heldOut": [
+    {
+      "image": {
+        "fileName": "held-out-upper.ppm",
+        "sha256": "c7766d9aa5a72b27f52778fb83d03f734def391cdb58f4df9f40933df6c1f084",
+        "camera": {
+          "id": "held-out-upper",
+          "positionM": [
+            0,
+            0.08,
+            0.02
+          ],
+          "intrinsics": {
+            "width": 160,
+            "height": 120,
+            "fx": 140,
+            "fy": 140,
+            "cx": 80,
+            "cy": 60
+          }
+        }
+      },
+      "depth": {
+        "fileName": "held-out-upper.f32",
+        "sha256": "967302889d69fbfffe4fab55a38fbe0ec6a5c6ad19d9c8838a802e7292f23719"
+      }
+    },
+    {
+      "image": {
+        "fileName": "held-out-lower.ppm",
+        "sha256": "fdcd3eddc961aab38067d02e53b114f714ad1d1aa3d627b2f2d41fa63ee27290",
+        "camera": {
+          "id": "held-out-lower",
+          "positionM": [
+            0.08,
+            -0.06,
+            -0.03
+          ],
+          "intrinsics": {
+            "width": 160,
+            "height": 120,
+            "fx": 140,
+            "fy": 140,
+            "cx": 80,
+            "cy": 60
+          }
+        }
+      },
+      "depth": {
+        "fileName": "held-out-lower.f32",
+        "sha256": "b01be04056c383c93aae2884876255fb7435c5ede45bb9c5a7460d3fb225cd3c"
+      }
+    }
+  ]
+}

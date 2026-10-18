@@ -1,0 +1,65 @@
+{
+  "format": "cha-stereo-input-v1",
+  "id": "synthetic-tilted-backdrop-v1",
+  "provenance": {
+    "kind": "synthetic",
+    "creator": "Cha Waves",
+    "license": "MIT",
+    "notes": "Self-authored ray-rendered tilted textured backdrop, finite foreground occluder and textureless stripe. Cameras and metric scale are supplied synthetic calibration; this is not a physical capture."
+  },
+  "frame": {
+    "units": "m",
+    "axes": "right-handed-y-up",
+    "cameraConvention": "opengl",
+    "orientations": "identity-rectified"
+  },
+  "left": {
+    "fileName": "left.ppm",
+    "sha256": "66b7ed83a8a235f1063fef33153fd2a9d3725a7a5d0b18978a994ea011f8ffd7",
+    "camera": {
+      "id": "stereo-left",
+      "positionM": [
+        -0.15,
+        0,
+        0
+      ],
+      "intrinsics": {
+        "width": 160,
+        "height": 120,
+        "fx": 140,
+        "fy": 140,
+        "cx": 80,
+        "cy": 60
+      }
+    }
+  },
+  "right": {
+    "fileName": "right.ppm",
+    "sha256": "53475b17a538aa0b4f965870baa84c5a1858eab8487ea101115d6b1b27d35097",
+    "camera": {
+      "id": "stereo-right",
+      "positionM": [
+        0.15,
+        0,
+        0
+      ],
+      "intrinsics": {
+        "width": 160,
+        "height": 120,
+        "fx": 140,
+        "fy": 140,
+        "cx": 80,
+        "cy": 60
+      }
+    }
+  },
+  "settings": {
+    "minDisparity": 4,
+    "maxDisparity": 28,
+    "patchRadius": 2,
+    "minTextureVariance": 24,
+    "maxMeanAbsoluteError": 18,
+    "uniquenessRatio": 0.8,
+    "leftRightTolerancePx": 1
+  }
+}
