@@ -1,0 +1,199 @@
+{
+  "format": "cha-stereo-evaluation-report-v1",
+  "algorithm": "rectified-rgb-sad-v1",
+  "inputSha256": "caeaf104bd0d6e75420045d78179e2af765606eaac5b93f3f24a657c55271c0f",
+  "resultSha256": "e3801402601ad05fa2c9c830909b3b642e28f2f01dea18021277c39a55868ec5",
+  "evaluationInputSha256": "da1e6092fc1463b2bb251eb87ebfc9dde178fafeb439520a6baa15ef9058b4aa",
+  "sources": {
+    "training": {
+      "left": {
+        "fileName": "left.ppm",
+        "sha256": "66b7ed83a8a235f1063fef33153fd2a9d3725a7a5d0b18978a994ea011f8ffd7",
+        "camera": {
+          "id": "stereo-left",
+          "positionM": [
+            -0.15,
+            0,
+            0
+          ],
+          "intrinsics": {
+            "width": 160,
+            "height": 120,
+            "fx": 140,
+            "fy": 140,
+            "cx": 80,
+            "cy": 60
+          }
+        }
+      },
+      "right": {
+        "fileName": "right.ppm",
+        "sha256": "53475b17a538aa0b4f965870baa84c5a1858eab8487ea101115d6b1b27d35097",
+        "camera": {
+          "id": "stereo-right",
+          "positionM": [
+            0.15,
+            0,
+            0
+          ],
+          "intrinsics": {
+            "width": 160,
+            "height": 120,
+            "fx": 140,
+            "fy": 140,
+            "cx": 80,
+            "cy": 60
+          }
+        }
+      }
+    },
+    "referenceDepth": {
+      "fileName": "reference-depth.f32",
+      "sha256": "54ee0fd80409c84dbcc2a78ca162fc0a16cfb79b98377d792c1e0ee07c3b7071"
+    },
+    "heldOut": [
+      {
+        "image": {
+          "fileName": "held-out-upper.ppm",
+          "sha256": "c7766d9aa5a72b27f52778fb83d03f734def391cdb58f4df9f40933df6c1f084",
+          "camera": {
+            "id": "held-out-upper",
+            "positionM": [
+              0,
+              0.08,
+              0.02
+            ],
+            "intrinsics": {
+              "width": 160,
+              "height": 120,
+              "fx": 140,
+              "fy": 140,
+              "cx": 80,
+              "cy": 60
+            }
+          }
+        },
+        "depth": {
+          "fileName": "held-out-upper.f32",
+          "sha256": "967302889d69fbfffe4fab55a38fbe0ec6a5c6ad19d9c8838a802e7292f23719"
+        }
+      },
+      {
+        "image": {
+          "fileName": "held-out-lower.ppm",
+          "sha256": "fdcd3eddc961aab38067d02e53b114f714ad1d1aa3d627b2f2d41fa63ee27290",
+          "camera": {
+            "id": "held-out-lower",
+            "positionM": [
+              0.08,
+              -0.06,
+              -0.03
+            ],
+            "intrinsics": {
+              "width": 160,
+              "height": 120,
+              "fx": 140,
+              "fy": 140,
+              "cx": 80,
+              "cy": 60
+            }
+          }
+        },
+        "depth": {
+          "fileName": "held-out-lower.f32",
+          "sha256": "b01be04056c383c93aae2884876255fb7435c5ede45bb9c5a7460d3fb225cd3c"
+        }
+      }
+    ]
+  },
+  "provenance": {
+    "kind": "synthetic",
+    "creator": "Cha Waves",
+    "license": "MIT",
+    "notes": "Self-authored ray-rendered tilted textured backdrop, finite foreground occluder and textureless stripe. Cameras and metric scale are supplied synthetic calibration; this is not a physical capture."
+  },
+  "settings": {
+    "minDisparity": 4,
+    "maxDisparity": 28,
+    "patchRadius": 2,
+    "minTextureVariance": 24,
+    "maxMeanAbsoluteError": 18,
+    "uniquenessRatio": 0.8,
+    "leftRightTolerancePx": 1
+  },
+  "thresholds": {
+    "minimumAcceptedFraction": 0.35,
+    "maximumDepthP90M": 0.12,
+    "minimumHeldOutCoverage": 0.3,
+    "maximumCoveredMae": 30,
+    "maximumAllPixelMae": 65
+  },
+  "evaluation": {
+    "outcomeCounts": {
+      "border": 1508,
+      "textureless": 1415,
+      "photometric": 1014,
+      "ambiguous": 293,
+      "inconsistent": 371,
+      "accepted": 14599
+    },
+    "reference": {
+      "acceptedFraction": 0.7603645833333333,
+      "depthCount": 14599,
+      "unevaluatedAcceptedCount": 0,
+      "meanAbsoluteDepthErrorM": 0.028923969827510197,
+      "depthP50M": 0.019711235528736992,
+      "depthP90M": 0.04248430380997298,
+      "depthMaxM": 1.6446418189592915
+    },
+    "heldOut": [
+      {
+        "cameraId": "held-out-upper",
+        "coveredPixels": 15808,
+        "totalPixels": 19200,
+        "coverage": 0.8233333333333334,
+        "coveredMae": 12.840945512820513,
+        "allPixelMae": 34.23956597222222,
+        "psnrDb": 12.534942555135993
+      },
+      {
+        "cameraId": "held-out-lower",
+        "coveredPixels": 16319,
+        "totalPixels": 19200,
+        "coverage": 0.8499479166666667,
+        "coveredMae": 12.667483710194661,
+        "allPixelMae": 31.254878472222224,
+        "psnrDb": 13.037184691388033
+      }
+    ],
+    "gates": {
+      "minimumAcceptedFraction": true,
+      "completeReferenceTruth": true,
+      "maximumDepthP90M": true,
+      "heldOut": [
+        {
+          "cameraId": "held-out-upper",
+          "minimumCoverage": true,
+          "maximumCoveredMae": true,
+          "maximumAllPixelMae": true,
+          "passed": true
+        },
+        {
+          "cameraId": "held-out-lower",
+          "minimumCoverage": true,
+          "maximumCoveredMae": true,
+          "maximumAllPixelMae": true,
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    "passed": true
+  },
+  "limitations": [
+    "Image provenance and metric rectified calibration are supplied. The documented benchmark uses self-authored synthetic images; physical accuracy and estimated registration are unvalidated.",
+    "Depth errors use withheld axial depths without alignment or scale fitting.",
+    "Held-out images use a fixed 3x3 depth-buffered surfel preview, not the browser Gaussian renderer. Missing pixels are black; exact PSNR is capped at 120 dB.",
+    "No Gaussian optimization, learned model, AI completion, acoustic evidence or full SPATIAL-05 pass."
+  ]
+}

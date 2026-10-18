@@ -7,8 +7,9 @@ import { STEREO_OUTCOMES, type StereoInput, type StereoResult, type StereoTruth 
 
 const finite = z.number().finite()
 const vector = z.tuple([finite.min(-1e6).max(1e6), finite.min(-1e6).max(1e6), finite.min(-1e6).max(1e6)])
+const cameraPosition = z.tuple([finite.min(-1e3).max(1e3), finite.min(-1e3).max(1e3), finite.min(-1e3).max(1e3)])
 export const stereoCameraSchema = z.object({
-  id: z.string().regex(/^[a-zA-Z0-9_-]{1,64}$/), positionM: vector,
+  id: z.string().regex(/^[a-zA-Z0-9_-]{1,64}$/), positionM: cameraPosition,
   intrinsics: z.object({ width: z.number().int().min(1).max(256), height: z.number().int().min(1).max(192), fx: finite.min(1e-3).max(1e4), fy: finite.min(1e-3).max(1e4), cx: finite.min(0).max(256), cy: finite.min(0).max(192) }).strict(),
 }).strict()
 const fileSchema = z.object({ fileName: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$/).refine(name => name !== '.' && name !== '..'), sha256: z.string().regex(/^[a-f0-9]{64}$/) }).strict()
@@ -65,6 +66,12 @@ export async function loadStereoInput(path: string): Promise<{ file: StereoInput
   const bytes = await readBounded(absolute, 64 * 1024)
   const file = stereoInputSchema.parse(parseJson(bytes))
   if (file.left.camera.id === file.right.camera.id || file.left.fileName === file.right.fileName) throw new Error('Stereo input requires distinct camera and file IDs.')
+  const { width, height } = file.left.camera.intrinsics
+  if (file.settings.minDisparity >= file.settings.maxDisparity || file.settings.maxDisparity >= width || file.settings.patchRadius * 2 + 1 > Math.min(width, height)) throw new Error('Disparity/patch settings are incompatible with the image dimensions.')
+  if ([file.left.camera, file.right.camera].some(camera => camera.intrinsics.cx > camera.intrinsics.width || camera.intrinsics.cy > camera.intrinsics.height)) throw new Error('Principal point is outside the image.')
+  if (JSON.stringify(file.left.camera.intrinsics) !== JSON.stringify(file.right.camera.intrinsics)) throw new Error('Rectified camera intrinsics must match.')
+  const baseline = file.right.camera.positionM[0] - file.left.camera.positionM[0]
+  if (baseline < 0.001 || baseline > 10 || Math.abs(file.right.camera.positionM[1] - file.left.camera.positionM[1]) > 1e-9 || Math.abs(file.right.camera.positionM[2] - file.left.camera.positionM[2]) > 1e-9) throw new Error('Cameras must have a positive 0.001–10 m rectified horizontal baseline.')
   const [left, right] = await Promise.all([readLinked(dirname(absolute), file.left, 149 * 1024), readLinked(dirname(absolute), file.right, 149 * 1024)])
   return { file, bytes, input: { left: { camera: file.left.camera, image: decodePpm(left) }, right: { camera: file.right.camera, image: decodePpm(right) } } }
 }

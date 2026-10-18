@@ -1,0 +1,98 @@
+{
+  "format": "cha-visual-bundle-v1",
+  "id": "synthetic-tilted-backdrop-v1-stereo",
+  "label": "synthetic-tilted-backdrop-v1 · stereo reconstruction",
+  "asset": {
+    "fileName": "reconstruction.splat",
+    "format": "splat32",
+    "sha256": "232305feb7f48cee4e2598803259a7173e00db04f7050ba9e0bf3b05e038e13c",
+    "splatCount": 14599
+  },
+  "assetFrame": {
+    "handedness": "right",
+    "up": "+y",
+    "cameraConvention": "opengl"
+  },
+  "worldFrame": {
+    "units": "m",
+    "axes": "right-handed-z-up"
+  },
+  "registration": {
+    "status": "known",
+    "scaleMPerUnit": 1,
+    "rotationXyzw": [
+      0.7071067811865476,
+      0,
+      0,
+      0.7071067811865476
+    ],
+    "translationM": [
+      0,
+      0,
+      0
+    ],
+    "method": "synthetic"
+  },
+  "provenance": {
+    "kind": "image-reconstruction",
+    "creator": "Cha Waves",
+    "sourceUrl": null,
+    "license": {
+      "name": "MIT",
+      "url": null
+    },
+    "method": "rectifiedRGBBlockMatchingThenHeuristicSurfaceSplats",
+    "version": "1",
+    "notes": "Self-authored ray-rendered tilted textured backdrop, finite foreground occluder and textureless stripe. Cameras and metric scale are supplied synthetic calibration; this is not a physical capture. Input SHA256 caeaf104bd0d6e75420045d78179e2af765606eaac5b93f3f24a657c55271c0f; result SHA256 e3801402601ad05fa2c9c830909b3b642e28f2f01dea18021277c39a55868ec5. No Gaussian optimization, pose estimation, hole filling or AI completion. {\"minDisparity\":4,\"maxDisparity\":28,\"patchRadius\":2,\"minTextureVariance\":24,\"maxMeanAbsoluteError\":18,\"uniquenessRatio\":0.8,\"leftRightTolerancePx\":1}"
+  },
+  "cameras": [
+    {
+      "id": "stereo-left",
+      "role": "training",
+      "position": [
+        -0.15,
+        0,
+        0
+      ],
+      "orientationXyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "intrinsics": {
+        "width": 160,
+        "height": 120,
+        "fx": 140,
+        "fy": 140,
+        "cx": 80,
+        "cy": 60
+      },
+      "imageSha256": "66b7ed83a8a235f1063fef33153fd2a9d3725a7a5d0b18978a994ea011f8ffd7"
+    },
+    {
+      "id": "stereo-right",
+      "role": "training",
+      "position": [
+        0.15,
+        0,
+        0
+      ],
+      "orientationXyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "intrinsics": {
+        "width": 160,
+        "height": 120,
+        "fx": 140,
+        "fy": 140,
+        "cx": 80,
+        "cy": 60
+      },
+      "imageSha256": "53475b17a538aa0b4f965870baa84c5a1858eab8487ea101115d6b1b27d35097"
+    }
+  ]
+}
