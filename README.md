@@ -2,14 +2,21 @@
 
 **Research into using waves to map 3D visual space, augmented by AI.**
 
-The long-term goal is to map any 3D space and enrich its digital representation with AI reconstruction and completion, including Gaussian splatting. The [spatial research plan](docs/SPATIAL_RESEARCH_PLAN.md) defines the route from controlled acoustic evidence to 3D structure, sensor fusion, visual reconstruction and explicitly generated content. This is a research ambition; general 3D mapping is not implemented or validated.
-
-The current application is a local-first browser laboratory for exploring sound and Wi-Fi propagation in an editable floor plan, with a separate experimental acoustic capture track. Built with Nuxt, Vue, TypeScript, Web Workers and Three.js.
-
 [![CI](https://github.com/alex-red/cha-waves-visualizer/actions/workflows/ci.yml/badge.svg)](https://github.com/alex-red/cha-waves-visualizer/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-315c50.svg)](LICENSE)
 
-![Cha Waves plan view with a modeled sound field, editable geometry and an exact probe reading](docs/images/workspace.png)
+![Isometric apartment cutaway with a warm modeled sound field across rooms and doorways, alongside the selected probe reading](docs/images/sound-cutaway.png)
+
+*Sound, made visible. An authored apartment, a modeled field and an exact selected-point estimate.*
+
+| Wi-Fi, room by room | Two synthetic images → 3D splats |
+|:---:|:---:|
+| [![Blue modeled Wi-Fi field across the apartment cutaway](docs/images/wifi-cutaway.jpg)](docs/images/wifi-cutaway.jpg) | [![Stereo-derived Gaussian splats with training-camera frustums and visible missing regions](docs/images/stereo-splats.jpg)](docs/images/stereo-splats.jpg) |
+| Modeled received power over known geometry. | 14,599 heuristic Gaussians from supplied synthetic calibration. Holes remain visible; no Gaussian training or AI completion. |
+
+The current application is a local-first browser laboratory for exploring sound and Wi-Fi propagation in an editable floor plan, with separate acoustic and visual research workspaces. Built with Nuxt, Vue, TypeScript, Web Workers and Three.js.
+
+The long-term goal is to map any 3D space and enrich its digital representation with AI reconstruction and completion, including Gaussian splatting. The [spatial research plan](docs/SPATIAL_RESEARCH_PLAN.md) defines the route from controlled acoustic evidence to 3D structure, sensor fusion, visual reconstruction and explicitly generated content. This is a research ambition; general 3D mapping is not implemented or validated.
 
 Close a door, move a source or switch frequency. The field and selected-point explanation recompute from the current inputs. Save a baseline to compare the change on a shared scale. This visualizer predicts fields from known geometry; the mapping research investigates recovering geometry from observations.
 
@@ -43,7 +50,9 @@ Open [localhost:4173](http://localhost:4173). There is no public hosted demo con
 4. Open **Edit home** to draw or split interior walls, add doors and inspect dimensions. Changes support undo/redo.
 5. Open **Echo Lab → Virtual scan**, run all five positions and reveal the synthetic fixture.
 
-![Architectural cutaway displaying the same computed samples as the plan](docs/images/cutaway.png)
+![Side-by-side sound fields before and after opening the hall door, using a shared scale and showing a predicted 6.0 dB change at the same probe](docs/images/field-comparison.png)
+
+*One door, two states. Compare the field on a shared scale and inspect the predicted change at the same point.*
 
 ## What is implemented
 

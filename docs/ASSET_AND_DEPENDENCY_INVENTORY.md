@@ -1,6 +1,6 @@
 # Asset and dependency inventory
 
-Inventory updated October 17, 2026. Original code and documentation use the [MIT License](../LICENSE), selected by the project owner. Dependencies and external assets retain their own licenses.
+Inventory updated October 18, 2026. Original code and documentation use the [MIT License](../LICENSE), selected by the project owner. Dependencies and external assets retain their own licenses.
 
 ## Authored application assets
 
@@ -11,7 +11,7 @@ Inventory updated October 17, 2026. Original code and documentation use the [MIT
 | Material coefficients | Explicit `fixture-assumed` records | Educational illustrative values, not measured product or home data |
 | Font appearance | Georgia, platform system and monospace fallback stacks | No font files downloaded or redistributed by the app |
 | Screenshots in reports | Captured running the app's authored fixtures | Evidence assets; no private-home photographs |
-| Portfolio screenshots in `docs/images/` | Dedicated captures of the authored demo and synthetic Echo Lab | No real scans, live pairing codes or private endpoints |
+| Portfolio screenshots in `docs/images/` | App captures of authored homes, modeled fields, synthetic stereo and synthetic Echo Lab | No real scans, live pairing codes or private endpoints; [capture notes](SCREENSHOTS.md) record sources and reproduction |
 | Original specification | User-supplied handoff copied unchanged into docs | Background reference; preserve separately from adopted implementation decisions |
 
 The visual research baseline adds a self-authored procedural Gaussian-splat room (MIT), a bounded calibrated-stereo reference built from four self-authored synthetic RGB images (two training and two held-out), one Middlebury 2014 Adirondack-perfect photographic stereo pair used by a local cross-check, and one external 10,000-Gaussian violin fixture (CC0-1.0). The synthetic stereo reference's calibration and evaluator-only depth maps are hash-linked in [its protocol](SPATIAL_IMAGE_REFERENCE.md); reconstructed splats are derived heuristics, not optimized 3DGS. The real stereo pair, source calibration, structured-light disparity map, prepared images, reconstructions and reports stay in ignored `local-captures/`; they are fetched/prepared by the [real-stereo protocol](SPATIAL_REAL_STEREO.md), not committed as assets. Middlebury's [custom reuse grant](https://vision.middlebury.edu/stereo/data/) permits using and publishing its images/disparity maps with attribution to Scharstein et al., *High-resolution stereo datasets with subpixel-accurate ground truth*, GCPR 2014; these terms are separate from the repository MIT license. The violin is a mesh conversion by Marcel Padilla from the Virtual Museums of Malopolska mesh via odedstein-meshes; its [attribution, exact hash and caveats](../apps/web/public/research/violin/ATTRIBUTION.md) and original per-file metadata accompany the asset. It is nonmetric and has no capture cameras. Future uploads and third-party assets need their own provenance entries.
