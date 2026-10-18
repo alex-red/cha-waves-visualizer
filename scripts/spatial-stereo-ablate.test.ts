@@ -8,10 +8,12 @@ import * as ablation from '../packages/spatial-stereo-ablation.ts'
 
 describe('development-only stereo ablation workflow', () => {
   it('matches committed data, controls and source hashes without estimating holdout images', async () => {
-    expect(files.jsonBytes(createStereoHoldoutPins())).toEqual(new Uint8Array(await readFile(new URL('../docs/data/stereo-holdout-c.json', import.meta.url))))
-    expect(files.jsonBytes(await createStereoAblationPins())).toEqual(new Uint8Array(await readFile(new URL('../docs/data/stereo-ablation.json', import.meta.url))))
-    expect(await runSpatialStereoAblate(['--holdout-pins'])).toBe(new TextDecoder().decode(files.jsonBytes(createStereoHoldoutPins())))
-    expect(await runSpatialStereoAblate(['--pins'])).toBe(new TextDecoder().decode(files.jsonBytes(await createStereoAblationPins())))
+    const holdout = files.jsonBytes(createStereoHoldoutPins())
+    const ablation = files.jsonBytes(await createStereoAblationPins())
+    expect(Buffer.from(holdout).equals(await readFile(new URL('../docs/data/stereo-holdout-c.json', import.meta.url)))).toBe(true)
+    expect(Buffer.from(ablation).equals(await readFile(new URL('../docs/data/stereo-ablation.json', import.meta.url)))).toBe(true)
+    expect(await runSpatialStereoAblate(['--holdout-pins'])).toBe(new TextDecoder().decode(holdout))
+    expect(await runSpatialStereoAblate(['--pins'])).toBe(new TextDecoder().decode(ablation))
   })
 
   it('requires explicit unique output and refuses evaluation or arbitrary input selection', async () => {

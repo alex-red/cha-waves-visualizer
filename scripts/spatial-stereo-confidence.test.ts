@@ -14,10 +14,20 @@ import { prepareStereoConfidenceCase } from './lib/stereo-confidence-files.ts'
 
 vi.mock('./lib/stereo-resource-runner.ts', () => ({ runStereoResourceChild: vi.fn() }))
 
+let preparedFakeCases: Map<string, ReturnType<typeof prepareStereoConfidenceCase>> | undefined
+
+function fakeCaseData(caseId: string) {
+  if (!preparedFakeCases) {
+    preparedFakeCases = new Map(createStereoConfidenceCases().map(control => [control.fixture.id, prepareStereoConfidenceCase(control)]))
+  }
+  const prepared = preparedFakeCases.get(caseId)
+  if (!prepared) throw new Error(`Unknown mocked confidence case: ${caseId}`)
+  return prepared
+}
+
 function fakeWorker(command: readonly string[]) {
   const caseId = command[command.indexOf('--case') + 1]!, variantId = command[command.indexOf('--variant') + 1]!
-  const control = createStereoConfidenceCases().find(item => item.fixture.id === caseId)!
-  const prepared = prepareStereoConfidenceCase(control)
+  const prepared = fakeCaseData(caseId)
   const variant = STEREO_CONFIDENCE_VARIANTS.find(item => item.id === variantId)!
   const record = { format: 'cha-stereo-confidence-result-v1', developmentOnly: true, caseId, variant, inputSha256: files.sha256(prepared.manifestBytes), sourceHashes: { left: prepared.manifest.left.sha256, right: prepared.manifest.right.sha256 }, censusSettings: variant.id === 'sad-baseline' ? null : STEREO_SGM_SETTINGS, reconstruction: { status: 'empty', width: 160, height: 120, baselineM: 0.3, settings: STEREO_SETTINGS, outcomes: Array(19200).fill(0), counts: { border: 19200, textureless: 0, photometric: 0, ambiguous: 0, inconsistent: 0, accepted: 0 }, points: [] } }
   const checkpoint = { format: 'cha-stereo-confidence-resource-v1', peakRssBytes: 32 * 1024 * 1024, reconstructionMs: 0, rssCheckpoint: 'after-result-serialization-and-stdout-flush', runtime: 'mock synthetic worker', platform: 'test', architecture: 'test' }

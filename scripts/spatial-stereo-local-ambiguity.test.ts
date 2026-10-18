@@ -16,11 +16,21 @@ import * as confidenceScoring from '../packages/spatial-stereo-confidence.ts'
 
 vi.mock('./lib/stereo-resource-runner.ts', () => ({ runStereoResourceChild: vi.fn() }))
 
+let preparedFakeCases: Map<string, ReturnType<typeof prepareStereoConfidenceCase>> | undefined
+
+function fakeCaseData(caseId: string) {
+  if (!preparedFakeCases) {
+    preparedFakeCases = new Map(createStereoConfidenceCases().map(control => [control.fixture.id, prepareStereoConfidenceCase(control)]))
+  }
+  const prepared = preparedFakeCases.get(caseId)
+  if (!prepared) throw new Error(`Unknown mocked local-ambiguity case: ${caseId}`)
+  return prepared
+}
+
 function fakeWorker(command: readonly string[]) {
   const caseId = command[command.indexOf('--case') + 1]!
   const variantId = command[command.indexOf('--variant') + 1]!
-  const control = createStereoConfidenceCases().find(item => item.fixture.id === caseId)!
-  const prepared = prepareStereoConfidenceCase(control)
+  const prepared = fakeCaseData(caseId)
   const variant = LOCAL_SCREEN_VARIANTS.find(item => item.id === variantId)!
   const record = {
     format: 'cha-stereo-local-result-v1', developmentOnly: true, caseId, variant,

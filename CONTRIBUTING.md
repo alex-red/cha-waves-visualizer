@@ -8,6 +8,8 @@ Keep numerical helpers independent of the interface and reuse them in workers an
 
 Run relevant unit checks first. Run `bun run typecheck` before `bun run build`; both write generated Nuxt state. After a UI or worker change, verify the static-security/offline output and affected browser flows. Use the repository Playwright configuration and one worker when checking phone capture. Do not reuse or stop a live user relay.
 
+Keep large fixture checks practical on CI runners: use `Buffer.equals` for exact binary comparisons and prepare stable mock-worker inputs once per suite instead of rendering every case for each mocked trial. Preserve all trial slots, assertions, source pins and research gates; test deadlines and experimental resource limits are separate.
+
 ```sh
 bun run test
 bun run test:satellite
