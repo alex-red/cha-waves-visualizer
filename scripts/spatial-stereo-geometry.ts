@@ -96,6 +96,7 @@ export async function runSpatialStereoGeometry(args: readonly string[]): Promise
   const report = {
     format: 'cha-stereo-geometry-report-v1',
     algorithm: resultFile.algorithm,
+    ...(resultFile.algorithmSettings ? { algorithmSettings: resultFile.algorithmSettings } : {}),
     inputSha256,
     resultSha256: sha256(resultBytes),
     truthSha256: sha256(truthBytes),

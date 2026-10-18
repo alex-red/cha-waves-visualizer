@@ -36,6 +36,7 @@ export async function runSpatialStereoEvaluate(args: readonly string[]): Promise
   const evaluation = evaluateStereo(result, { reference, heldOut })
   const report = {
     format: 'cha-stereo-evaluation-report-v1', algorithm: resultFile.algorithm,
+    ...(resultFile.algorithmSettings ? { algorithmSettings: resultFile.algorithmSettings } : {}),
     inputSha256, resultSha256: sha256(resultBytes), evaluationInputSha256: sha256(evaluationBytes),
     sources: { training: { left: loaded.file.left, right: loaded.file.right }, referenceDepth: evaluationFile.referenceDepth, heldOut: evaluationFile.heldOut },
     provenance: loaded.file.provenance,

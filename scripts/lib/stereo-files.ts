@@ -30,12 +30,17 @@ export const stereoEvaluationSchema = z.object({
 const countsSchema = z.object({ border: z.number().int().nonnegative(), textureless: z.number().int().nonnegative(), photometric: z.number().int().nonnegative(), ambiguous: z.number().int().nonnegative(), inconsistent: z.number().int().nonnegative(), accepted: z.number().int().nonnegative() }).strict()
 export const stereoResultSchema = z.object({
   format: z.literal('cha-stereo-result-v1'), inputSha256: z.string().regex(/^[a-f0-9]{64}$/),
-  algorithm: z.literal('rectified-rgb-sad-v1'),
+  algorithm: z.enum(['rectified-rgb-sad-v1', 'rectified-census-sgm-v1']),
   sourceHashes: z.object({ left: z.string().regex(/^[a-f0-9]{64}$/), right: z.string().regex(/^[a-f0-9]{64}$/) }).strict(),
   reconstruction: z.object({ status: z.enum(['empty', 'reconstructed']), width: z.number().int().min(1).max(256), height: z.number().int().min(1).max(192), baselineM: finite.positive().max(10), settings: settingsSchema, outcomes: z.array(z.number().int().min(0).max(STEREO_OUTCOMES.length - 1)).max(49152), counts: countsSchema,
     points: z.array(z.object({ pixelIndex: z.number().int().min(0).max(49151), positionM: vector, color: z.tuple([z.number().int().min(0).max(255), z.number().int().min(0).max(255), z.number().int().min(0).max(255)]), disparityPx: finite.positive(), meanAbsoluteError: finite.min(0).max(255) }).strict()).max(49152),
   }).strict(),
-}).strict()
+  algorithmSettings: z.object({ p1: finite.int().min(1).max(24), p2: finite.int().min(2).max(96), maxCensusCost: finite.int().min(1).max(24), minComponentPixels: finite.int().min(1).max(49152) }).strict().optional(),
+}).strict().superRefine((file, context) => {
+  if (file.algorithm === 'rectified-census-sgm-v1') {
+    if (!file.algorithmSettings || file.algorithmSettings.p2 <= file.algorithmSettings.p1) context.addIssue({ code: 'custom', message: 'Census SGM requires explicit valid algorithm settings.' })
+  } else if (file.algorithmSettings !== undefined) context.addIssue({ code: 'custom', message: 'SAD baseline does not accept SGM settings.' })
+})
 
 export const sha256 = (bytes: Uint8Array | string): string => createHash('sha256').update(bytes).digest('hex')
 export const jsonBytes = (value: unknown): Uint8Array<ArrayBuffer> => new TextEncoder().encode(JSON.stringify(value, null, 2) + '\n')

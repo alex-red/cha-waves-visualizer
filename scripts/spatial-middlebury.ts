@@ -31,8 +31,8 @@ const sourcePinSchema = z.object({
 type RgbImage = { width: number; height: number; rgb: Uint8Array<ArrayBuffer> }
 type Dependencies = { pin?: SourcePin; decodePng?: (bytes: Uint8Array) => RgbImage; fetchImpl?: typeof fetch }
 
-const PIN_PATH = fileURLToPath(new URL('../docs/data/middlebury-adirondack.json', import.meta.url))
-const HELP = 'Usage: bun run spatial:middlebury -- <fetch|prepare|truth> [options]\n  fetch --output <new-directory>\n  prepare --source <original-directory> --output <new-directory>\n  truth --source <original-directory> --input <prepared-input.json> --output <new-directory>\nOnly the pinned Adirondack-perfect source is selected by default. Images/derived real captures remain local.\n'
+const PIN_PATHS = { adirondack: fileURLToPath(new URL('../docs/data/middlebury-adirondack.json', import.meta.url)), motorcycle: fileURLToPath(new URL('../docs/data/middlebury-motorcycle.json', import.meta.url)) }
+const HELP = 'Usage: bun run spatial:middlebury -- <fetch|prepare|truth> [options]\n  fetch --output <new-directory>\n  prepare --source <original-directory> --output <new-directory>\n  truth --source <original-directory> --input <prepared-input.json> --output <new-directory>\nOptional: --dataset adirondack|motorcycle (default: adirondack). Images/derived real captures remain local.\n'
 
 /** Optional Pillow decoder. It opens no files, URLs or truth; input/output are bounded bytes. */
 export function decodePngRgb(bytes: Uint8Array): RgbImage {
@@ -92,10 +92,19 @@ export async function runSpatialMiddlebury(args: readonly string[], dependencies
   if (values.length === 1 && values[0] === '--help') return HELP
   const mode = values[0]
   if (mode !== 'fetch' && mode !== 'prepare' && mode !== 'truth') throw new Error('Choose fetch, prepare or truth. Use --help.')
+  const selected = values.indexOf('--dataset')
+  let dataset: keyof typeof PIN_PATHS = 'adirondack'
+  let flags = values.slice(1)
+  if (selected !== -1) {
+    const value = values[selected + 1]
+    if ((value !== 'adirondack' && value !== 'motorcycle') || values.lastIndexOf('--dataset') !== selected) throw new Error('Choose one supported dataset: adirondack or motorcycle.')
+    dataset = value
+    flags = [...values.slice(1, selected), ...values.slice(selected + 2)]
+  }
   const keys = mode === 'fetch' ? ['--output'] : mode === 'prepare' ? ['--source', '--output'] : ['--source', '--input', '--output']
-  const options = parseFileArguments(values.slice(1), keys)
+  const options = parseFileArguments(flags, keys)
   if ('help' in options) return HELP
-  const pinBytes = dependencies.pin ? jsonBytes(dependencies.pin) : await readBounded(PIN_PATH, 16 * 1024)
+  const pinBytes = dependencies.pin ? jsonBytes(dependencies.pin) : await readBounded(PIN_PATHS[dataset], 16 * 1024)
   const pin = sourcePinSchema.parse(dependencies.pin ?? JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(pinBytes)))
   if (mode === 'fetch') {
     await installNewDirectory(options['--output']!, await fetchOriginals(pin, dependencies.fetchImpl ?? fetch))
@@ -116,7 +125,7 @@ export async function runSpatialMiddlebury(args: readonly string[], dependencies
       images[targetName] = encodePpm(resizeMiddleburyRgb(decoded, width, height))
     }
     const input = stereoInputSchema.parse({
-      format: 'cha-stereo-input-v1', id: 'middlebury-adirondack-perfect',
+      format: 'cha-stereo-input-v1', id: `middlebury-${dataset}-perfect`,
       provenance: { kind: 'recorded', creator: 'Middlebury stereo team; Cha Waves preparation', license: pin.license.name,
         notes: `${pin.dataset}; ${pin.sourceUrl}; ${pin.license.url}. Source pin SHA256 ${sha256(pinBytes)}. ${pin.license.attribution} Supplied metric stereo calibration; no estimated world registration. ${pin.preparation.version}; no truth or held-out views used by reconstruction.` },
       frame: { units: 'm', axes: 'right-handed-y-up', cameraConvention: 'opengl', orientations: 'identity-rectified' },

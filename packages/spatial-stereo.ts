@@ -117,7 +117,8 @@ function validateSettings(input: unknown): StereoSettings {
   }
 }
 
-function validateInput(input: unknown, settingsInput: unknown): { left: StereoView; right: StereoView; settings: StereoSettings; baselineM: number } {
+/** Shared bounded calibration validation for independent stereo estimators. */
+export function validateStereoInput(input: unknown, settingsInput: unknown): { left: StereoView; right: StereoView; settings: StereoSettings; baselineM: number } {
   if (!isRecord(input)) fail('input', 'must be an object')
   exactKeys(input, ['left', 'right'], 'input')
   const left = validateView(input.left, 'left')
@@ -246,7 +247,7 @@ function matchPixel(
 
 /** Reconstruct a bounded, rectified stereo pair without reading truth or held-out data. */
 export function reconstructStereo(input: StereoInput, settings: StereoSettings = STEREO_SETTINGS): StereoResult {
-  const checked = validateInput(input, settings)
+  const checked = validateStereoInput(input, settings)
   const { left, right, baselineM } = checked
   const config = checked.settings
   const { width, height, rgb: leftRgb } = left.image

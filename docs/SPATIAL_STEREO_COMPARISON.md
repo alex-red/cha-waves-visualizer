@@ -23,3 +23,27 @@ For real data, rerun the known Adirondack input only as a reported regression, t
 ECHO-04/05, independently measured world registration, broader rooms/views and the full SPATIAL-05 gate remain open.
 
 Frozen synthetic [case/split/settings pin](data/stereo-comparison-cases.json) SHA256: `30d767fd5913dd1aea1af0fd4400f37bd4c2ac0b3e4abb6957560c5f8eaa87df`. Fresh real-transfer [source pin](data/middlebury-motorcycle.json) SHA256: `7056bd512283b8249c7cd41936be01d5de2ab666c1f05616533b7d94177a7d09`. These hashes were frozen before running either comparison split or either algorithm on Motorcycle.
+
+## Commands and development result
+
+Use new output directories; all commands refuse replacement. The comparison command checks the committed source/settings pin before estimation, writes every pixel outcome and per-region geometry scores, and keeps nondeterministic elapsed time in a separate `runtime.json`. Exit 2 means the completed comparison failed its relative screen; exit 1 means invalid input or an I/O error.
+
+```sh
+bun run spatial:stereo:compare -- --split development --output local-captures/stereo-comparison-development
+# Commit the candidate implementation before opening evaluation results.
+bun run spatial:stereo:compare -- --split evaluation --output local-captures/stereo-comparison-evaluation
+
+bun run spatial:middlebury -- fetch --dataset motorcycle --output local-captures/middlebury-motorcycle-original
+bun run spatial:middlebury -- prepare --dataset motorcycle --source local-captures/middlebury-motorcycle-original --output local-captures/middlebury-motorcycle-prepared
+bun run spatial:stereo -- --input local-captures/middlebury-motorcycle-prepared/input.json --output local-captures/middlebury-motorcycle-sad
+bun run spatial:stereo:sgm -- --input local-captures/middlebury-motorcycle-prepared/input.json --output local-captures/middlebury-motorcycle-sgm
+bun run spatial:middlebury -- truth --dataset motorcycle --source local-captures/middlebury-motorcycle-original --input local-captures/middlebury-motorcycle-prepared/input.json --output local-captures/middlebury-motorcycle-truth
+bun run spatial:stereo:geometry -- --input local-captures/middlebury-motorcycle-prepared/input.json --result local-captures/middlebury-motorcycle-sad/reconstruction.json --truth local-captures/middlebury-motorcycle-truth/truth.json --output local-captures/middlebury-motorcycle-sad-scores
+bun run spatial:stereo:geometry -- --input local-captures/middlebury-motorcycle-prepared/input.json --result local-captures/middlebury-motorcycle-sgm/reconstruction.json --truth local-captures/middlebury-motorcycle-truth/truth.json --output local-captures/middlebury-motorcycle-sgm-scores
+```
+
+The frozen three-case development run pools 57,600 valid truth pixels. SAD accepts 15,603 with truth (27.089% coverage), with 153 bad-1 matches (0.981% among estimates; 73.177% counting missing). Census/SGM accepts 20,737 (36.002% coverage), with 184 bad-1 matches (0.887% among estimates; 64.318% counting missing). Missing-aware error improves by **8.859 percentage points**, coverage by **8.913 points**; all three relative gates pass. Absolute bad-match count rises with coverage, so retain the denominators. These are development results, not sealed evaluation or real-scene evidence.
+
+Development report SHA256: `ea94602dd8f0c7ce5bb281bbbbd19567c0046b40f66cac28db397211eddb0540`. The candidate settings remain those declared above; no parameter search followed this result.
+
+The pooled development gain comes from the exposure case (coverage 2.703% → 33.609%). Coverage falls on both other cases (34.453% → 32.599%, 44.109% → 41.797%). The weak stripe remains mostly unestimated, and boundary/occlusion errors persist. Only the repeated-texture development case passes all absolute gates for either algorithm. The pooled pass therefore does not establish an across-condition improvement.

@@ -25,6 +25,54 @@ function syntheticSource() {
 }
 
 describe('bounded real-image preparation workflow with synthetic inputs', () => {
+  it('selects either pinned dataset and keeps the default Adirondack selection', async () => {
+    const requests: string[] = []
+    const fetchImpl = (async (url: URL | RequestInfo) => {
+      requests.push(String(url))
+      return new Response(null, { status: 503 })
+    }) as typeof fetch
+
+    for (const [args, expected] of [
+      [['fetch', '--output', 'unused'], 'https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Adirondack-perfect/calib.txt'],
+      [['fetch', '--dataset', 'adirondack', '--output', 'unused'], 'https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Adirondack-perfect/calib.txt'],
+      [['fetch', '--dataset', 'motorcycle', '--output', 'unused'], 'https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Motorcycle-perfect/calib.txt'],
+    ] as const) {
+      const before = requests.length
+      await expect(runSpatialMiddlebury(args, { fetchImpl })).rejects.toThrow(/download failed/)
+      expect(requests.slice(before)).toEqual([expected])
+    }
+  })
+
+  it('rejects duplicate, invalid, and missing dataset values', async () => {
+    for (const args of [
+      ['fetch', '--dataset', 'adirondack', '--dataset', 'motorcycle', '--output', 'unused'],
+      ['fetch', '--dataset', 'unknown', '--output', 'unused'],
+      ['fetch', '--dataset', '--output', 'unused'],
+      ['fetch', '--dataset'],
+    ]) {
+      await expect(runSpatialMiddlebury(args)).rejects.toThrow(/Choose one supported dataset/)
+    }
+  })
+
+  it('uses a motorcycle artifact id while preserving an injected Adirondack pin metadata', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'middlebury-selector-'))
+    try {
+      const source = syntheticSource()
+      source.pin.dataset = 'Middlebury 2014 Adirondack-perfect'
+      source.pin.sourceUrl = 'https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Adirondack-perfect/'
+      const metadataBefore = structuredClone(source.pin)
+      await installNewDirectory(join(root, 'original'), source.originals)
+      await runSpatialMiddlebury([
+        'prepare', '--dataset', 'motorcycle', '--source', join(root, 'original'), '--output', join(root, 'prepared'),
+      ], source)
+      const input = JSON.parse(await readFile(join(root, 'prepared/input.json'), 'utf8'))
+      expect(input.id).toBe('middlebury-motorcycle-perfect')
+      expect(input.provenance.notes).toContain(metadataBefore.dataset)
+      expect(input.provenance.notes).toContain(metadataBefore.sourceUrl)
+      expect(source.pin).toEqual(metadataBefore)
+    } finally { await rm(root, { recursive: true, force: true }) }
+  })
+
   it('prepares calibrated RGB without opening truth, reproduces bytes and preserves original hashes', async () => {
     const root = await mkdtemp(join(tmpdir(), 'middlebury-prepare-'))
     try {
