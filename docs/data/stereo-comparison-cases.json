@@ -1,0 +1,69 @@
+{
+  "format": "cha-stereo-comparison-pins-v1",
+  "settings": {
+    "minDisparity": 4,
+    "maxDisparity": 28,
+    "patchRadius": 2,
+    "minTextureVariance": 24,
+    "maxMeanAbsoluteError": 18,
+    "uniquenessRatio": 0.8,
+    "leftRightTolerancePx": 1
+  },
+  "candidateSettings": {
+    "p1": 2,
+    "p2": 12,
+    "maxCensusCost": 6,
+    "minComponentPixels": 12
+  },
+  "relativeGates": {
+    "minimumMissingAwareImprovement": 0.02,
+    "maximumCoverageLoss": 0.02
+  },
+  "cases": [
+    {
+      "id": "dev-textured-tilt-occluder-a",
+      "split": "development",
+      "inputSha256": "087745b8fa456e73294245a89159dbb7c4e738b997ab6736cf3967611628ccd1",
+      "leftSha256": "008c5ff0b553b584247f462b57fac2387190955ad70bcd12f00ca7f35f24d7b3",
+      "rightSha256": "e0a5a4b18e69b7fa40ec1f2f91c099b131988590ec234915b11d1a85cae38ef2",
+      "truthSha256": "0a4d8aa5c1f5f5238837079cf1f1ff3566419e17b7350ac6959b8d196806e72d",
+      "regionsSha256": "eecbbae53b9833df35066a20638eceb458e1a47e489a97fb0d19a107c88ffb55"
+    },
+    {
+      "id": "dev-weak-stripe-repeated-a",
+      "split": "development",
+      "inputSha256": "55de496661c61872c97e2dbc2133969bb5cbdac74f4a473746976030429b4180",
+      "leftSha256": "efc3ccd82debb50b612ab1814db52e42d3dd5ac250c96b6ef1f440c7fa837b67",
+      "rightSha256": "e05a520090054515e1b66bc32c5ebb3f2e3ffa3289abc18bc6f059a1908dfb1e",
+      "truthSha256": "1bff9b5ed611ebc597770f686893195d666020fe25ff9e0acede8a04410488f8",
+      "regionsSha256": "cb03aca52fa1f3e442a4df3fc47c8eb0cf4bb433cd0e3a470d515cd8d523b7eb"
+    },
+    {
+      "id": "dev-exposure-tilt-occluder-a",
+      "split": "development",
+      "inputSha256": "c587ad0ec0c351d6a3a0d98b632f276f5668e7473e684c058c7d3b0d94910019",
+      "leftSha256": "25d97e98c6a5612b066c8fd9a18736a5b5053f2b3938635f831398ae975369ee",
+      "rightSha256": "196ee81bab63f75eea408a597781533db27233e1a9df9e06b42a5c3f318a6b65",
+      "truthSha256": "819170b335361bde5bab60219622e1b9cb3c19bedb5cc32a5b975e74bc40022a",
+      "regionsSha256": "d70d6fdf112c0b41f179aea674a5d8743dc43f13b216407b262089b34f5621da"
+    },
+    {
+      "id": "eval-textured-tilt-occluder-b",
+      "split": "evaluation",
+      "inputSha256": "8266adc04b8b80eefcb8138a911649a72a6e04919c76dd6524d169e8c81a497a",
+      "leftSha256": "fd54ab662b8a60f808ba0d9a93ff149dd264c109309f005985a7c9265f9887ab",
+      "rightSha256": "759c3f3c3ec2867df98c5372a19ab7b27bf7d61d5e878232d1f75eae96cb3e28",
+      "truthSha256": "b38036fc7979bd502e6ea94162bcca667c15b8f8097fb25c698daddb68235032",
+      "regionsSha256": "5563d5681bba8aadecfbc75410b2905ac2cf66542998e4c74532bc5ba363edd9"
+    },
+    {
+      "id": "eval-weak-stripe-tilt-occluder-b",
+      "split": "evaluation",
+      "inputSha256": "aa39092467bc60e05c8e906a7fb591420dd851ddda115d6d20315aeb10469de6",
+      "leftSha256": "7c3f69a45648051aefa8d77a5c4203037ea5159be8e60db25626e15522d6c5e2",
+      "rightSha256": "7be4cc3049199d48044a9ef7d3d169b210283ae0a342ff2358c83545bb46d0bc",
+      "truthSha256": "2d70f7a5a52ab5dc8eb904d4b9b4e6da6c1fca9d25642d86637ad2fdb240652c",
+      "regionsSha256": "ea589624ca979d78e4292d1251835a5648376b9d6f0eb20842a7200ca65b7dad"
+    }
+  ]
+}

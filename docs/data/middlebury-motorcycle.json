@@ -1,0 +1,39 @@
+{
+  "format": "cha-middlebury-source-pin-v1",
+  "dataset": "Middlebury 2014 Motorcycle-perfect",
+  "sourceUrl": "https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Motorcycle-perfect/",
+  "license": {
+    "name": "Middlebury image/disparity reuse grant",
+    "url": "https://vision.middlebury.edu/stereo/data/",
+    "attribution": "D. Scharstein, H. Hirschmuller, Y. Kitajima, G. Krathwohl, N. Nesic, X. Wang, and P. Westling. High-resolution stereo datasets with subpixel-accurate ground truth. GCPR 2014."
+  },
+  "preparation": {
+    "width": 256,
+    "height": 173,
+    "minDisparity": 1,
+    "maxDisparity": 24,
+    "version": "area-rgb-nearest-truth-v1"
+  },
+  "sources": {
+    "calib.txt": {
+      "url": "https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Motorcycle-perfect/calib.txt",
+      "sha256": "04ad21246ac7beb81fd7d8d9ad908da855f89c0818dcd90461d6d3a50f96d48b",
+      "bytes": 215
+    },
+    "im0.png": {
+      "url": "https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Motorcycle-perfect/im0.png",
+      "sha256": "caed0f8d075dd962c3720b134c6684f3b8e0cbd621c608c626093c6427b08edf",
+      "bytes": 7112296
+    },
+    "im1.png": {
+      "url": "https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Motorcycle-perfect/im1.png",
+      "sha256": "3202c23bdab212b31f4f6505607f0d539a8bdf59fc20ea85cc2b5a43012ac3c0",
+      "bytes": 7065625
+    },
+    "disp0.pfm": {
+      "url": "https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Motorcycle-perfect/disp0.pfm",
+      "sha256": "e380ceec77374a25ab0632c5cefe9c5f431aff545f8397157d3915566a77c2fd",
+      "bytes": 23712023
+    }
+  }
+}
