@@ -31,6 +31,8 @@
     "spatial:stereo": "bun scripts/spatial-stereo.ts",
     "spatial:stereo:evaluate": "bun scripts/spatial-stereo-evaluate.ts",
     "spatial:stereo:fixture": "bun scripts/spatial-stereo-fixture.ts",
+    "spatial:stereo:geometry": "bun scripts/spatial-stereo-geometry.ts",
+    "spatial:middlebury": "bun scripts/spatial-middlebury.ts",
     "test:satellite": "node --test scripts/satellite-server.test.mjs scripts/satellite-android.test.mjs scripts/lib/local-scan-api.test.mjs",
     "test:tooling": "node --test scripts/satellite-doctor.test.mjs scripts/test-echo.test.mjs scripts/echo-pull.test.mjs",
     "test:repository": "node --test scripts/verify-repository.test.mjs",

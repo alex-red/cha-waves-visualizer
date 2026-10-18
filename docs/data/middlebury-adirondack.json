@@ -1,0 +1,39 @@
+{
+  "format": "cha-middlebury-source-pin-v1",
+  "dataset": "Middlebury 2014 Adirondack-perfect",
+  "sourceUrl": "https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Adirondack-perfect/",
+  "license": {
+    "name": "Middlebury image/disparity reuse grant",
+    "url": "https://vision.middlebury.edu/stereo/data/",
+    "attribution": "D. Scharstein, H. Hirschmuller, Y. Kitajima, G. Krathwohl, N. Nesic, X. Wang, and P. Westling. High-resolution stereo datasets with subpixel-accurate ground truth. GCPR 2014."
+  },
+  "preparation": {
+    "width": 256,
+    "height": 177,
+    "minDisparity": 1,
+    "maxDisparity": 25,
+    "version": "area-rgb-nearest-truth-v1"
+  },
+  "sources": {
+    "calib.txt": {
+      "url": "https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Adirondack-perfect/calib.txt",
+      "sha256": "eface1c113178399b8fc62470244cf4baea03a41304fc55ade487505e31604fe",
+      "bytes": 213
+    },
+    "im0.png": {
+      "url": "https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Adirondack-perfect/im0.png",
+      "sha256": "b322bad57398336a2730ad4363b267dff2324adcdf0b8aef2a01f931aeaf5ab9",
+      "bytes": 6079855
+    },
+    "im1.png": {
+      "url": "https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Adirondack-perfect/im1.png",
+      "sha256": "aeacdae282f68f20ea7175640e061ecddab686886b4a43fe5d4eff255f27beaa",
+      "bytes": 6020197
+    },
+    "disp0.pfm": {
+      "url": "https://vision.middlebury.edu/stereo/data/scenes2014/datasets/Adirondack-perfect/disp0.pfm",
+      "sha256": "7f60d0734b9a00c8ac56db21a36a2193b67e4ddb02d84360c476c094574a03ff",
+      "bytes": 22901783
+    }
+  }
+}
