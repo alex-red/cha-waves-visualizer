@@ -2,23 +2,39 @@ import { describe, expect, it } from 'vitest'
 import { createStereoDevelopmentCases } from './stereo-development.ts'
 import { createStereoConfidenceCases } from './stereo-confidence.ts'
 
+async function fixtureFingerprint(fixture: ReturnType<typeof createStereoDevelopmentCases>[number], unsupportedPixels: readonly number[] = []): Promise<string> {
+  const metadata = new TextEncoder().encode(JSON.stringify({
+    id: fixture.id,
+    split: fixture.split,
+    leftCamera: fixture.input.left.camera,
+    rightCamera: fixture.input.right.camera,
+    truthCamera: fixture.truth.camera,
+    disparityPx: fixture.truth.disparityPx,
+    depthM: fixture.truth.depthM,
+    regions: fixture.regions,
+    unsupportedPixels,
+  }))
+  const bytes = new Uint8Array(fixture.input.left.image.rgb.length + fixture.input.right.image.rgb.length + metadata.length)
+  bytes.set(fixture.input.left.image.rgb)
+  bytes.set(fixture.input.right.image.rgb, fixture.input.left.image.rgb.length)
+  bytes.set(metadata, fixture.input.left.image.rgb.length + fixture.input.right.image.rgb.length)
+  const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))
+  return [...digest].map(value => value.toString(16).padStart(2, '0')).join('')
+}
+
 describe('createStereoConfidenceCases', () => {
-  it('returns deterministic, separated confidence cases without changing source positives', () => {
+  it('returns deterministic, separated confidence cases without changing source positives', async () => {
     const before = createStereoDevelopmentCases('development')
     const cases = createStereoConfidenceCases()
     const again = createStereoConfidenceCases()
     const after = createStereoDevelopmentCases('development')
 
     expect(cases).toHaveLength(9)
-    expect(cases.slice(0, 3).map(item => item.fixture)).toEqual(before)
-    expect(after).toEqual(before)
+    const beforeFingerprints = await Promise.all(before.map(fixture => fixtureFingerprint(fixture)))
+    expect(await Promise.all(cases.slice(0, 3).map(item => fixtureFingerprint(item.fixture, item.unsupportedPixels)))).toEqual(beforeFingerprints)
+    expect(await Promise.all(after.map(fixture => fixtureFingerprint(fixture)))).toEqual(beforeFingerprints)
     expect(cases.map(item => item.fixture.id)).toEqual(again.map(item => item.fixture.id))
-    for (let index = 0; index < cases.length; index += 1) {
-      expect(cases[index]!.fixture.input.left.image.rgb).toEqual(again[index]!.fixture.input.left.image.rgb)
-      expect(cases[index]!.fixture.input.right.image.rgb).toEqual(again[index]!.fixture.input.right.image.rgb)
-      expect(cases[index]!.fixture.truth).toEqual(again[index]!.fixture.truth)
-      expect(cases[index]!.unsupportedPixels).toEqual(again[index]!.unsupportedPixels)
-    }
+    expect(await Promise.all(cases.map(item => fixtureFingerprint(item.fixture, item.unsupportedPixels)))).toEqual(await Promise.all(again.map(item => fixtureFingerprint(item.fixture, item.unsupportedPixels))))
     expect(cases.slice(3).every(item => item.fixture.id.startsWith('confidence-'))).toBe(true)
     expect(new Set(cases.slice(3).map(item => item.fixture.id)).size).toBe(6)
     expect(cases.every(item => item.fixture.split === 'development')).toBe(true)

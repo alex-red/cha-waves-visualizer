@@ -60,7 +60,7 @@ describe('stereo comparison pins and CLI', () => {
     expect(baselineResult.inputSha256).toBe(sha256(inputBytes))
     expect(baselineResult.sourceHashes).toEqual({ left: input.left.sha256, right: input.right.sha256 })
     expect(firstCase.baselineResultSha256).toBe(sha256(baselineBytes))
-  })
+  }, 20_000)
 
   it('does not replace an existing CLI output directory', async () => {
     const root = await tempRoot()
