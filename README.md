@@ -54,7 +54,7 @@ Open [localhost:4173](http://localhost:4173). There is no public hosted demo con
 | Interaction | Cancellable worker fields, adaptive drag previews, undo/redo and compatible baseline comparisons |
 | Local workspace | IndexedDB projects, versioned JSON import/export, named experiments and optional offline app downloads |
 | Measurement tools | RSSI survey import and residual metrics; experimental phone audio capture and scan inspection |
-| Spatial research | Research Lab with synthetic 3D plane/evidence inspection, local hash-verified bundle replay, report download and matching offline CLIs |
+| Spatial research | Research Lab with synthetic plane evidence, hash-verified observation replay and local Gaussian-splat viewing with explicit registration/provenance |
 
 [Portfolio case study](docs/CASE_STUDY.md) · [Architecture](docs/ARCHITECTURE.md) · [Current implementation status](docs/IMPLEMENTATION_STATUS.md)
 
@@ -63,6 +63,8 @@ Try the [synthetic spatial replay](docs/SPATIAL_BUNDLE.md) with `bun run spatial
 Run `bun run spatial:plane-demo -- --format markdown` for the separate [synthetic 3D plane reference](docs/SPATIAL_PLANE_REFERENCE.md). It fits tilted-wall/floor/ceiling fixtures with a fixed speaker and evaluates held-out positions, retaining missing and ambiguous attempts. It is not a validated phone room scan.
 
 Open **Research Lab** in the app to inspect these references visually or select a local bundle and its source files. It can also open over an active Echo Lab review while keeping the scan in place. [Research workspace guide](docs/SPATIAL_WORKSPACE.md)
+
+In **Visual splats**, load the synthetic metric room or CC0 violin, inspect camera/scale provenance, and save/reopen the original manifest and splat. The violin's world placement remains unknown. This is precomputed-asset viewing, without image training, acoustic fusion or AI completion. [Manual research walkthrough](docs/MANUAL_TESTING.md#research-lab-walkthrough)
 
 ## Echo Lab: a separate research experiment
 

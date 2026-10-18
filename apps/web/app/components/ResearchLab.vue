@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, shallowRef, useId, watch } from 'vue'
+import { computed, defineAsyncComponent, onBeforeUnmount, ref, shallowRef, useId, watch } from 'vue'
 import { createSpatialPlaneCases } from '../../../../packages/test-fixtures/spatial-plane'
 import { evaluatePlaneFit } from '../../../../packages/spatial-plane-evaluation'
 import { fitSinglePlane, type PlaneFitResult, type SpatialPlane } from '../../../../packages/spatial-plane'
@@ -11,8 +11,10 @@ import { inspectSpatialBrowserFiles } from '../lib/spatial-browser'
 const props = defineProps<{ active: boolean; returnLabel?: string }>()
 const emit = defineEmits<{ close: [] }>()
 const uid = useId()
+const VisualLab = defineAsyncComponent(() => import('./VisualLab.vue'))
+const visualMounted = ref(false)
 
-const section = ref<'plane' | 'replay'>('plane')
+const section = ref<'plane' | 'replay' | 'visual'>('plane')
 const cases = createSpatialPlaneCases()
 const selectedCaseId = ref(cases[0]?.id ?? 'tilted-wall')
 const fit = shallowRef<PlaneFitResult | null>(null)
@@ -98,7 +100,10 @@ const diagram = computed(() => {
   }
 })
 
-function chooseSection(next: 'plane' | 'replay'): void { section.value = next }
+function chooseSection(next: 'plane' | 'replay' | 'visual'): void {
+  if (next === 'visual') visualMounted.value = true
+  section.value = next
+}
 
 function setManifest(event: Event): void {
   invalidatePendingImport()
@@ -167,7 +172,7 @@ onBeforeUnmount(invalidatePendingImport)
       <div>
         <p class="eyebrow">CHA WAVES / RESEARCH WORKSPACE</p>
         <h2 id="research-lab-title">Research Lab</h2>
-        <p class="intro">Run a bounded synthetic plane reference or replay a hash-linked observation bundle. Every view keeps its assumptions in the frame.</p>
+        <p class="intro">Inspect a synthetic plane, replay linked observations, or open a visual splat bundle. Every view keeps its assumptions in the frame.</p>
       </div>
       <button class="close-button" type="button" aria-label="Close Research Lab" @click="emit('close')">×</button>
     </header>
@@ -175,6 +180,7 @@ onBeforeUnmount(invalidatePendingImport)
     <div class="lab-tabs" role="group" aria-label="Research Lab section">
       <button type="button" aria-label="3D plane reference" :aria-pressed="section === 'plane'" :class="{ selected: section === 'plane' }" @click="chooseSection('plane')"><span>01</span> 3D plane reference</button>
       <button type="button" aria-label="Observation replay" :aria-pressed="section === 'replay'" :class="{ selected: section === 'replay' }" @click="chooseSection('replay')"><span>02</span> Observation replay</button>
+      <button type="button" aria-label="Visual splats" :aria-pressed="section === 'visual'" :class="{ selected: section === 'visual' }" @click="chooseSection('visual')"><span>03</span> Visual splats</button>
       <p>OFFLINE · SYNTHETIC + LOCAL FILES</p>
     </div>
 
@@ -264,7 +270,7 @@ onBeforeUnmount(invalidatePendingImport)
       </aside>
     </section>
 
-    <section v-else class="replay-workspace" aria-label="Local observation replay">
+    <section v-else-if="section === 'replay'" class="replay-workspace" aria-label="Local observation replay">
       <header class="replay-heading">
         <div><p class="eyebrow">HASH-LINKED / READ-ONLY REPLAY</p><h3>Inspect the observations</h3></div>
         <span class="status-stamp">ON THIS DEVICE</span>
@@ -319,7 +325,8 @@ onBeforeUnmount(invalidatePendingImport)
       </template>
     </section>
 
-    <footer class="lab-footer"><span>RESEARCH BOUNDARY</span><p>The plane view is synthetic geometry with a fixed speaker and supplied microphone poses. Observation replay preserves recorded, synthetic, supplied, estimated, and unknown states as separate evidence.</p><button type="button" class="return-button" :aria-label="props.returnLabel ?? 'Field visualizer'" @click="emit('close')">{{ props.returnLabel ?? 'Field visualizer' }} <span aria-hidden="true">↗</span></button></footer>
+    <VisualLab v-if="visualMounted" v-show="section === 'visual'" :active="props.active && section === 'visual'" />
+    <footer class="lab-footer"><span>RESEARCH BOUNDARY</span><p>Plane geometry is synthetic; replay preserves supplied and unknown registration. Visual assets remain separate from acoustic evidence. Rendering appearance does not validate physical geometry.</p><button type="button" class="return-button" :aria-label="props.returnLabel ?? 'Field visualizer'" @click="emit('close')">{{ props.returnLabel ?? 'Field visualizer' }} <span aria-hidden="true">↗</span></button></footer>
   </section>
 </template>
 

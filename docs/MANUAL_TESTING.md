@@ -1,6 +1,26 @@
-# Manual testing · October 15, 2026
+# Manual testing · October 17, 2026
 
 The current app is a local-first home field study. Bun 1.4.3 manages the workspace; Node 24 remains required by the explicit Node scripts. Use `bun install --frozen-lockfile`, then `bun run dev` and open http://127.0.0.1:3000. For the static build, use `bun run build` followed by `bun run preview` at http://127.0.0.1:4173. `bun run test` invokes Vitest, not Bun's built-in test runner.
+
+If a live capture build is running, follow the [preservation workflow](ECHO_WORKFLOW.md#4-replace-a-live-build-without-losing-the-experiment) before replacing it. An isolated build/preview can exercise the research interface while keeping the active relay and browser-only scan reviews intact.
+
+## Research Lab walkthrough
+
+This walkthrough needs no phone, microphone, private recording or model service. It tests software inspection and rendering; it does not establish physical mapping or image-reconstruction accuracy.
+
+1. Export the current field project as a comparison record. Open **Research Lab** from the workspace banner.
+2. In **3D plane reference**, run Tilted wall, Floor plane and Ceiling plane. Inspect each fitted plane's evidence. Missing and ambiguous attempts must remain visible. Change the case before running again: old results must clear. The patch extents are illustrative, not recovered room bounds.
+3. In **Observation replay**, load the synthetic example. Inspect the three observation IDs, separate speaker/microphone world positions, source hashes and explicitly unavailable registration. Download the report; it contains derived observations, not raw PCM.
+4. Choose **Visual splats → Load metric room**. Expect a visibly rendered room with floor, walls and furnishings, **WORLD / METRES / Z UP**, synthetic registration and 1,883 Gaussians. Its three cameras must say **illustrative**. The room is authored geometry, not a captured reconstruction.
+5. Drag to orbit, use the wheel/pinch to zoom, and focus the canvas for its documented keyboard controls. Choose each camera view, then return to **Free orbit** or **Reset view**. Intrinsics-based previews should preserve the camera aspect ratio using letterboxing. Toggle **Appearance** and **Camera frustums** independently; the corresponding geometry should disappear and return.
+6. Inspect provenance, asset/manifest hashes, load timing and decoded-attribute byte counts. The memory figure excludes renderer/GPU overhead. Use **Save manifest** and **Save original splat**. Open the import disclosure, select those two downloads and choose **Inspect selected files**. The asset hash, registration, cameras and appearance must survive.
+7. Change one hex digit in a copy of the manifest's asset SHA256 and import it with the same splat. Expect a hash error with the earlier accepted scene still visible and exportable. Try a mismatched filename or invalid JSON as a second rejection case.
+8. Load **CC0 violin**. Expect 10,000 Gaussians, explicit **ASSET FRAME / LOCAL UNITS**, unknown world placement and no camera presets. It is a normalized mesh conversion, without photographs or training. The UI must not invent metric scale or capture cameras.
+9. Close/reopen Research Lab and switch between its sections. The accepted report and visual asset should remain in the current tab, while the renderer is released when inactive and recreated on return. After saving both visual files, refresh: inspection state should clear, and the two files should reopen it. There is no automatic visual-file storage.
+10. Open Echo Lab's synthetic five-position example, then **Open Research Lab** inside it. Close Research: the scan must still be present and keyboard focus must return to its Research trigger. Close Echo: focus must return to the original Echo trigger. Re-export the field project and compare scene/settings to step 1; research operations must not alter them.
+11. Repeat at 390px width and with keyboard-only navigation. Review the actual screen reader, touch orbit/pinch, contrast, reading order and scroll areas. On a real GPU, test the default renderer and the `?spatial-webgl=1` WebGL2 override. If rendering is unavailable, the verified metadata and original-file downloads must remain usable and **Retry renderer** must be available.
+
+See [visual format/provenance](SPATIAL_VISUAL_BASELINE.md) and [workspace details](SPATIAL_WORKSPACE.md). Physical ECHO-04/05, image-supported reconstruction/held-out-view evaluation, acoustic/visual fusion and AI completion remain separate research gates.
 
 ## Suggested walkthrough
 
@@ -74,6 +94,8 @@ Project JSON export uses committed inputs and remains available while a calculat
 Firefox needs a separate supported-environment run: the installed local Playwright Firefox binary previously failed to launch. No public deployment or release certification is implied by manual-test readiness.
 
 ## Automated handoff checks
+
+October 17 research handoff: 426 Vitest checks and full typechecks passed, followed by an isolated production build, security/offline verification and repository hygiene checks. Eight new Chromium/WebGL2 visual checks and four existing Research Lab checks passed. The visual checks exercise rendered appearance, camera previews, shared-registration pixel consistency, distant-camera clipping, lossless original-file round trips, hash rejection, fresh-canvas reopening/retry, interrupted imports, unknown scale and mobile layout/accessibility. Interactive desktop inspection also exercised default WebGPU room rendering and close/reopen. These are software readiness checks for the walkthrough above; image-supported reconstruction, physical mapping, touch/screen-reader behavior and the broader device/browser matrix remain outside this evidence.
 
 October 15 follow-up: 236 unit tests; 137 browser scenarios each in Chromium and WebKit (274 total); strict package/script/Vue typechecks; production static generation; fixture identities and round-trip checks; generated security-header and offline-artifact verification. The final combined browser run completed with all 274 passing after project/history/worker extraction, shared display consolidation, the interactive loss breakdown, navigation, drafting, interior junctions, named experiments, placement studies, the material editor, RSSI surveys and offline workspace. Unit regressions also cover an import whose file read overlaps startup restore, a late restore after a home switch and teardown during pending work. Bun frozen installation was verified in an isolated clean copy while preserving dependency versions. These are local results, not a remote CI or complete real-device certification.
 

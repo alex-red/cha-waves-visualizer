@@ -25,11 +25,19 @@ The browser matches selected source files to each declared path's unique basenam
 
 A failed import preserves the previous report. Changing selected files or closing the workspace invalidates pending import results. Closing/reopening Research Lab preserves its report in the current tab; a page refresh does not persist it. These inspection operations do not change the field project or Echo scan selections.
 
+## Visual splat baseline
+
+**Visual splats** opens a separate precomputed-asset inspector. **Load metric room** supplies an authored Gaussian-splat room with known synthetic scale/rotation/translation and three illustrative camera poses. **Load CC0 violin** opens a reusable mesh conversion with unknown metric/world registration and no capture cameras. Source kind, license, original hashes and camera roles remain visible. Neither example is an image-trained scene or acoustic reconstruction.
+
+The native Three.js Gaussian renderer uses WebGPU or WebGL2. Orbit/zoom, keyboard controls, independent appearance/frustum visibility and intrinsics-based camera previews affect only the view. Closing the workspace or leaving the section releases renderer resources; the accepted bundle remains in memory for reopening. `?spatial-webgl=1` selects the WebGL2 path for focused checks. A renderer failure preserves file inspection/downloads and offers retry.
+
+To use your own asset, select a [visual manifest](SPATIAL_VISUAL_BASELINE.md) and its named standard `.splat` file. It is a separate contract from the audio bundle. The importer verifies exact bytes before renderer allocation, retains the previous scene on rejection, and never follows manifest URLs. Use **Save manifest** and **Save original splat** together for lossless reopening; a refresh clears current-tab inspection state. Read the [manual walkthrough](MANUAL_TESTING.md#research-lab-walkthrough) for the complete round trip and negative checks.
+
 ## Source boundaries and verification
 
 `apps/web/app/components/ResearchLab.vue` owns presentation and import lifecycle. `apps/web/app/lib/spatial-browser.ts` owns bounded reads of explicitly selected browser files, strict decoding and Web Crypto hashing. Shared bundle, registration, plane/evaluation and report modules remain outside Vue and rendering.
 
-The UI does not automatically fit the bundle's existing four-arrival rectangle data to the fixed-source plane reference. The two sections retain their separate input contracts. Real mapping still requires [ECHO-04/05](ECHO_SINGLE_WALL.md) evidence and later association/fusion work. Gaussian splats and AI completion remain future stages.
+The UI does not automatically fit the audio bundle's existing four-arrival rectangle data to the fixed-source plane reference or register it to a visual asset. The three sections retain their separate input contracts. Real mapping still requires [ECHO-04/05](ECHO_SINGLE_WALL.md) evidence and later association/fusion work. Splat import/rendering is implemented; image-supported reconstruction, fusion and AI completion remain future stages.
 
 Focused checks:
 
@@ -39,7 +47,7 @@ bun run typecheck
 bun run build
 bun run verify:static-security
 bun run verify:offline
-bun run test:echo -- apps/web/e2e/spatial-research.spec.ts apps/web/e2e/echo-lab.spec.ts
+bun run test:echo -- apps/web/e2e/spatial-research.spec.ts apps/web/e2e/visual-research.spec.ts apps/web/e2e/echo-lab.spec.ts
 ```
 
 Follow the [live-build preservation workflow](ECHO_WORKFLOW.md#4-replace-a-live-build-without-losing-the-experiment) before replacing a running capture build. The implementation verification used a separate build directory and fresh test server; it did not restart or replace the user's relay.
