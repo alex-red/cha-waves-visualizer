@@ -1,0 +1,255 @@
+{
+  "format": "cha-stereo-local-ambiguity-pins-v1",
+  "split": "development",
+  "confidenceDataPinSha256": "a16437db6d648aa454df23b05c8ab465997f40720728f85f89a3cefe9ff15879",
+  "reservedHoldoutSha256": "8ff8000b086a1ed6adbffc818ba5181ac7f22bae46aa75431533fc508c277781",
+  "settings": {
+    "minDisparity": 4,
+    "maxDisparity": 28,
+    "patchRadius": 2,
+    "minTextureVariance": 24,
+    "maxMeanAbsoluteError": 18,
+    "uniquenessRatio": 0.8,
+    "leftRightTolerancePx": 1
+  },
+  "censusSettings": {
+    "p1": 2,
+    "p2": 12,
+    "maxCensusCost": 6,
+    "minComponentPixels": 12
+  },
+  "localAmbiguityRule": {
+    "censusRadius": 2,
+    "maxRawCensusCost": 6,
+    "excludedNeighborLabels": 1,
+    "competitorRatioSetting": "settings.uniquenessRatio",
+    "requireBothDirections": true
+  },
+  "variants": [
+    {
+      "id": "sad-baseline",
+      "method": "rectified-rgb-sad-v1",
+      "textureGate": true,
+      "localAmbiguityGate": false
+    },
+    {
+      "id": "census-sgm",
+      "method": "rectified-census-sgm-v1",
+      "textureGate": true,
+      "localAmbiguityGate": false
+    },
+    {
+      "id": "local-ambiguity-proposal",
+      "method": "development-only-local-ambiguity-proposal",
+      "textureGate": false,
+      "localAmbiguityGate": true
+    }
+  ],
+  "absoluteGates": {
+    "minimumTruthCoverage": 0.35,
+    "maximumBad1Fraction": 0.1,
+    "maximumDepthP90M": 0.25
+  },
+  "relativeGates": {
+    "minimumMissingAwareImprovement": 0.02,
+    "maximumCoverageLoss": 0.02
+  },
+  "confidenceGates": {
+    "maximumUnsupportedFraction": 0.01,
+    "maxWallTimeMs": 30000,
+    "maxPeakRssBytes": 536870912
+  },
+  "implementationSources": [
+    {
+      "path": "packages/spatial-stereo-local-screen.ts",
+      "sha256": "f4ffe680b2892a9c3b70db971501302f5c58b538efac2a63593f9e5cb03e7baf"
+    },
+    {
+      "path": "packages/spatial-stereo-local-ambiguity.ts",
+      "sha256": "5ba9fd7c1bf74c01b934c852335bf3595928c37f2310d8305eb8a510a3ed837b"
+    },
+    {
+      "path": "packages/spatial-stereo-confidence.ts",
+      "sha256": "aba69b9f750ad0a1bc823701a76360e0c45090b942f3abc37b27f08a090bcb1d"
+    },
+    {
+      "path": "packages/test-fixtures/stereo-confidence.ts",
+      "sha256": "19900b286f7a6029b57eb711cb3646b68f22e0754b29c26dbb53612ea65d71d5"
+    },
+    {
+      "path": "packages/test-fixtures/stereo-development.ts",
+      "sha256": "e30c654e55a9ae6e103450c39b96aa9a2892633d78eee4a1f2f8d36a916b4ebb"
+    },
+    {
+      "path": "packages/spatial-stereo.ts",
+      "sha256": "7dfd08906d5bba2bbcd31fc5eb5451906446b73f5d1a9f4684d1c943c69585f3"
+    },
+    {
+      "path": "packages/spatial-stereo-sgm.ts",
+      "sha256": "870df43e5f3a8d2dfd6894683ca5150e081aec48f77701367dc824c188fb2d6e"
+    },
+    {
+      "path": "packages/spatial-stereo-types.ts",
+      "sha256": "01f37752a2473a3a95beb5ea34c04887211d62d8e1771841fc855c549878c65c"
+    },
+    {
+      "path": "packages/spatial-stereo-geometry.ts",
+      "sha256": "890e28e5c9150055759ce5e4b0c85bc72ab2b7878c4e2ac4beff698d8b99db3a"
+    },
+    {
+      "path": "packages/spatial-stereo-comparison.ts",
+      "sha256": "26ba8a0c6b2ee63c21bf64b4844dd99f3248c601729ee787714aa459ce93883a"
+    },
+    {
+      "path": "packages/spatial-stereo-ablation.ts",
+      "sha256": "22f5d99ac284245d9c3b39bdac5f35562132b5404246b8be1dc1d5b7efd9a801"
+    },
+    {
+      "path": "packages/spatial-ppm.ts",
+      "sha256": "1457345a644b96cab7e88bdcaf42fe3b4b3ed08704e9a1491f3d87517ced8456"
+    },
+    {
+      "path": "scripts/lib/stereo-reference-files.ts",
+      "sha256": "848fa5051fcb9cbbcae159b537b40e34169e0b4c5fd3b0f734360945da0a9f8c"
+    },
+    {
+      "path": "scripts/lib/stereo-confidence-files.ts",
+      "sha256": "0cbd55dd2aa29aa63039e97f5cae47f164d62e34a1e208526e5fa7d8431ce537"
+    },
+    {
+      "path": "scripts/lib/stereo-files.ts",
+      "sha256": "85fa9a557a963cdb2bd3738b573aa240b7249e4b59aff4c02556bf5cac7e88ba"
+    },
+    {
+      "path": "scripts/lib/stereo-resource-runner.ts",
+      "sha256": "45477285c297303a8c168d306c26f9810e105387e1b9e9a209f22e1d38f64210"
+    },
+    {
+      "path": "scripts/spatial-stereo-local-ambiguity.ts",
+      "sha256": "fa098d1b134f30913488897151079b20a4246fc0f7618b174ab294b6cfd09dd5"
+    },
+    {
+      "path": "scripts/spatial-stereo-local-ambiguity-worker.ts",
+      "sha256": "b45ed3d7aa284a0972c09786e187d30f32dce231e742b79284314e83569a93f9"
+    }
+  ],
+  "cases": [
+    {
+      "id": "dev-textured-tilt-occluder-a",
+      "split": "development",
+      "inputSha256": "087745b8fa456e73294245a89159dbb7c4e738b997ab6736cf3967611628ccd1",
+      "leftSha256": "008c5ff0b553b584247f462b57fac2387190955ad70bcd12f00ca7f35f24d7b3",
+      "rightSha256": "e0a5a4b18e69b7fa40ec1f2f91c099b131988590ec234915b11d1a85cae38ef2",
+      "truthSha256": "0a4d8aa5c1f5f5238837079cf1f1ff3566419e17b7350ac6959b8d196806e72d",
+      "regionsSha256": "eecbbae53b9833df35066a20638eceb458e1a47e489a97fb0d19a107c88ffb55",
+      "role": "positive",
+      "unsupportedPixels": 0,
+      "unsupportedSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "notes": "Original ray-rendered development positive with unchanged input bytes, cameras, truth and diagnostic masks."
+    },
+    {
+      "id": "dev-weak-stripe-repeated-a",
+      "split": "development",
+      "inputSha256": "55de496661c61872c97e2dbc2133969bb5cbdac74f4a473746976030429b4180",
+      "leftSha256": "efc3ccd82debb50b612ab1814db52e42d3dd5ac250c96b6ef1f440c7fa837b67",
+      "rightSha256": "e05a520090054515e1b66bc32c5ebb3f2e3ffa3289abc18bc6f059a1908dfb1e",
+      "truthSha256": "1bff9b5ed611ebc597770f686893195d666020fe25ff9e0acede8a04410488f8",
+      "regionsSha256": "cb03aca52fa1f3e442a4df3fc47c8eb0cf4bb433cd0e3a470d515cd8d523b7eb",
+      "role": "positive",
+      "unsupportedPixels": 0,
+      "unsupportedSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "notes": "Original ray-rendered development positive with unchanged input bytes, cameras, truth and diagnostic masks."
+    },
+    {
+      "id": "dev-exposure-tilt-occluder-a",
+      "split": "development",
+      "inputSha256": "c587ad0ec0c351d6a3a0d98b632f276f5668e7473e684c058c7d3b0d94910019",
+      "leftSha256": "25d97e98c6a5612b066c8fd9a18736a5b5053f2b3938635f831398ae975369ee",
+      "rightSha256": "196ee81bab63f75eea408a597781533db27233e1a9df9e06b42a5c3f318a6b65",
+      "truthSha256": "819170b335361bde5bab60219622e1b9cb3c19bedb5cc32a5b975e74bc40022a",
+      "regionsSha256": "d70d6fdf112c0b41f179aea674a5d8743dc43f13b216407b262089b34f5621da",
+      "role": "positive",
+      "unsupportedPixels": 0,
+      "unsupportedSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "notes": "Original ray-rendered development positive with unchanged input bytes, cameras, truth and diagnostic masks."
+    },
+    {
+      "id": "confidence-positive-exposure-noise",
+      "split": "development",
+      "inputSha256": "09a8e44975a41cd92e599d5b97ea5121103b6a1171a9f767513acb47ed1661a7",
+      "leftSha256": "008c5ff0b553b584247f462b57fac2387190955ad70bcd12f00ca7f35f24d7b3",
+      "rightSha256": "dd7a7cdc4ef0ad4939646705401752acdfb4b8184506bf1d9c4f2f3f9284d7a0",
+      "truthSha256": "0a4d8aa5c1f5f5238837079cf1f1ff3566419e17b7350ac6959b8d196806e72d",
+      "regionsSha256": "eecbbae53b9833df35066a20638eceb458e1a47e489a97fb0d19a107c88ffb55",
+      "role": "positive",
+      "unsupportedPixels": 0,
+      "unsupportedSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "notes": "First original scene with right-view exposure gain 1.12, offset 8 and independent deterministic integer noise from -3 through +3 per RGB channel."
+    },
+    {
+      "id": "confidence-positive-low-contrast",
+      "split": "development",
+      "inputSha256": "e113f2c89344878f45ec942068744546c49af580fc4f45668426aac34d7e4ab0",
+      "leftSha256": "c0903612064e052e9c4237dd9477419ab20301e973a8a9af41d5c2dc6c15fef8",
+      "rightSha256": "e57e69067d30a13d3bad59454e4e65d819121cb404145a4c92c7b5099e912252",
+      "truthSha256": "0a4d8aa5c1f5f5238837079cf1f1ff3566419e17b7350ac6959b8d196806e72d",
+      "regionsSha256": "eecbbae53b9833df35066a20638eceb458e1a47e489a97fb0d19a107c88ffb55",
+      "role": "positive",
+      "unsupportedPixels": 0,
+      "unsupportedSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "notes": "Both views of the first original scene quantized around RGB 96 with linear contrast gain 0.25; calibration, truth and masks are preserved."
+    },
+    {
+      "id": "confidence-negative-uniform",
+      "split": "development",
+      "inputSha256": "5c7a2915e6ba8c8926147baeb0907d0ac660cb3b528d4be543f16c163fac65d6",
+      "leftSha256": "49ea89ac943622a876039ee0ff27314aa25b92cd43318d21a2be504cb90a795a",
+      "rightSha256": "49ea89ac943622a876039ee0ff27314aa25b92cd43318d21a2be504cb90a795a",
+      "truthSha256": "41d87cbe623710ba841e3c1d954b37d5dff8cd7034c1115a856443d424dd75ac",
+      "regionsSha256": "96e813f64d98f1626e144e0e2a516d1843205f21a67b54657366ec973a3e8d0a",
+      "role": "negative",
+      "unsupportedPixels": 14848,
+      "unsupportedSha256": "44632b269736b0dd4fa6103458250290c6b22179d0920d0987882696d449e2ec",
+      "notes": "Uniform RGB 96 images provide no correspondence evidence; geometry truth is intentionally unknown."
+    },
+    {
+      "id": "confidence-negative-independent-noise",
+      "split": "development",
+      "inputSha256": "6ff675a4c35efb1888f39d1fa28815997647dbcb8dc8024670fdf32a89eb017d",
+      "leftSha256": "0a7f45293047f0163184e73bc65872e0249c10ffb24c3d48c9e4569c1eca8901",
+      "rightSha256": "f3e5294a953719c25b72411c5f6e7e8a233c8881396d39e49fd6e91c4a0a3af6",
+      "truthSha256": "41d87cbe623710ba841e3c1d954b37d5dff8cd7034c1115a856443d424dd75ac",
+      "regionsSha256": "96e813f64d98f1626e144e0e2a516d1843205f21a67b54657366ec973a3e8d0a",
+      "role": "negative",
+      "unsupportedPixels": 14848,
+      "unsupportedSha256": "44632b269736b0dd4fa6103458250290c6b22179d0920d0987882696d449e2ec",
+      "notes": "Independent seeded RGB noise in each view has no shared surface correspondence; geometry truth is intentionally unknown."
+    },
+    {
+      "id": "confidence-negative-periodic-stripes",
+      "split": "development",
+      "inputSha256": "3a7884424dbf4140cede8643f9fbd0f31b90168dcda9f480da983c37f398a37f",
+      "leftSha256": "81a46ab4710dccc153d1e8d0efaba47b124910c0db19c5e9e318a5007146383c",
+      "rightSha256": "81a46ab4710dccc153d1e8d0efaba47b124910c0db19c5e9e318a5007146383c",
+      "truthSha256": "41d87cbe623710ba841e3c1d954b37d5dff8cd7034c1115a856443d424dd75ac",
+      "regionsSha256": "96e813f64d98f1626e144e0e2a516d1843205f21a67b54657366ec973a3e8d0a",
+      "role": "negative",
+      "unsupportedPixels": 14848,
+      "unsupportedSha256": "44632b269736b0dd4fa6103458250290c6b22179d0920d0987882696d449e2ec",
+      "notes": "An exactly 8-pixel-periodic vertical pattern repeats across the full frame with deterministic y variation and no unique markings; geometry truth is intentionally unknown."
+    },
+    {
+      "id": "confidence-negative-right-patch",
+      "split": "development",
+      "inputSha256": "73e26b9baf80cd3162f57e858bf511414fc650d3bbb501000aeefa48bbf8561e",
+      "leftSha256": "008c5ff0b553b584247f462b57fac2387190955ad70bcd12f00ca7f35f24d7b3",
+      "rightSha256": "3cf0733b7096919e9fec848f60fff57ed480c15860655d05a7caeed5b5795b8d",
+      "truthSha256": "0a4d8aa5c1f5f5238837079cf1f1ff3566419e17b7350ac6959b8d196806e72d",
+      "regionsSha256": "eecbbae53b9833df35066a20638eceb458e1a47e489a97fb0d19a107c88ffb55",
+      "role": "negative",
+      "unsupportedPixels": 2170,
+      "unsupportedSha256": "f4fccd729be5ecee455850bcded977ed5a92f2b463d478a78ddad05e9399f27a",
+      "notes": "A seeded independent-noise rectangle replaces right-view content. Truth is retained; unsupportedPixels includes only originally right-visible left pixels whose full 5x5 correspondence window has an additional three-pixel interior margin."
+    }
+  ]
+}
