@@ -1,0 +1,69 @@
+{
+  "format": "cha-stereo-holdout-pins-v1",
+  "split": "evaluation",
+  "status": "unopened-for-estimation",
+  "settings": {
+    "minDisparity": 4,
+    "maxDisparity": 28,
+    "patchRadius": 2,
+    "minTextureVariance": 24,
+    "maxMeanAbsoluteError": 18,
+    "uniquenessRatio": 0.8,
+    "leftRightTolerancePx": 1
+  },
+  "relativeGates": {
+    "minimumMissingAwareImprovement": 0.02,
+    "maximumCoverageLoss": 0.02
+  },
+  "geometryGates": {
+    "minimumTruthCoverage": 0.35,
+    "maximumBad1Fraction": 0.1,
+    "maximumDepthP90M": 0.25
+  },
+  "budget": {
+    "maxWidth": 256,
+    "maxHeight": 192,
+    "maxDisparityLabels": 64,
+    "maxWallTimeMsPerCaseVariant": 30000,
+    "maxPeakRssBytes": 536870912,
+    "status": "planned-unmeasured"
+  },
+  "cases": [
+    {
+      "id": "holdout-c-textured-tilt",
+      "split": "evaluation",
+      "inputSha256": "aab2f0f31257cfe32e17e3b832dc4a527533e9b3036012416346e310717d3342",
+      "leftSha256": "69210f8e8b9e124b6933efa8b31244efbd67f3708085fbb4899b7ffad9931518",
+      "rightSha256": "94a9ac545841ca232e29c5b0105dcf48f144a62ce4078d5c1ba924086eff7e7f",
+      "truthSha256": "c711b2772f2bf6250da1eea83612604e6162bd06aab2dc92e0075b320b2f20be",
+      "regionsSha256": "ba6d65ca530511aeefec77d4cdf425ea769285a24298abcac23aa4420cd013c7"
+    },
+    {
+      "id": "holdout-c-weak-stripe-repeat",
+      "split": "evaluation",
+      "inputSha256": "558fdef46de1d77f0c71c2ed77de1eb469306d11b4dcec2ad81f070907013138",
+      "leftSha256": "140add5decd4b80429cb16c7972365478b2f819a5b1b00ade2a72dabeeac4c24",
+      "rightSha256": "8930ff1a885b2a4425a6e262d770a4410ba963b4b056d8cc322ac58eaa65b9b7",
+      "truthSha256": "cdf51a9981064929d3453126be0964879743ddb9b11ac93606d811c125d3f7af",
+      "regionsSha256": "1c73dc3feb901abf135009b548963e92cc7a6c3edc47901594063344f1ba2a3a"
+    },
+    {
+      "id": "holdout-c-negative-exposure",
+      "split": "evaluation",
+      "inputSha256": "8a6dd7178ffb0d3c0f1a42a7aa666e2536c9f16268de7e935f27f61b37415b3d",
+      "leftSha256": "806deeae9bd523c1cb07eec14f8d86dceaa407821e39dc34a62a03fad98e5c4e",
+      "rightSha256": "921bb1655f7c12c3977191074052d47b0c1388cffc482fac0c318a27b7894c2a",
+      "truthSha256": "0caa482f2e1314025c5cdf1935c881a94572d4595a495f899be9cd58baaf9b85",
+      "regionsSha256": "3c4a0b7f302a72b0c09fd5f61a74fd7feb5e30d607fce6762fbe054aec7a5fa4"
+    },
+    {
+      "id": "holdout-c-repeat-narrow-occluder",
+      "split": "evaluation",
+      "inputSha256": "e9b127f29b0df1aac9a06a49d33509caf1f5ef27ad9ab61c61699ede4b2ce46e",
+      "leftSha256": "0b0eb5cb5a17275d55d124e8bb82cd0b8daef250bbfaa2e9611a9e2375914ec8",
+      "rightSha256": "8c2f10cc65eaa9d0e71ba0ac29639e64d2536e584ff1f8dbf2e2a69e2ac27b26",
+      "truthSha256": "184b5f934e5caf02581ffc79dc53a6c163c583bd0d6af941053eb651b9e3354f",
+      "regionsSha256": "f061817ee8bef2da82b5dee6349a71d109b08e699eab1d7bd1acca864c4133c8"
+    }
+  ]
+}

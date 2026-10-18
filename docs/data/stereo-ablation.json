@@ -1,0 +1,220 @@
+{
+  "format": "cha-stereo-ablation-pins-v1",
+  "split": "development",
+  "diagnosticOnly": true,
+  "originalComparisonPinsSha256": "30d767fd5913dd1aea1af0fd4400f37bd4c2ac0b3e4abb6957560c5f8eaa87df",
+  "freshHoldoutPinsSha256": "8ff8000b086a1ed6adbffc818ba5181ac7f22bae46aa75431533fc508c277781",
+  "settings": {
+    "minDisparity": 4,
+    "maxDisparity": 28,
+    "patchRadius": 2,
+    "minTextureVariance": 24,
+    "maxMeanAbsoluteError": 18,
+    "uniquenessRatio": 0.8,
+    "leftRightTolerancePx": 1
+  },
+  "censusSettings": {
+    "p1": 2,
+    "p2": 12,
+    "maxCensusCost": 6,
+    "minComponentPixels": 12
+  },
+  "variants": [
+    {
+      "id": "sad-baseline",
+      "family": "sad",
+      "configuration": null
+    },
+    {
+      "id": "census-sgm",
+      "family": "census",
+      "configuration": {
+        "id": "census-sgm",
+        "aggregation": "sgm",
+        "textureGate": true,
+        "rgbGate": true,
+        "uniquenessGate": true,
+        "leftRightGate": true,
+        "componentGate": true,
+        "endpointGate": true
+      }
+    },
+    {
+      "id": "census-local",
+      "family": "census",
+      "configuration": {
+        "id": "census-local",
+        "aggregation": "local",
+        "textureGate": true,
+        "rgbGate": true,
+        "uniquenessGate": true,
+        "leftRightGate": true,
+        "componentGate": true,
+        "endpointGate": true
+      }
+    },
+    {
+      "id": "without-texture",
+      "family": "census",
+      "configuration": {
+        "id": "without-texture",
+        "aggregation": "sgm",
+        "textureGate": false,
+        "rgbGate": true,
+        "uniquenessGate": true,
+        "leftRightGate": true,
+        "componentGate": true,
+        "endpointGate": true
+      }
+    },
+    {
+      "id": "without-rgb",
+      "family": "census",
+      "configuration": {
+        "id": "without-rgb",
+        "aggregation": "sgm",
+        "textureGate": true,
+        "rgbGate": false,
+        "uniquenessGate": true,
+        "leftRightGate": true,
+        "componentGate": true,
+        "endpointGate": true
+      }
+    },
+    {
+      "id": "without-uniqueness",
+      "family": "census",
+      "configuration": {
+        "id": "without-uniqueness",
+        "aggregation": "sgm",
+        "textureGate": true,
+        "rgbGate": true,
+        "uniquenessGate": false,
+        "leftRightGate": true,
+        "componentGate": true,
+        "endpointGate": true
+      }
+    },
+    {
+      "id": "without-left-right",
+      "family": "census",
+      "configuration": {
+        "id": "without-left-right",
+        "aggregation": "sgm",
+        "textureGate": true,
+        "rgbGate": true,
+        "uniquenessGate": true,
+        "leftRightGate": false,
+        "componentGate": true,
+        "endpointGate": true
+      }
+    },
+    {
+      "id": "without-components",
+      "family": "census",
+      "configuration": {
+        "id": "without-components",
+        "aggregation": "sgm",
+        "textureGate": true,
+        "rgbGate": true,
+        "uniquenessGate": true,
+        "leftRightGate": true,
+        "componentGate": false,
+        "endpointGate": true
+      }
+    },
+    {
+      "id": "without-endpoints",
+      "family": "census",
+      "configuration": {
+        "id": "without-endpoints",
+        "aggregation": "sgm",
+        "textureGate": true,
+        "rgbGate": true,
+        "uniquenessGate": true,
+        "leftRightGate": true,
+        "componentGate": true,
+        "endpointGate": false
+      }
+    }
+  ],
+  "implementationSources": [
+    {
+      "path": "packages/spatial-stereo.ts",
+      "sha256": "7dfd08906d5bba2bbcd31fc5eb5451906446b73f5d1a9f4684d1c943c69585f3"
+    },
+    {
+      "path": "packages/spatial-stereo-sgm.ts",
+      "sha256": "870df43e5f3a8d2dfd6894683ca5150e081aec48f77701367dc824c188fb2d6e"
+    },
+    {
+      "path": "packages/spatial-stereo-types.ts",
+      "sha256": "01f37752a2473a3a95beb5ea34c04887211d62d8e1771841fc855c549878c65c"
+    },
+    {
+      "path": "packages/spatial-stereo-geometry.ts",
+      "sha256": "890e28e5c9150055759ce5e4b0c85bc72ab2b7878c4e2ac4beff698d8b99db3a"
+    },
+    {
+      "path": "packages/spatial-stereo-comparison.ts",
+      "sha256": "26ba8a0c6b2ee63c21bf64b4844dd99f3248c601729ee787714aa459ce93883a"
+    },
+    {
+      "path": "packages/spatial-stereo-ablation.ts",
+      "sha256": "22f5d99ac284245d9c3b39bdac5f35562132b5404246b8be1dc1d5b7efd9a801"
+    },
+    {
+      "path": "packages/spatial-ppm.ts",
+      "sha256": "1457345a644b96cab7e88bdcaf42fe3b4b3ed08704e9a1491f3d87517ced8456"
+    },
+    {
+      "path": "packages/test-fixtures/stereo-development.ts",
+      "sha256": "e30c654e55a9ae6e103450c39b96aa9a2892633d78eee4a1f2f8d36a916b4ebb"
+    },
+    {
+      "path": "packages/test-fixtures/stereo-holdout.ts",
+      "sha256": "cceb84a1ee1ffe72d3e08c10e097e40ec017aee10e7421231f0492a540dadb5e"
+    },
+    {
+      "path": "scripts/lib/stereo-files.ts",
+      "sha256": "85fa9a557a963cdb2bd3738b573aa240b7249e4b59aff4c02556bf5cac7e88ba"
+    },
+    {
+      "path": "scripts/lib/stereo-reference-files.ts",
+      "sha256": "848fa5051fcb9cbbcae159b537b40e34169e0b4c5fd3b0f734360945da0a9f8c"
+    },
+    {
+      "path": "scripts/spatial-stereo-ablate.ts",
+      "sha256": "39f2f904f6b0d1ebfd8fa951f76de15c9c085d150f532da122ecf7b0f1692c5f"
+    }
+  ],
+  "cases": [
+    {
+      "id": "dev-textured-tilt-occluder-a",
+      "split": "development",
+      "inputSha256": "087745b8fa456e73294245a89159dbb7c4e738b997ab6736cf3967611628ccd1",
+      "leftSha256": "008c5ff0b553b584247f462b57fac2387190955ad70bcd12f00ca7f35f24d7b3",
+      "rightSha256": "e0a5a4b18e69b7fa40ec1f2f91c099b131988590ec234915b11d1a85cae38ef2",
+      "truthSha256": "0a4d8aa5c1f5f5238837079cf1f1ff3566419e17b7350ac6959b8d196806e72d",
+      "regionsSha256": "eecbbae53b9833df35066a20638eceb458e1a47e489a97fb0d19a107c88ffb55"
+    },
+    {
+      "id": "dev-weak-stripe-repeated-a",
+      "split": "development",
+      "inputSha256": "55de496661c61872c97e2dbc2133969bb5cbdac74f4a473746976030429b4180",
+      "leftSha256": "efc3ccd82debb50b612ab1814db52e42d3dd5ac250c96b6ef1f440c7fa837b67",
+      "rightSha256": "e05a520090054515e1b66bc32c5ebb3f2e3ffa3289abc18bc6f059a1908dfb1e",
+      "truthSha256": "1bff9b5ed611ebc597770f686893195d666020fe25ff9e0acede8a04410488f8",
+      "regionsSha256": "cb03aca52fa1f3e442a4df3fc47c8eb0cf4bb433cd0e3a470d515cd8d523b7eb"
+    },
+    {
+      "id": "dev-exposure-tilt-occluder-a",
+      "split": "development",
+      "inputSha256": "c587ad0ec0c351d6a3a0d98b632f276f5668e7473e684c058c7d3b0d94910019",
+      "leftSha256": "25d97e98c6a5612b066c8fd9a18736a5b5053f2b3938635f831398ae975369ee",
+      "rightSha256": "196ee81bab63f75eea408a597781533db27233e1a9df9e06b42a5c3f318a6b65",
+      "truthSha256": "819170b335361bde5bab60219622e1b9cb3c19bedb5cc32a5b975e74bc40022a",
+      "regionsSha256": "d70d6fdf112c0b41f179aea674a5d8743dc43f13b216407b262089b34f5621da"
+    }
+  ]
+}

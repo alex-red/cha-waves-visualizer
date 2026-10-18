@@ -10,6 +10,44 @@ export const STEREO_SGM_SETTINGS: Readonly<StereoSgmSettings> = Object.freeze({
   minComponentPixels: 12,
 })
 
+export type StereoSgmAblationId = 'census-sgm' | 'census-local' | 'without-texture' | 'without-rgb' | 'without-uniqueness' | 'without-left-right' | 'without-components' | 'without-endpoints'
+export type StereoSgmAblationConfig = Readonly<{
+  id: StereoSgmAblationId
+  aggregation: 'sgm' | 'local'
+  textureGate: boolean
+  rgbGate: boolean
+  uniquenessGate: boolean
+  leftRightGate: boolean
+  componentGate: boolean
+  endpointGate: boolean
+}>
+
+function ablation(id: StereoSgmAblationId, overrides: Partial<Omit<StereoSgmAblationConfig, 'id'>> = {}): StereoSgmAblationConfig {
+  return Object.freeze({
+    id,
+    aggregation: 'sgm',
+    textureGate: true,
+    rgbGate: true,
+    uniquenessGate: true,
+    leftRightGate: true,
+    componentGate: true,
+    endpointGate: true,
+    ...overrides,
+  })
+}
+
+/** Fixed, single-factor controls for synthetic development diagnostics only. */
+export const STEREO_SGM_ABLATIONS: readonly StereoSgmAblationConfig[] = Object.freeze([
+  ablation('census-sgm'),
+  ablation('census-local', { aggregation: 'local' }),
+  ablation('without-texture', { textureGate: false }),
+  ablation('without-rgb', { rgbGate: false }),
+  ablation('without-uniqueness', { uniquenessGate: false }),
+  ablation('without-left-right', { leftRightGate: false }),
+  ablation('without-components', { componentGate: false }),
+  ablation('without-endpoints', { endpointGate: false }),
+])
+
 const MAX_WIDTH = 256
 const MAX_HEIGHT = 192
 const MAX_OUTPUT_COORDINATE_M = 1_000_000
@@ -118,7 +156,7 @@ function aggregate(cost: Uint8Array<ArrayBuffer>, width: number, height: number,
   return total
 }
 
-function buildMatches(reference: StereoView, source: StereoView, direction: -1 | 1, config: StereoSettings, sgm: StereoSgmSettings): Match[] {
+function buildMatches(reference: StereoView, source: StereoView, direction: -1 | 1, config: StereoSettings, sgm: StereoSgmSettings, variant: StereoSgmAblationConfig): Match[] {
   const { width, height, rgb: refRgb } = reference.image
   const srcRgb = source.image.rgb
   const pixels = width * height
@@ -135,32 +173,40 @@ function buildMatches(reference: StereoView, source: StereoView, direction: -1 |
       cost[base + i] = popcount(refCensus[y * width + x]! ^ srcCensus[y * width + sx]!)
     }
   }
-  const summed = aggregate(cost, width, height, disparityCount, sgm.p1, sgm.p2)
+  const summed = variant.aggregation === 'sgm' ? aggregate(cost, width, height, disparityCount, sgm.p1, sgm.p2) : null
   const matches = new Array<Match>(pixels)
   for (let y = 0; y < height; y += 1) for (let x = 0; x < width; x += 1) {
     const pixel = y * width + x
     if (x - 2 < 0 || x + 2 >= width || y - 2 < 0 || y + 2 >= height) { matches[pixel] = { outcome: 'border' }; continue }
-    if (patchVariance(refRgb, width, x, y) < config.minTextureVariance) { matches[pixel] = { outcome: 'textureless' }; continue }
+    if (variant.textureGate && patchVariance(refRgb, width, x, y) < config.minTextureVariance) { matches[pixel] = { outcome: 'textureless' }; continue }
     const base = pixel * disparityCount
     let best = -1; let bestCost = Infinity
     for (let i = 0; i < disparityCount; i += 1) {
       if (cost[base + i] === INVALID) continue
-      const value = summed[base + i]!
+      const value = summed ? summed[base + i]! : cost[base + i]!
       if (value < bestCost) { best = i; bestCost = value }
     }
     if (best < 0) { matches[pixel] = { outcome: 'border' }; continue }
     if (cost[base + best]! > sgm.maxCensusCost) { matches[pixel] = { outcome: 'photometric' }; continue }
     const disparity = config.minDisparity + best
-    if (disparity === config.minDisparity || disparity === config.maxDisparity) { matches[pixel] = { outcome: 'ambiguous' }; continue }
-    let second = Infinity
-    for (let i = 0; i < disparityCount; i += 1) if (Math.abs(i - best) > 1 && cost[base + i] !== INVALID) second = Math.min(second, summed[base + i]!)
-    if (!Number.isFinite(second) || second <= 0 || bestCost / second > config.uniquenessRatio) { matches[pixel] = { outcome: 'ambiguous' }; continue }
+    if (variant.endpointGate && (disparity === config.minDisparity || disparity === config.maxDisparity)) { matches[pixel] = { outcome: 'ambiguous' }; continue }
+    if (variant.uniquenessGate) {
+      let second = Infinity
+      for (let i = 0; i < disparityCount; i += 1) {
+        if (Math.abs(i - best) <= 1 || cost[base + i] === INVALID) continue
+        second = Math.min(second, summed ? summed[base + i]! : cost[base + i]!)
+      }
+      if (!Number.isFinite(second) || second <= 0 || bestCost / second > config.uniquenessRatio) { matches[pixel] = { outcome: 'ambiguous' }; continue }
+    }
     const mae = patchMae(refRgb, srcRgb, width, x, y, x + direction * disparity)
-    if (mae > config.maxMeanAbsoluteError) { matches[pixel] = { outcome: 'photometric' }; continue }
-    const hasValidNeighbors = cost[base + best - 1] !== INVALID && cost[base + best + 1] !== INVALID
-    const lower = summed[base + best - 1]!; const upper = summed[base + best + 1]!
-    const denominator = lower - 2 * bestCost + upper
-    const offset = hasValidNeighbors && denominator > 1e-9 ? Math.max(-1, Math.min(1, 0.5 * (lower - upper) / denominator)) : 0
+    if (variant.rgbGate && mae > config.maxMeanAbsoluteError) { matches[pixel] = { outcome: 'photometric' }; continue }
+    let offset = 0
+    if (best > 0 && best + 1 < disparityCount && cost[base + best - 1] !== INVALID && cost[base + best + 1] !== INVALID) {
+      const lower = summed ? summed[base + best - 1]! : cost[base + best - 1]!
+      const upper = summed ? summed[base + best + 1]! : cost[base + best + 1]!
+      const denominator = lower - 2 * bestCost + upper
+      if (denominator > 1e-9) offset = Math.max(-1, Math.min(1, 0.5 * (lower - upper) / denominator))
+    }
     matches[pixel] = { outcome: 'accepted', disparityPx: disparity + offset, meanAbsoluteError: mae }
   }
   return matches
@@ -185,22 +231,23 @@ function removeSmallComponents(matches: Match[], width: number, height: number, 
   }
 }
 
-/** Reconstruct with 5x5 Census costs and four independent cardinal SGM paths. */
-export function reconstructStereoSgm(input: StereoInput, settings: StereoSettings = STEREO_SETTINGS, sgmSettings: StereoSgmSettings = STEREO_SGM_SETTINGS): StereoResult {
+function reconstructWithAblation(input: StereoInput, settings: StereoSettings, sgmSettings: StereoSgmSettings, variant: StereoSgmAblationConfig): StereoResult {
   const checked = validateInput(input, settings, sgmSettings)
   const { left, right, baselineM, settings: config, sgm } = checked
   const { width, height, rgb: leftRgb } = left.image
-  const reverse = buildMatches(right, left, 1, config, sgm)
-  const matches = buildMatches(left, right, -1, config, sgm)
-  for (let pixel = 0; pixel < matches.length; pixel += 1) {
-    const match = matches[pixel]!
-    if (match.outcome !== 'accepted') continue
-    const x = pixel % width; const y = Math.floor(pixel / width)
-    const rightX = Math.round(x - match.disparityPx!)
-    const reverseMatch = rightX >= 0 && rightX < width ? reverse[y * width + rightX]! : null
-    if (!reverseMatch || reverseMatch.outcome !== 'accepted' || Math.abs(reverseMatch.disparityPx! - match.disparityPx!) > config.leftRightTolerancePx) matches[pixel] = { outcome: 'inconsistent' }
+  const reverse = buildMatches(right, left, 1, config, sgm, variant)
+  const matches = buildMatches(left, right, -1, config, sgm, variant)
+  if (variant.leftRightGate) {
+    for (let pixel = 0; pixel < matches.length; pixel += 1) {
+      const match = matches[pixel]!
+      if (match.outcome !== 'accepted') continue
+      const x = pixel % width; const y = Math.floor(pixel / width)
+      const rightX = Math.round(x - match.disparityPx!)
+      const reverseMatch = rightX >= 0 && rightX < width ? reverse[y * width + rightX]! : null
+      if (!reverseMatch || reverseMatch.outcome !== 'accepted' || Math.abs(reverseMatch.disparityPx! - match.disparityPx!) > config.leftRightTolerancePx) matches[pixel] = { outcome: 'inconsistent' }
+    }
   }
-  removeSmallComponents(matches, width, height, sgm.minComponentPixels)
+  if (variant.componentGate) removeSmallComponents(matches, width, height, sgm.minComponentPixels)
   const outcomes = new Uint8Array(width * height)
   const points: StereoPoint[] = []
   const counts: Record<StereoOutcome, number> = { border: 0, textureless: 0, photometric: 0, ambiguous: 0, inconsistent: 0, accepted: 0 }
@@ -224,4 +271,16 @@ export function reconstructStereoSgm(input: StereoInput, settings: StereoSetting
     counts[outcome] += 1
   }
   return { status: points.length > 0 ? 'reconstructed' : 'empty', width, height, baselineM, settings: { ...config }, outcomes, counts, points }
+}
+
+/** Reconstruct with the fixed production candidate configuration. */
+export function reconstructStereoSgm(input: StereoInput, settings: StereoSettings = STEREO_SETTINGS, sgmSettings: StereoSgmSettings = STEREO_SGM_SETTINGS): StereoResult {
+  return reconstructWithAblation(input, settings, sgmSettings, STEREO_SGM_ABLATIONS[0]!)
+}
+
+/** Run a fixed single-factor candidate control for bounded synthetic diagnostics. */
+export function reconstructStereoSgmAblation(input: StereoInput, settings: StereoSettings, variantId: string): StereoResult {
+  const variant = STEREO_SGM_ABLATIONS.find(item => item.id === variantId)
+  if (!variant) fail('variantId', 'is unsupported')
+  return reconstructWithAblation(input, settings, STEREO_SGM_SETTINGS, variant)
 }

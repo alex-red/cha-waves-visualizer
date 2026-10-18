@@ -1,32 +1,17 @@
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { createStereoDevelopmentCases, type StereoDevelopmentCase } from '../packages/test-fixtures/stereo-development.ts'
+import { createStereoDevelopmentCases } from '../packages/test-fixtures/stereo-development.ts'
 import { compareStereoCase, summarizeStereoComparison, STEREO_COMPARISON_GATES } from '../packages/spatial-stereo-comparison.ts'
 import { STEREO_SGM_SETTINGS } from '../packages/spatial-stereo-sgm.ts'
 import { STEREO_SETTINGS } from '../packages/spatial-stereo-types.ts'
-import { encodePpm } from '../packages/spatial-ppm.ts'
-import { installNewDirectory, jsonBytes, parseFileArguments, readBounded, serializeResult, sha256, stereoInputSchema, stereoResultSchema } from './lib/stereo-files.ts'
-
-function prepareCase(fixture: StereoDevelopmentCase) {
-  const left = encodePpm(fixture.input.left.image), right = encodePpm(fixture.input.right.image)
-  const manifest = stereoInputSchema.parse({
-    format: 'cha-stereo-input-v1', id: fixture.id,
-    provenance: { kind: 'synthetic', creator: 'Cha Waves', license: 'MIT', notes: 'Independent ray-rendered stereo development/evaluation case v1. Diagnostic masks and surface truth are evaluator-only; no Gaussian training, AI completion or physical validation.' },
-    frame: { units: 'm', axes: 'right-handed-y-up', cameraConvention: 'opengl', orientations: 'identity-rectified' },
-    left: { fileName: `${fixture.id}-left.ppm`, sha256: sha256(left), camera: fixture.input.left.camera },
-    right: { fileName: `${fixture.id}-right.ppm`, sha256: sha256(right), camera: fixture.input.right.camera }, settings: STEREO_SETTINGS,
-  })
-  return { left, right, manifest, manifestBytes: jsonBytes(manifest) }
-}
+import { installNewDirectory, jsonBytes, parseFileArguments, readBounded, serializeResult, sha256, stereoResultSchema } from './lib/stereo-files.ts'
+import { pinStereoReferenceCase, prepareStereoReferenceCase } from './lib/stereo-reference-files.ts'
 
 /** Freeze sources/splits without invoking either estimator or evaluating its results. */
 export function createStereoComparisonPins() {
   return {
     format: 'cha-stereo-comparison-pins-v1', settings: STEREO_SETTINGS, candidateSettings: STEREO_SGM_SETTINGS, relativeGates: STEREO_COMPARISON_GATES,
-    cases: (['development', 'evaluation'] as const).flatMap(split => createStereoDevelopmentCases(split).map(fixture => {
-      const item = prepareCase(fixture)
-      return { id: fixture.id, split, inputSha256: sha256(item.manifestBytes), leftSha256: sha256(item.left), rightSha256: sha256(item.right), truthSha256: sha256(jsonBytes(fixture.truth)), regionsSha256: sha256(jsonBytes(fixture.regions)) }
-    })),
+    cases: (['development', 'evaluation'] as const).flatMap(split => createStereoDevelopmentCases(split).map(pinStereoReferenceCase)),
   }
 }
 
@@ -43,7 +28,7 @@ export async function runSpatialStereoCompare(args: readonly string[]): Promise<
   const files: Record<string, Uint8Array | string> = {}
   const runtime: { id: string; comparisonMs: number }[] = []
   const cases = createStereoDevelopmentCases(split).map(fixture => {
-    const prepared = prepareCase(fixture)
+    const prepared = prepareStereoReferenceCase(fixture)
     files[`${fixture.id}-input.json`] = prepared.manifestBytes
     files[prepared.manifest.left.fileName] = prepared.left
     files[prepared.manifest.right.fileName] = prepared.right

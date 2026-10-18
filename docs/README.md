@@ -14,6 +14,7 @@ Use [PROJECT_PLAN.md](PROJECT_PLAN.md) and [IMPLEMENTATION_ROADMAP.md](IMPLEMENT
 | [SPATIAL_IMAGE_REFERENCE.md](SPATIAL_IMAGE_REFERENCE.md) | Bounded calibrated synthetic-stereo reconstruction, held-out-view evaluation, frozen input hashes and limits |
 | [SPATIAL_REAL_STEREO.md](SPATIAL_REAL_STEREO.md) | Middlebury 2014 real photographic stereo cross-check, structured-light truth, frozen failed gates and local-data provenance |
 | [SPATIAL_STEREO_COMPARISON.md](SPATIAL_STEREO_COMPARISON.md) | Frozen Census/SGM candidate comparison across synthetic development, sealed synthetic evaluation and two Middlebury scenes |
+| [SPATIAL_STEREO_ABLATION.md](SPATIAL_STEREO_ABLATION.md) | Fixed development-only correspondence/filter diagnostics, source hashes and reserved fresh evaluation split |
 | [SPATIAL_WORKSPACE.md](SPATIAL_WORKSPACE.md) | Research Lab interface, synthetic evidence inspection, browser-local bundle replay and state preservation |
 | [SPATIAL_VISUAL_BASELINE.md](SPATIAL_VISUAL_BASELINE.md) | Visual manifest, native Gaussian-splat viewing, metric/unknown registration, original-file round trips and fixture provenance |
 | [CASE_STUDY.md](CASE_STUDY.md) | Product interaction, engineering decisions, evidence and limits |

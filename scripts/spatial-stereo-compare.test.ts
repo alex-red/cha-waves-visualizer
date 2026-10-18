@@ -36,6 +36,7 @@ describe('stereo comparison pins and CLI', () => {
     const first = join(root, 'first')
     const second = join(root, 'second')
     const output1 = JSON.parse(await runSpatialStereoCompare(['--split', 'development', '--output', first]))
+    expect(output1.reportSha256).toBe('ea94602dd8f0c7ce5bb281bbbbd19567c0046b40f66cac28db397211eddb0540')
     const report1 = new Uint8Array(await readFile(join(first, 'comparison.json')))
     const runtime1 = JSON.parse(await readFile(join(first, 'runtime.json'), 'utf8')) as { id: string; comparisonMs: number }[]
     expect(output1.reportSha256).toBe(sha256(report1))

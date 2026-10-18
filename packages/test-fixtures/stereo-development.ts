@@ -20,7 +20,7 @@ export type StereoDevelopmentCase = {
 }
 
 type Point2 = readonly [number, number]
-type Scene = {
+export type StereoReferenceScene = {
   id: string
   seed: number
   split: StereoDevelopmentSplit
@@ -31,6 +31,7 @@ type Scene = {
   rightGain: number
   rightOffset: number
 }
+type Scene = StereoReferenceScene
 
 const WIDTH = 160
 const HEIGHT = 120
@@ -228,8 +229,13 @@ function makeCase(scene: Scene): StereoDevelopmentCase {
   }
 }
 
+/** Render an explicitly supplied scene definition into estimator input and evaluator-only truth. */
+export function createStereoReferenceCase(scene: StereoReferenceScene): StereoDevelopmentCase {
+  return makeCase(scene)
+}
+
 /** Generate one split only; evaluation scenes are not returned with development data. */
 export function createStereoDevelopmentCases(split: StereoDevelopmentSplit): StereoDevelopmentCase[] {
   if (split !== 'development' && split !== 'evaluation') throw new Error('split must be development or evaluation')
-  return SCENES.filter(scene => scene.split === split).map(makeCase)
+  return SCENES.filter(scene => scene.split === split).map(createStereoReferenceCase)
 }
