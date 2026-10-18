@@ -121,6 +121,21 @@ describe('bounded calibrated rectified stereo', () => {
     expect(input.right.image.rgb).toEqual(rightBefore)
   })
 
+  it('accounts for signed fractional principal-point offset when recovering metric depth', () => {
+    for (const { doffs, observedDisparity } of [
+      { doffs: 1.25, observedDisparity: 10.75 },
+      { doffs: -0.5, observedDisparity: 12.5 },
+    ]) {
+      const input = imagePair(observedDisparity)
+      input.right.camera.intrinsics.cx += doffs
+      const result = reconstructStereo(input, tuned)
+      const center = result.points.find(point => point.pixelIndex === 24 * width + 32)
+      expect(center).toBeDefined()
+      expect(center!.disparityPx).toBeCloseTo(observedDisparity, 0)
+      expect(center!.positionM[2]).toBeCloseTo(-1, 1)
+    }
+  })
+
   it('keeps a rejection outcome for every pixel on textureless input', () => {
     const result = reconstructStereo(imagePair(12, 'blank'), tuned)
     expect(result.status).toBe('empty')
@@ -147,6 +162,7 @@ describe('bounded calibrated rectified stereo', () => {
     const valid = imagePair(12)
     expect(() => reconstructStereo({ ...valid, right: { ...valid.right, camera: { ...valid.right.camera, positionM: [0.3, 0.01, 0] } } }, tuned)).toThrow(/right\.camera\.positionM/)
     expect(() => reconstructStereo({ ...valid, right: { ...valid.right, camera: { ...valid.right.camera, intrinsics: { ...intrinsics, fx: 41 } } } }, tuned)).toThrow(/intrinsics\.fx/)
+    expect(() => reconstructStereo({ ...valid, right: { ...valid.right, camera: { ...valid.right.camera, intrinsics: { ...intrinsics, cx: 27.5 } } } }, { ...tuned, minDisparity: 4 })).toThrow(/principal-point offset/)
     expect(() => reconstructStereo({ ...valid, right: { ...valid.right, image: { ...valid.right.image, width: width - 1 } } }, tuned)).toThrow(/image/)
     expect(() => reconstructStereo(valid, { ...tuned, maxDisparity: width })).toThrow(/maxDisparity/)
     expect(() => reconstructStereo(valid, { ...tuned, patchRadius: 0 })).toThrow(/patchRadius/)

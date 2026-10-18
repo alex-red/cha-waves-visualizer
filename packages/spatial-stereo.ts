@@ -125,7 +125,7 @@ function validateInput(input: unknown, settingsInput: unknown): { left: StereoVi
   if (left.image.width !== right.image.width || left.image.height !== right.image.height) {
     fail('right.image', 'dimensions must match the left image')
   }
-  const keys = ['width', 'height', 'fx', 'fy', 'cx', 'cy'] as const
+  const keys = ['width', 'height', 'fx', 'fy', 'cy'] as const
   for (const key of keys) {
     if (left.camera.intrinsics[key] !== right.camera.intrinsics[key]) fail(`right.camera.intrinsics.${key}`, 'must match the left camera')
   }
@@ -140,6 +140,8 @@ function validateInput(input: unknown, settingsInput: unknown): { left: StereoVi
   }
   const settings = validateSettings(settingsInput)
   if (settings.maxDisparity >= left.image.width) fail('settings.maxDisparity', 'must be less than the image width')
+  const doffs = right.camera.intrinsics.cx - left.camera.intrinsics.cx
+  if (settings.minDisparity + doffs <= 0) fail('settings.minDisparity', 'must keep disparity plus principal-point offset positive')
   return { left, right, settings, baselineM }
 }
 
@@ -263,6 +265,7 @@ export function reconstructStereo(input: StereoInput, settings: StereoSettings =
   }
 
   const { fx, fy, cx, cy } = left.camera.intrinsics
+  const doffs = right.camera.intrinsics.cx - cx
   for (let y = 0; y < height; y += 1) {
     for (let x = 0; x < width; x += 1) {
       const pixelIndex = y * width + x
@@ -276,7 +279,7 @@ export function reconstructStereo(input: StereoInput, settings: StereoSettings =
           || Math.abs(reverseMatch.disparityPx! - disparity) > config.leftRightTolerancePx) {
           outcome = 'inconsistent'
         } else {
-          const depthM = fx * baselineM / disparity
+          const depthM = fx * baselineM / (doffs === 0 ? disparity : disparity + doffs)
           const localX = ((x + 0.5 - cx) * depthM) / fx
           const localY = -((y + 0.5 - cy) * depthM) / fy
           const positionM: [number, number, number] = [

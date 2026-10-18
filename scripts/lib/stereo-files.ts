@@ -69,7 +69,10 @@ export async function loadStereoInput(path: string): Promise<{ file: StereoInput
   const { width, height } = file.left.camera.intrinsics
   if (file.settings.minDisparity >= file.settings.maxDisparity || file.settings.maxDisparity >= width || file.settings.patchRadius * 2 + 1 > Math.min(width, height)) throw new Error('Disparity/patch settings are incompatible with the image dimensions.')
   if ([file.left.camera, file.right.camera].some(camera => camera.intrinsics.cx > camera.intrinsics.width || camera.intrinsics.cy > camera.intrinsics.height)) throw new Error('Principal point is outside the image.')
-  if (JSON.stringify(file.left.camera.intrinsics) !== JSON.stringify(file.right.camera.intrinsics)) throw new Error('Rectified camera intrinsics must match.')
+  for (const key of ['width', 'height', 'fx', 'fy', 'cy'] as const) {
+    if (file.left.camera.intrinsics[key] !== file.right.camera.intrinsics[key]) throw new Error('Rectified camera dimensions, focal lengths and vertical principal point must match.')
+  }
+  if (file.settings.minDisparity + file.right.camera.intrinsics.cx - file.left.camera.intrinsics.cx <= 0) throw new Error('Disparity plus horizontal principal-point offset must be positive.')
   const baseline = file.right.camera.positionM[0] - file.left.camera.positionM[0]
   if (baseline < 0.001 || baseline > 10 || Math.abs(file.right.camera.positionM[1] - file.left.camera.positionM[1]) > 1e-9 || Math.abs(file.right.camera.positionM[2] - file.left.camera.positionM[2]) > 1e-9) throw new Error('Cameras must have a positive 0.001–10 m rectified horizontal baseline.')
   const [left, right] = await Promise.all([readLinked(dirname(absolute), file.left, 149 * 1024), readLinked(dirname(absolute), file.right, 149 * 1024)])
